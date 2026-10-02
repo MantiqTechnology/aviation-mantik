@@ -32,13 +32,13 @@ export const uiScreens: UiScreenDefinition[] = [
   {
     id: 'operations-dashboard',
     path: '/dashboard',
-    ready: { heading: 'PT AMA Aviation Dashboard', level: 1 },
+    ready: { heading: 'Operator Demo Dashboard', level: 1 },
     roles: ['Director', 'Finance Reviewer']
   },
   {
     id: 'management-dashboard',
     path: `/dashboard?tab=management&dateFrom=${seedWindowStart}&dateTo=${seedDate}`,
-    ready: { heading: 'PT AMA Aviation Dashboard', level: 1 },
+    ready: { heading: 'Operator Demo Dashboard', level: 1 },
     roles: ['Director', 'Finance Reviewer'],
     prepare: async (page) => {
       await page.getByRole('tab', { name: 'Management Performance' }).waitFor();
@@ -249,7 +249,7 @@ export const uiScreens: UiScreenDefinition[] = [
   {
     id: 'invoice-detail',
     path: '/invoices/inv-closed-djj-wmx',
-    ready: { heading: 'AMA-INV-20260707-001', level: 1 },
+    ready: { heading: 'PRT-INV-20260707-001', level: 1 },
     roles: ['Demo Admin', 'Finance Reviewer']
   }
 ];

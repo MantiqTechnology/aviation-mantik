@@ -21,7 +21,7 @@ const certifier = {
   requestId: 'test-m3-certifier'
 };
 
-async function reportDemoDefect(aircraftId = 'ac-pk-ama') {
+async function reportDemoDefect(aircraftId = 'ac-pk-dma') {
   const env = await createSeededTestServices();
   seedMroFoundationData(env.sqlite, context);
   const before = env.services.aircraftAirworthiness.detail(aircraftId).aircraft;
@@ -104,13 +104,13 @@ describe('M3 defect control and deferred lifecycle', () => {
       maintenance
     );
 
-    expect(services.aircraftAirworthiness.detail('ac-pk-ama').aircraft).toMatchObject({
+    expect(services.aircraftAirworthiness.detail('ac-pk-dma').aircraft).toMatchObject({
       serviceabilityStatus: 'UNSERVICEABLE',
       technicalEligibility: 'BLOCKED'
     });
     const workPackage = services.maintenance.createWorkPackage(
       {
-        aircraftId: 'ac-pk-ama',
+        aircraftId: 'ac-pk-dma',
         primaryDefectId: defectId,
         title: 'Rectify LH landing light defect',
         priority: 'HIGH',
@@ -122,7 +122,7 @@ describe('M3 defect control and deferred lifecycle', () => {
     expect(() =>
       services.maintenance.createWorkPackage(
         {
-          aircraftId: 'ac-pk-amf',
+          aircraftId: 'ac-pk-dmf',
           primaryDefectId: defectId,
           title: 'Invalid cross-aircraft defect package',
           priority: 'HIGH',
@@ -146,7 +146,7 @@ describe('M3 defect control and deferred lifecycle', () => {
           'Maintenance Control defers the landing light defect with operational limitation.',
         deferment: {
           defermentType: 'MEL',
-          referenceCode: 'DEMO-REF-33-40-01',
+          referenceCode: 'OPERATOR-REF-33-40-01',
           category: 'C',
           operationalLimitations: 'Day VFR only until LH landing light is rectified.',
           maintenanceProcedure: 'Placard landing light switch and brief crew.',
@@ -154,7 +154,7 @@ describe('M3 defect control and deferred lifecycle', () => {
           effectiveAt: context.at(0, '09:00'),
           expiresAt: context.at(7, '09:00'),
           targetRectificationAt: context.at(5, '09:00'),
-          authorizationReference: 'M3-DEMO-APPROVAL-001',
+          authorizationReference: 'M3-OPERATOR-APPROVAL-001',
           applicableRouteIds: [],
           applicableServiceTypeCodes: ['POSITIONING']
         }
@@ -163,7 +163,7 @@ describe('M3 defect control and deferred lifecycle', () => {
     );
 
     expect(assessment.assessmentDecision).toBe('DEFER');
-    const detail = services.aircraftAirworthiness.detail('ac-pk-ama');
+    const detail = services.aircraftAirworthiness.detail('ac-pk-dma');
     expect(detail.aircraft).toMatchObject({
       serviceabilityStatus: 'SERVICEABLE',
       technicalEligibility: 'RESTRICTED',
@@ -173,7 +173,7 @@ describe('M3 defect control and deferred lifecycle', () => {
     expect(detail.deferments[0]).toMatchObject({
       defectId,
       status: 'ACTIVE',
-      referenceCode: 'DEMO-REF-33-40-01',
+      referenceCode: 'OPERATOR-REF-33-40-01',
       operationalLimitations: 'Day VFR only until LH landing light is rectified.',
       targetRectificationAt: context.at(5, '09:00')
     });
@@ -185,7 +185,7 @@ describe('M3 defect control and deferred lifecycle', () => {
           assessmentNote: 'Duplicate deferred assessment should not create another deferment.',
           deferment: {
             defermentType: 'MEL',
-            referenceCode: 'DEMO-DUPLICATE',
+            referenceCode: 'OPERATOR-DUPLICATE',
             operationalLimitations: 'Duplicate limitation.',
             effectiveAt: context.at(0, '09:30'),
             expiresAt: context.at(7, '09:30'),
@@ -205,7 +205,7 @@ describe('M3 defect control and deferred lifecycle', () => {
   });
 
   it('requires released rectification evidence before closing a deferred defect', async () => {
-    const { services, sqlite, defectId } = await reportDemoDefect('ac-pk-amf');
+    const { services, sqlite, defectId } = await reportDemoDefect('ac-pk-dmf');
     services.maintenance.assessDefect(
       defectId,
       {
@@ -213,19 +213,19 @@ describe('M3 defect control and deferred lifecycle', () => {
         assessmentNote: 'Maintenance Control defers the defect pending controlled rectification.',
         deferment: {
           defermentType: 'MEL',
-          referenceCode: 'DEMO-REF-33-40-02',
+          referenceCode: 'OPERATOR-REF-33-40-02',
           operationalLimitations: 'Day VFR only until rectification.',
           effectiveAt: context.at(0, '09:00'),
           expiresAt: context.at(7, '09:00'),
           targetRectificationAt: context.at(5, '09:00'),
-          authorizationReference: 'M3-DEMO-APPROVAL-002'
+          authorizationReference: 'M3-OPERATOR-APPROVAL-002'
         }
       },
       maintenance
     );
     const workPackage = services.maintenance.createWorkPackage(
       {
-        aircraftId: 'ac-pk-amf',
+        aircraftId: 'ac-pk-dmf',
         primaryDefectId: defectId,
         title: 'Deferred landing light rectification',
         priority: 'NORMAL',
@@ -234,7 +234,7 @@ describe('M3 defect control and deferred lifecycle', () => {
           title: 'Rectify deferred landing light',
           taskType: 'DEFECT_RECTIFICATION',
           maintenanceDataRef: 'AMM DEMO 33-40',
-          maintenanceDataRevision: 'REV-DEMO-2026-08',
+          maintenanceDataRevision: 'REV-OPERATOR-2026-08',
           mandatoryFlag: true,
           requiresIndependentInspection: false
         }
@@ -345,7 +345,7 @@ describe('M3 defect control and deferred lifecycle', () => {
       maintenance
     );
 
-    expect(services.aircraftAirworthiness.detail('ac-pk-ama').aircraft.serviceabilityStatus).toBe(
+    expect(services.aircraftAirworthiness.detail('ac-pk-dma').aircraft.serviceabilityStatus).toBe(
       before.serviceabilityStatus
     );
     expect(

@@ -11,7 +11,7 @@ describe('database startup reset policy', () => {
 
   it('resets only when explicitly requested', () => {
     expect(
-      shouldResetDemoDatabaseOnStartup({ demoMode: 'true' }, { AMA_RESET_ON_STARTUP: 'true' })
+      shouldResetDemoDatabaseOnStartup({ demoMode: 'true' }, { MANTIK_RESET_ON_STARTUP: 'true' })
     ).toBe(true);
   });
 
@@ -20,8 +20,8 @@ describe('database startup reset policy', () => {
       shouldResetDemoDatabaseOnStartup(
         { demoMode: 'true' },
         {
-          AMA_RESET_ON_STARTUP: 'true',
-          AMA_SKIP_STARTUP_RESET: 'true'
+          MANTIK_RESET_ON_STARTUP: 'true',
+          MANTIK_SKIP_STARTUP_RESET: 'true'
         }
       )
     ).toBe(false);
@@ -37,7 +37,7 @@ describe('database startup reset policy', () => {
       shouldSeedDemoDatabaseOnStartup(
         { demoMode: 'true' },
         {
-          AMA_SKIP_STARTUP_RESET: 'true'
+          MANTIK_SKIP_STARTUP_RESET: 'true'
         }
       )
     ).toBe(false);

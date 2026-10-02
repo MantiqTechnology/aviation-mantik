@@ -26,8 +26,8 @@ describe('inventory service', () => {
     const test = await createSeededTestServices();
     sqlite = test.sqlite;
     inventory = new InventoryService(new InventoryRepository(sqlite));
-    documentDirectory = mkdtempSync(join(tmpdir(), 'ama-inventory-docs-'));
-    process.env.AMA_DOCUMENT_MANIFEST = join(documentDirectory, 'documents.json');
+    documentDirectory = mkdtempSync(join(tmpdir(), 'mantik-inventory-docs-'));
+    process.env.MANTIK_DOCUMENT_MANIFEST = join(documentDirectory, 'documents.json');
     const timestamp = '2026-07-16T00:00:00.000Z';
     const certificates = [
       ['doc-filter-seed', 'inventory_lot', 'inv-lot-filter-260701', 'ARC-PC6-260701'],
@@ -61,13 +61,16 @@ describe('inventory service', () => {
       createdAt: timestamp,
       updatedAt: timestamp
     }));
-    writeFileSync(process.env.AMA_DOCUMENT_MANIFEST, JSON.stringify({ documents: certificates }));
+    writeFileSync(
+      process.env.MANTIK_DOCUMENT_MANIFEST,
+      JSON.stringify({ documents: certificates })
+    );
   });
 
   afterEach(() => {
     sqlite.close();
     rmSync(documentDirectory, { recursive: true, force: true });
-    delete process.env.AMA_DOCUMENT_MANIFEST;
+    delete process.env.MANTIK_DOCUMENT_MANIFEST;
   });
 
   it('returns part expiry dates and countdown from active lot stock', () => {
@@ -119,7 +122,7 @@ describe('inventory service', () => {
     const issue = await inventory.issueMaintenanceParts(
       {
         maintenanceHandoffId: null,
-        aircraftId: 'ac-pk-ama',
+        aircraftId: 'ac-pk-dma',
         flightId: null,
         warehouseId: 'inv-wh-djj-main',
         reason: 'FEFO and FIFO regression test.',
@@ -152,7 +155,7 @@ describe('inventory service', () => {
       inventory.issueMaintenanceParts(
         {
           maintenanceHandoffId: null,
-          aircraftId: 'ac-pk-ama',
+          aircraftId: 'ac-pk-dma',
           flightId: null,
           warehouseId: 'inv-wh-djj-main',
           reason: 'Atomic issue rollback test.',
@@ -214,7 +217,7 @@ describe('inventory service', () => {
     const issue = await inventory.issueMaintenanceParts(
       {
         maintenanceHandoffId: null,
-        aircraftId: 'ac-pk-ama',
+        aircraftId: 'ac-pk-dma',
         flightId: null,
         warehouseId: 'inv-wh-djj-main',
         reason: 'Issue reversal regression test.',
@@ -308,7 +311,7 @@ describe('inventory service', () => {
       inventory.issueMaintenanceParts(
         {
           maintenanceHandoffId: null,
-          aircraftId: 'ac-pk-ama',
+          aircraftId: 'ac-pk-dma',
           flightId: null,
           warehouseId: 'inv-wh-djj-main',
           reason: 'Certificate eligibility test.',
@@ -329,7 +332,7 @@ describe('inventory service', () => {
       inventory.issueMaintenanceParts(
         {
           maintenanceHandoffId: null,
-          aircraftId: 'ac-pk-ama',
+          aircraftId: 'ac-pk-dma',
           flightId: null,
           warehouseId: 'inv-wh-djj-main',
           reason: 'Expiry eligibility test.',
@@ -491,7 +494,7 @@ describe('inventory service', () => {
     const issue = await inventory.issueMaintenanceParts(
       {
         maintenanceHandoffId: null,
-        aircraftId: 'ac-pk-ama',
+        aircraftId: 'ac-pk-dma',
         flightId: null,
         warehouseId: 'inv-wh-djj-main',
         reason: 'Issue brake assembly for immediate installation.',
@@ -510,7 +513,7 @@ describe('inventory service', () => {
     await inventory.installSerializedPart(
       'inv-serial-brake-001',
       {
-        aircraftId: 'ac-pk-ama',
+        aircraftId: 'ac-pk-dma',
         position: 'LEFT MAIN BRAKE',
         installedAt: '2026-07-16T10:00:00.000+09:00',
         hoursAtInstall: 1510,
@@ -530,7 +533,7 @@ describe('inventory service', () => {
            WHERE id = 'inv-serial-brake-001'`
         )
         .get()
-    ).toMatchObject({ condition: 'INSTALLED', bin_id: null, aircraft_id: 'ac-pk-ama' });
+    ).toMatchObject({ condition: 'INSTALLED', bin_id: null, aircraft_id: 'ac-pk-dma' });
   });
 
   it('requires explicit transfer to the aircraft station before installation', async () => {
@@ -552,7 +555,7 @@ describe('inventory service', () => {
       inventory.installSerializedPart(
         'inv-serial-brake-001',
         {
-          aircraftId: 'ac-pk-ama',
+          aircraftId: 'ac-pk-dma',
           position: 'LEFT MAIN BRAKE',
           installedAt: '2026-07-16T10:00:00.000+09:00',
           hoursAtInstall: 1510,
@@ -717,7 +720,7 @@ describe('inventory service', () => {
       inventory.installSerializedPart(
         'inv-serial-brake-001',
         {
-          aircraftId: 'ac-pk-ama',
+          aircraftId: 'ac-pk-dma',
           position: 'LEFT MAIN BRAKE',
           installedAt: '2026-07-16T10:00:00.000+09:00',
           hoursAtInstall: 1510,
@@ -746,7 +749,7 @@ describe('inventory service', () => {
     await inventory.issueMaintenanceParts(
       {
         maintenanceHandoffId: null,
-        aircraftId: 'ac-pk-ama',
+        aircraftId: 'ac-pk-dma',
         flightId: null,
         warehouseId: 'inv-wh-djj-main',
         reason: 'Issue non-certificate repairable component.',
@@ -765,7 +768,7 @@ describe('inventory service', () => {
     await inventory.installSerializedPart(
       'inv-serial-brake-001',
       {
-        aircraftId: 'ac-pk-ama',
+        aircraftId: 'ac-pk-dma',
         position: 'LEFT MAIN BRAKE',
         installedAt: '2026-07-16T10:00:00.000+09:00',
         hoursAtInstall: 1510,
@@ -782,7 +785,7 @@ describe('inventory service', () => {
            WHERE id = 'inv-serial-brake-001'`
         )
         .get()
-    ).toMatchObject({ condition: 'INSTALLED', aircraft_id: 'ac-pk-ama' });
+    ).toMatchObject({ condition: 'INSTALLED', aircraft_id: 'ac-pk-dma' });
   });
 
   it('rejects certificate-controlled serial stock without a traceable reference', async () => {
@@ -802,7 +805,7 @@ describe('inventory service', () => {
       inventory.issueMaintenanceParts(
         {
           maintenanceHandoffId: null,
-          aircraftId: 'ac-pk-ama',
+          aircraftId: 'ac-pk-dma',
           flightId: null,
           warehouseId: 'inv-wh-djj-main',
           reason: 'Attempt untraceable certificate-controlled issue.',
@@ -889,7 +892,7 @@ describe('inventory service', () => {
     const issue = await inventory.issueMaintenanceParts(
       {
         maintenanceHandoffId: null,
-        aircraftId: 'ac-pk-ama',
+        aircraftId: 'ac-pk-dma',
         flightId: null,
         warehouseId: 'inv-wh-djj-main',
         reason: 'Issue filter before expiry.',
@@ -915,7 +918,7 @@ describe('inventory service', () => {
   it('validates standalone flight assignments against the issued aircraft', async () => {
     const issueInput = {
       maintenanceHandoffId: null,
-      aircraftId: 'ac-pk-ama',
+      aircraftId: 'ac-pk-dma',
       warehouseId: 'inv-wh-djj-main',
       reason: 'Validate standalone flight reference.',
       lines: [{ partId: 'inv-part-oil', quantity: 1, serialIds: [], note: null }]
@@ -1063,7 +1066,7 @@ describe('inventory service', () => {
       inventory.installSerializedPart(
         'inv-serial-brake-001',
         {
-          aircraftId: 'ac-pk-ama',
+          aircraftId: 'ac-pk-dma',
           position: 'LEFT MAIN BRAKE',
           installedAt: '2026-07-16T10:00:00.000+09:00',
           hoursAtInstall: 50,

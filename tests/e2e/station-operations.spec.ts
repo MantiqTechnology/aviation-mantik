@@ -40,7 +40,7 @@ test('station workspace without a date opens the latest actionable shift', async
   page
 }) => {
   await context.addCookies([
-    { name: 'ama_demo_role', value: 'Station Admin', url: 'http://localhost:3100' }
+    { name: 'mantik_demo_role', value: 'Station Admin', url: 'http://localhost:3100' }
   ]);
   await page.goto('/flights/station-operations', { waitUntil: 'networkidle' });
 
@@ -78,7 +78,7 @@ test('station operations exposes actual closure and technical handoff workbenche
   page
 }) => {
   await context.addCookies([
-    { name: 'ama_demo_role', value: 'Station Admin', url: 'http://localhost:3100' }
+    { name: 'mantik_demo_role', value: 'Station Admin', url: 'http://localhost:3100' }
   ]);
   await page.goto(
     `/flights/station-operations/actual-closure?stationCode=WMX&date=${DEMO_SEED_DATE}`,
@@ -182,7 +182,7 @@ test('verification evidence persists after reload', async ({ page }) => {
 test('station scope is enforced by the server', async ({ page }) => {
   const denied = await page.request.get(
     `/api/flight-operations/station-operations?stationCode=DJJ&operationalDate=${DEMO_SEED_DATE}`,
-    { headers: { cookie: 'ama_demo_role=Station%20Admin' } }
+    { headers: { cookie: 'mantik_demo_role=Station%20Admin' } }
   );
   expect(denied.status()).toBe(403);
   const body = await denied.json();
@@ -191,7 +191,7 @@ test('station scope is enforced by the server', async ({ page }) => {
 
 test('Director can view the station network dashboard', async ({ context, page }) => {
   await context.addCookies([
-    { name: 'ama_demo_role', value: 'Director', url: 'http://localhost:3100' }
+    { name: 'mantik_demo_role', value: 'Director', url: 'http://localhost:3100' }
   ]);
   await page.goto('/flights/station-operations/network?period=THIS_MONTH&anchorDate=2026-07-17', {
     waitUntil: 'networkidle'

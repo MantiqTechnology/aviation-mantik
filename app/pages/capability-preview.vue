@@ -47,7 +47,7 @@ const section = computed(() => data.value?.sections.find((item) => item.id === a
     </VAlert>
 
     <DsOperationalPageHeader
-      description="A transparent view of planned resilience, safety, and security capabilities for PT AMA."
+      description="A transparent view of planned resilience, safety, and security capabilities for Operator Demo."
       eyebrow="Future capability"
       title="Operational Resilience & Compliance"
       :updated-at="data?.generatedAt ? new Date(data.generatedAt).toLocaleString('id-ID') : null"

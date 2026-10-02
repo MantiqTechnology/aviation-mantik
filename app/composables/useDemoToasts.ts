@@ -6,7 +6,7 @@ export interface DemoToast {
 }
 
 export function useDemoToasts() {
-  const toasts = useState<DemoToast[]>('ama-demo-toasts', () => []);
+  const toasts = useState<DemoToast[]>('mantik-demo-toasts', () => []);
 
   function dismiss(id: string) {
     toasts.value = toasts.value.filter((toast) => toast.id !== id);

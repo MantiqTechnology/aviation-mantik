@@ -70,9 +70,9 @@ describe('General Ledger grouping', () => {
     const line = ledgerLine({
       journalLineId: 'dimensioned',
       stationId: 'ST-DJJ',
-      aircraftId: 'AC-PK-AMA',
+      aircraftId: 'AC-PK-DMA',
       workOrderReference: 'WO-001'
     });
-    expect(lineDimensions(line)).toEqual(['ST-DJJ', 'AC-PK-AMA', 'WO-001']);
+    expect(lineDimensions(line)).toEqual(['ST-DJJ', 'AC-PK-DMA', 'WO-001']);
   });
 });

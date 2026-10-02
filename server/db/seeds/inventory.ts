@@ -70,7 +70,7 @@ export function seedInventoryData(
         id: 'inv-part-starter',
         partNumber: 'SP-PC6-STG-3001',
         partName: 'Starter Generator',
-        description: 'Serialized rotable starter generator installed on PK-AMA.',
+        description: 'Serialized rotable starter generator installed on PK-DMA.',
         manufacturer: 'Nusantara Aero Electric',
         manufacturerPartNumber: 'DAE-SG-100',
         unitOfMeasure: 'EA',
@@ -314,11 +314,11 @@ export function seedInventoryData(
     insertIgnore(sqlite, 'inventory_serialized_parts', {
       id: 'inv-serial-starter-installed',
       partId: 'inv-part-starter',
-      serialNumber: 'SG-PC6-AMA-001',
+      serialNumber: 'SG-PC6-PRT-001',
       lotId: null,
       binId: null,
       condition: 'INSTALLED',
-      aircraftId: 'ac-pk-ama',
+      aircraftId: 'ac-pk-dma',
       position: 'ENGINE STARTER GENERATOR',
       hoursSinceNew: 1480.5,
       cyclesSinceNew: 2134,
@@ -328,9 +328,9 @@ export function seedInventoryData(
       updatedAt: seedNow
     });
     insertIgnore(sqlite, 'inventory_component_installations', {
-      id: 'inv-install-starter-pk-ama',
+      id: 'inv-install-starter-pk-dma',
       serialId: 'inv-serial-starter-installed',
-      aircraftId: 'ac-pk-ama',
+      aircraftId: 'ac-pk-dma',
       position: 'ENGINE STARTER GENERATOR',
       installedAt: context.at(-180, '08:00'),
       removedAt: null,
@@ -477,7 +477,7 @@ export function seedInventoryData(
       receiptNumber,
       purchaseOrderId: 'inv-po-replenishment-001',
       warehouseId: 'inv-wh-djj-main',
-      documentReference: 'DO-AMA-0707-001',
+      documentReference: 'DO-PRT-0707-001',
       receivedAt: seedNow,
       status: 'POSTED',
       movementId: 'inv-move-receipt-001',
@@ -868,7 +868,7 @@ export function seedInventoryData(
       sourceId: 'inv-issue-maintenance-filter-001',
       stationId: 'st-djj',
       destinationStationId: null,
-      aircraftId: 'ac-pk-ama',
+      aircraftId: 'ac-pk-dma',
       flightId: 'fop-landed-maintenance',
       reason: 'Oil filter issued against the landed-flight maintenance handoff.',
       status: 'POSTED',
@@ -921,9 +921,9 @@ export function seedInventoryData(
       issueNumber: `ISS-${context.compactDate(-1)}-001`,
       maintenanceHandoffId: 'maintenance-landed-filter-draft',
       targetType: 'AIRCRAFT',
-      targetId: 'ac-pk-ama',
+      targetId: 'ac-pk-dma',
       assetMaintenanceWorkOrderId: null,
-      aircraftId: 'ac-pk-ama',
+      aircraftId: 'ac-pk-dma',
       flightId: 'fop-landed-maintenance',
       warehouseId: 'inv-wh-djj-main',
       reason: 'Oil-filter replacement after post-flight inspection.',
@@ -939,7 +939,7 @@ export function seedInventoryData(
       partId: 'inv-part-filter-pc6',
       quantity: 1,
       baseValueIdr: 950000,
-      note: 'Issued against work order for PK-AMA.'
+      note: 'Issued against work order for PK-DMA.'
     });
     insertIgnore(sqlite, 'inventory_accounting_events', {
       id: 'inv-ae-maintenance-filter-001',
@@ -948,7 +948,7 @@ export function seedInventoryData(
       sourceId: 'inv-issue-maintenance-filter-001',
       movementId: 'inv-move-maintenance-filter-001',
       stationId: 'st-djj',
-      aircraftId: 'ac-pk-ama',
+      aircraftId: 'ac-pk-dma',
       flightId: 'fop-landed-maintenance',
       currencyId: 'cur-idr',
       sourceAmountMinor: 950000,
@@ -1039,9 +1039,9 @@ export function seedInventoryData(
     });
 
     insertIgnore(sqlite, 'inventory_fly_away_kits', {
-      id: 'fak-seed-pk-ama',
-      kitNumber: 'FAK-PK-AMA-01',
-      aircraftId: 'ac-pk-ama',
+      id: 'fak-seed-pk-dma',
+      kitNumber: 'FAK-PK-DMA-01',
+      aircraftId: 'ac-pk-dma',
       stationId: 'st-djj',
       status: 'ONBOARD',
       assignedAt: context.at(-10, '00:00'),
@@ -1051,7 +1051,7 @@ export function seedInventoryData(
 
     insertIgnore(sqlite, 'inventory_fly_away_kit_items', {
       id: 'faki-seed-001',
-      kitId: 'fak-seed-pk-ama',
+      kitId: 'fak-seed-pk-dma',
       partId: 'inv-part-filter-pc6',
       serialId: null,
       requiredQuantity: 2,

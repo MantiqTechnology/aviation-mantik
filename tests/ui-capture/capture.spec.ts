@@ -41,7 +41,7 @@ for (const screen of uiScreens) {
 
     const cookieHost = new URL(baseURL ?? 'http://localhost:3100').hostname;
     await context.addCookies([
-      { name: 'ama_demo_role', value: role, domain: cookieHost, path: '/' }
+      { name: 'mantik_demo_role', value: role, domain: cookieHost, path: '/' }
     ]);
 
     const runtimeErrors: string[] = [];

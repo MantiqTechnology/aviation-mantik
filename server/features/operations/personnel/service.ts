@@ -445,7 +445,7 @@ export class PersonnelService {
       personnelId: id,
       action,
       actorId: 'USR-SYSTEM',
-      actorName: 'AMA System',
+      actorName: 'Operator Demo System',
       changedFields,
       occurredAt: timestamp
     });

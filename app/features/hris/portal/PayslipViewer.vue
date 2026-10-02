@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const branding = useBranding();
 const { data: payslipsData } = await useAsyncData('portal-payslips', () =>
   fetchApi<any[]>('/api/hris/self-service/payslips')
 );
@@ -60,9 +61,9 @@ function formatCurrency(val: number) {
       <VCard v-if="selectedPayslip" class="pa-6">
         <div class="d-flex align-center justify-space-between mb-4 border-b pb-4">
           <div class="d-flex align-center ga-3">
-            <VImg src="https://amapapua.com/files/ama-pt-logo-shaded4.png" width="48" height="36" />
+            <VImg :src="branding.logoUrl" width="48" height="36" />
             <div>
-              <div class="font-weight-bold text-primary">PT. ASSOCIATED MISSION AVIATION</div>
+              <div class="font-weight-bold text-primary">{{ branding.operatorName }}</div>
               <div class="text-caption text-secondary">
                 OFFICIAL DIGITAL PAYSLIP &bull; {{ selectedPayslip.periodMonth }}/{{
                   selectedPayslip.periodYear

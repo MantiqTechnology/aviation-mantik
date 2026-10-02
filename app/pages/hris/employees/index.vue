@@ -113,7 +113,7 @@ async function handleSaveSingleEmployee() {
       <div>
         <h1 class="text-h4 font-weight-bold text-primary">Database Karyawan</h1>
         <p class="text-subtitle-1 text-secondary">
-          Kelola data karyawan PT. AMA seluruh divisi dan stasiun
+          Kelola data karyawan Operator Demo seluruh divisi dan stasiun
         </p>
       </div>
       <div class="d-flex ga-2">
@@ -294,7 +294,7 @@ async function handleSaveSingleEmployee() {
               <VTextField
                 v-model="empForm.email"
                 label="Email Address"
-                placeholder="employee@ama.co.id"
+                placeholder="employee@mantik.co.id"
                 variant="outlined"
               />
             </VCol>

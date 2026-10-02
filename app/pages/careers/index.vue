@@ -105,8 +105,8 @@ async function handleSubmitApplication() {
       <VIcon icon="mdi-airplane-takeoff" size="48" class="mb-3" />
       <h1 class="text-h3 font-weight-bold mb-2">Portal Karir & Kesempatan Bergabung</h1>
       <p class="text-subtitle-1 max-w-2xl mx-auto" style="opacity: 0.9">
-        Mari terbang bersama PT. Associate Mission Aviation (AMA) melayani masyarakat Papua. Temukan
-        peluang karir terbaik penerbangan perintis & operasional penerbangan.
+        Mari terbang bersama Operator Demo melayani masyarakat di seluruh Indonesia. Temukan peluang
+        karir terbaik penerbangan perintis & operasional penerbangan.
       </p>
 
       <div class="mt-6 d-flex justify-center ga-3 flex-wrap">
@@ -201,7 +201,7 @@ async function handleSubmitApplication() {
               <p class="text-body-2 text-high-emphasis whitespace-pre-wrap line-clamp-3">
                 {{
                   job.description ||
-                    'Bertanggung jawab atas operasional dan keselamatan tugas penerbangan PT. AMA.'
+                    'Bertanggung jawab atas operasional dan keselamatan tugas penerbangan Operator Demo.'
                 }}
               </p>
             </div>
@@ -246,8 +246,8 @@ async function handleSubmitApplication() {
         <VDivider />
         <VCardText class="pa-4">
           <VAlert v-if="applySuccess" type="success" variant="tonal" class="mb-4">
-            🎉 Lamaran pekerjaan Anda telah berhasil dikirim! Tim HR PT. AMA akan segera menghubungi
-            Anda.
+            🎉 Lamaran pekerjaan Anda telah berhasil dikirim! Tim HR Operator Demo akan segera
+            menghubungi Anda.
           </VAlert>
 
           <div v-else>

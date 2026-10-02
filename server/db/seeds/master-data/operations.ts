@@ -27,15 +27,14 @@ export async function seedOperationsMasterData(
 ) {
   const referenceNow = context.now;
   const aircraftImageUrls = {
-    pkAma:
-      'aircraft/pk-rka-associated-mission-aviation-ama-papua-pilatus-pc-6-b2-h4-turbo-porter_PlanespottersNet_1738497_f4e6bb222f_o.webp',
-    pkAmb: 'aircraft/Cessna-208-Caravan-PNC-0219-1.jpg',
-    pkAmc: 'aircraft/pac-p-750-xstol-985cf660-67bb-409a-a3d9-8ee17deff38-resize-750.webp',
-    pkAmd: 'aircraft/DSC05386-1024x682.webp',
-    pkAme: 'aircraft/pexels-rachel-claire-7276734-scaled.webp',
-    pkAmf: 'aircraft/img.webp',
-    pkAmg: 'aircraft/polar_airways_pilatus_pc-6_porter_n3603r.webp',
-    pkAmh: 'aircraft/pac-p-750-xstol-985cf660-67bb-409a-a3d9-8ee17deff38-resize-750.webp'
+    pkDma: '/branding/aircraft-placeholder.svg',
+    pkDmb: 'aircraft/Cessna-208-Caravan-PNC-0219-1.jpg',
+    pkDmc: 'aircraft/pac-p-750-xstol-985cf660-67bb-409a-a3d9-8ee17deff38-resize-750.webp',
+    pkDmd: 'aircraft/DSC05386-1024x682.webp',
+    pkDme: 'aircraft/pexels-rachel-claire-7276734-scaled.webp',
+    pkDmf: 'aircraft/img.webp',
+    pkDmg: 'aircraft/polar_airways_pilatus_pc-6_porter_n3603r.webp',
+    pkDmh: 'aircraft/pac-p-750-xstol-985cf660-67bb-409a-a3d9-8ee17deff38-resize-750.webp'
   };
   await db
     .insert(stations)
@@ -285,14 +284,14 @@ export async function seedOperationsMasterData(
     .insert(aircraft)
     .values([
       {
-        id: 'ac-pk-ama',
-        registrationNumber: 'PK-AMA',
-        serialNumber: 'PC6-AMA',
+        id: 'ac-pk-dma',
+        registrationNumber: 'PK-DMA',
+        serialNumber: 'PC6-PRT',
         aircraftType: 'Pilatus PC-6',
         manufacturer: 'Pilatus',
         model: 'PC-6 Porter',
         fleetCode: 'PC6-01',
-        imageUrl: aircraftImageUrls.pkAma,
+        imageUrl: aircraftImageUrls.pkDma,
         passengerCapacity: 10,
         cargoCapacityKg: 1200,
         fuelType: 'AVTUR',
@@ -303,7 +302,8 @@ export async function seedOperationsMasterData(
         holdingFuelBurnLitrePerHour: 140,
         taxiFuelBurnLitrePerHour: 90,
         fuelProfileSource: 'HISTORICAL_ESTIMATE',
-        fuelProfileReference: 'Advisory planning profile; validate against AMA AFM/POH records',
+        fuelProfileReference:
+          'Advisory planning profile; validate against operator AFM/POH records',
         fuelProfileEffectiveFrom: '2026-01-01',
         fuelProfileAdvisoryOnly: true,
         operationalStatus: 'ACTIVE',
@@ -314,14 +314,14 @@ export async function seedOperationsMasterData(
         updatedAt: referenceNow
       },
       {
-        id: 'ac-pk-amb',
-        registrationNumber: 'PK-AMB',
-        serialNumber: '208B-AMB',
+        id: 'ac-pk-dmb',
+        registrationNumber: 'PK-DMB',
+        serialNumber: '208B-DMB',
         aircraftType: 'Cessna Caravan 208B',
         manufacturer: 'Cessna',
         model: 'Caravan 208B',
         fleetCode: 'CVN-01',
-        imageUrl: aircraftImageUrls.pkAmb,
+        imageUrl: aircraftImageUrls.pkDmb,
         passengerCapacity: 12,
         cargoCapacityKg: 1400,
         fuelType: 'AVTUR',
@@ -332,7 +332,8 @@ export async function seedOperationsMasterData(
         holdingFuelBurnLitrePerHour: 180,
         taxiFuelBurnLitrePerHour: 120,
         fuelProfileSource: 'HISTORICAL_ESTIMATE',
-        fuelProfileReference: 'Advisory planning profile; validate against AMA AFM/POH records',
+        fuelProfileReference:
+          'Advisory planning profile; validate against operator AFM/POH records',
         fuelProfileEffectiveFrom: '2026-01-01',
         fuelProfileAdvisoryOnly: true,
         operationalStatus: 'ACTIVE',
@@ -343,14 +344,14 @@ export async function seedOperationsMasterData(
         updatedAt: referenceNow
       },
       {
-        id: 'ac-pk-amc',
-        registrationNumber: 'PK-AMC',
-        serialNumber: 'PAC-AMC',
+        id: 'ac-pk-dmc',
+        registrationNumber: 'PK-DMC',
+        serialNumber: 'PAC-DMC',
         aircraftType: 'PAC 750XL',
         manufacturer: 'Pacific Aerospace',
         model: 'PAC 750XL',
         fleetCode: 'PAC-01',
-        imageUrl: aircraftImageUrls.pkAmc,
+        imageUrl: aircraftImageUrls.pkDmc,
         passengerCapacity: 9,
         cargoCapacityKg: 1000,
         fuelType: 'AVTUR',
@@ -361,7 +362,8 @@ export async function seedOperationsMasterData(
         holdingFuelBurnLitrePerHour: 180,
         taxiFuelBurnLitrePerHour: 120,
         fuelProfileSource: 'HISTORICAL_ESTIMATE',
-        fuelProfileReference: 'Advisory planning profile; validate against AMA AFM/POH records',
+        fuelProfileReference:
+          'Advisory planning profile; validate against operator AFM/POH records',
         fuelProfileEffectiveFrom: '2026-01-01',
         fuelProfileAdvisoryOnly: true,
         operationalStatus: 'ACTIVE',
@@ -372,14 +374,14 @@ export async function seedOperationsMasterData(
         updatedAt: referenceNow
       },
       {
-        id: 'ac-pk-amd',
-        registrationNumber: 'PK-AMD',
-        serialNumber: '208B-AMD',
+        id: 'ac-pk-dmd',
+        registrationNumber: 'PK-DMD',
+        serialNumber: '208B-DMD',
         aircraftType: 'Cessna Caravan 208B',
         manufacturer: 'Cessna',
         model: 'Caravan 208B Maintenance',
         fleetCode: 'CVN-02',
-        imageUrl: aircraftImageUrls.pkAmd,
+        imageUrl: aircraftImageUrls.pkDmd,
         passengerCapacity: 12,
         cargoCapacityKg: 1400,
         fuelType: 'AVTUR',
@@ -390,7 +392,8 @@ export async function seedOperationsMasterData(
         holdingFuelBurnLitrePerHour: 180,
         taxiFuelBurnLitrePerHour: 120,
         fuelProfileSource: 'HISTORICAL_ESTIMATE',
-        fuelProfileReference: 'Advisory planning profile; validate against AMA AFM/POH records',
+        fuelProfileReference:
+          'Advisory planning profile; validate against operator AFM/POH records',
         fuelProfileEffectiveFrom: '2026-01-01',
         fuelProfileAdvisoryOnly: true,
         operationalStatus: 'ACTIVE',
@@ -401,14 +404,14 @@ export async function seedOperationsMasterData(
         updatedAt: referenceNow
       },
       {
-        id: 'ac-pk-ame',
-        registrationNumber: 'PK-AME',
-        serialNumber: '208B-AME-2405',
+        id: 'ac-pk-dme',
+        registrationNumber: 'PK-DME',
+        serialNumber: '208B-DME-2405',
         aircraftType: 'Cessna Caravan 208B',
         manufacturer: 'Cessna',
         model: 'Caravan 208B',
         fleetCode: 'CVN-03',
-        imageUrl: aircraftImageUrls.pkAme,
+        imageUrl: aircraftImageUrls.pkDme,
         passengerCapacity: 12,
         cargoCapacityKg: 1400,
         fuelType: 'AVTUR',
@@ -419,7 +422,8 @@ export async function seedOperationsMasterData(
         holdingFuelBurnLitrePerHour: 180,
         taxiFuelBurnLitrePerHour: 120,
         fuelProfileSource: 'HISTORICAL_ESTIMATE',
-        fuelProfileReference: 'Advisory planning profile; validate against AMA AFM/POH records',
+        fuelProfileReference:
+          'Advisory planning profile; validate against operator AFM/POH records',
         fuelProfileEffectiveFrom: '2026-01-01',
         fuelProfileAdvisoryOnly: true,
         operationalStatus: 'ACTIVE',
@@ -430,14 +434,14 @@ export async function seedOperationsMasterData(
         updatedAt: referenceNow
       },
       {
-        id: 'ac-pk-amf',
-        registrationNumber: 'PK-AMF',
-        serialNumber: '208B-AMF-RESERVE',
+        id: 'ac-pk-dmf',
+        registrationNumber: 'PK-DMF',
+        serialNumber: '208B-DMF-RESERVE',
         aircraftType: 'Cessna Caravan 208B',
         manufacturer: 'Cessna',
         model: 'Caravan 208B',
         fleetCode: 'CVN-04',
-        imageUrl: aircraftImageUrls.pkAmf,
+        imageUrl: aircraftImageUrls.pkDmf,
         passengerCapacity: 12,
         cargoCapacityKg: 1400,
         fuelType: 'AVTUR',
@@ -448,7 +452,8 @@ export async function seedOperationsMasterData(
         holdingFuelBurnLitrePerHour: 180,
         taxiFuelBurnLitrePerHour: 120,
         fuelProfileSource: 'HISTORICAL_ESTIMATE',
-        fuelProfileReference: 'Advisory planning profile; validate against AMA AFM/POH records',
+        fuelProfileReference:
+          'Advisory planning profile; validate against operator AFM/POH records',
         fuelProfileEffectiveFrom: '2026-01-01',
         fuelProfileAdvisoryOnly: true,
         operationalStatus: 'ACTIVE',
@@ -461,14 +466,14 @@ export async function seedOperationsMasterData(
         updatedAt: referenceNow
       },
       {
-        id: 'ac-pk-amg',
-        registrationNumber: 'PK-AMG',
-        serialNumber: 'PC6-AMG-RESERVE',
+        id: 'ac-pk-dmg',
+        registrationNumber: 'PK-DMG',
+        serialNumber: 'PC6-DMG-RESERVE',
         aircraftType: 'Pilatus PC-6',
         manufacturer: 'Pilatus',
         model: 'PC-6 Porter',
         fleetCode: 'PC6-02',
-        imageUrl: aircraftImageUrls.pkAmg,
+        imageUrl: aircraftImageUrls.pkDmg,
         passengerCapacity: 10,
         cargoCapacityKg: 1200,
         fuelType: 'AVTUR',
@@ -479,7 +484,8 @@ export async function seedOperationsMasterData(
         holdingFuelBurnLitrePerHour: 140,
         taxiFuelBurnLitrePerHour: 90,
         fuelProfileSource: 'HISTORICAL_ESTIMATE',
-        fuelProfileReference: 'Advisory planning profile; validate against AMA AFM/POH records',
+        fuelProfileReference:
+          'Advisory planning profile; validate against operator AFM/POH records',
         fuelProfileEffectiveFrom: '2026-01-01',
         fuelProfileAdvisoryOnly: true,
         operationalStatus: 'ACTIVE',
@@ -492,14 +498,14 @@ export async function seedOperationsMasterData(
         updatedAt: referenceNow
       },
       {
-        id: 'ac-pk-amh',
-        registrationNumber: 'PK-AMH',
-        serialNumber: 'PAC-AMH-RESERVE',
+        id: 'ac-pk-dmh',
+        registrationNumber: 'PK-DMH',
+        serialNumber: 'PAC-DMH-RESERVE',
         aircraftType: 'PAC 750XL',
         manufacturer: 'Pacific Aerospace',
         model: 'PAC 750XL',
         fleetCode: 'PAC-02',
-        imageUrl: aircraftImageUrls.pkAmh,
+        imageUrl: aircraftImageUrls.pkDmh,
         passengerCapacity: 9,
         cargoCapacityKg: 1000,
         fuelType: 'AVTUR',
@@ -510,7 +516,8 @@ export async function seedOperationsMasterData(
         holdingFuelBurnLitrePerHour: 180,
         taxiFuelBurnLitrePerHour: 120,
         fuelProfileSource: 'HISTORICAL_ESTIMATE',
-        fuelProfileReference: 'Advisory planning profile; validate against AMA AFM/POH records',
+        fuelProfileReference:
+          'Advisory planning profile; validate against operator AFM/POH records',
         fuelProfileEffectiveFrom: '2026-01-01',
         fuelProfileAdvisoryOnly: true,
         operationalStatus: 'ACTIVE',
@@ -544,7 +551,7 @@ export async function seedOperationsMasterData(
     .values([
       {
         id: 'crew-pic-valid',
-        employeeCode: 'AMA-PIC-001',
+        employeeCode: 'PRT-PIC-001',
         fullName: 'Daniel Waromi',
         crewRole: 'PILOT_IN_COMMAND',
         licenseType: 'CPL',
@@ -561,7 +568,7 @@ export async function seedOperationsMasterData(
       },
       {
         id: 'crew-pic-expiring',
-        employeeCode: 'AMA-PIC-002',
+        employeeCode: 'PRT-PIC-002',
         fullName: 'Mikael Kogoya',
         crewRole: 'PILOT_IN_COMMAND',
         licenseType: 'CPL',
@@ -578,7 +585,7 @@ export async function seedOperationsMasterData(
       },
       {
         id: 'crew-pic-expired',
-        employeeCode: 'AMA-PIC-003',
+        employeeCode: 'PRT-PIC-003',
         fullName: 'Yohanis Tabuni',
         crewRole: 'PILOT_IN_COMMAND',
         licenseType: 'CPL',
@@ -595,7 +602,7 @@ export async function seedOperationsMasterData(
       },
       {
         id: 'crew-cop-valid',
-        employeeCode: 'AMA-COP-001',
+        employeeCode: 'PRT-COP-001',
         fullName: 'Maria Numberi',
         crewRole: 'CO_PILOT',
         licenseType: 'CPL',
@@ -612,7 +619,7 @@ export async function seedOperationsMasterData(
       },
       {
         id: 'crew-cop-valid-2',
-        employeeCode: 'AMA-COP-002',
+        employeeCode: 'PRT-COP-002',
         fullName: 'Agus Yikwa',
         crewRole: 'CO_PILOT',
         licenseType: 'CPL',
@@ -629,7 +636,7 @@ export async function seedOperationsMasterData(
       },
       {
         id: 'crew-ground-001',
-        employeeCode: 'AMA-GRD-001',
+        employeeCode: 'PRT-GRD-001',
         fullName: 'Rina Kambu',
         crewRole: 'GROUND_CREW',
         licenseType: null,
@@ -666,7 +673,7 @@ export async function seedOperationsMasterData(
       },
       {
         id: 'crew-ops-001',
-        employeeCode: 'AMA-OPS-001',
+        employeeCode: 'PRT-OPS-001',
         fullName: 'Samuel Itlay',
         crewRole: 'FLIGHT_OPERATIONS',
         licenseType: null,
@@ -683,7 +690,7 @@ export async function seedOperationsMasterData(
       },
       {
         id: 'crew-pic-reserve',
-        employeeCode: 'AMA-PIC-010',
+        employeeCode: 'PRT-PIC-010',
         fullName: 'Markus Rumbiak',
         crewRole: 'PILOT_IN_COMMAND',
         licenseType: 'CPL',
@@ -703,7 +710,7 @@ export async function seedOperationsMasterData(
       },
       {
         id: 'crew-cop-reserve',
-        employeeCode: 'AMA-COP-010',
+        employeeCode: 'PRT-COP-010',
         fullName: 'Elisa Mandacan',
         crewRole: 'CO_PILOT',
         licenseType: 'CPL',
@@ -833,7 +840,7 @@ export async function seedOperationsMasterData(
         expiryDate: crew.medicalExpiryDate,
         status: crew.medicalExpiryDate < context.date(0) ? 'EXPIRED' : 'ACTIVE',
         restrictions: null,
-        issuingAuthority: 'AMA Aviation Medical Examiner',
+        issuingAuthority: 'Aviation Medical Examiner',
         documentId: null,
         createdAt: referenceNow,
         updatedAt: referenceNow
@@ -927,7 +934,7 @@ export async function seedOperationsMasterData(
         issuedAt: context.date(-120),
         expiresAt: context.date(245),
         status: 'VALID',
-        notes: 'Aircraft/type scope for PT AMA MRO licence validation.',
+        notes: 'Aircraft/type scope for Operator Demo MRO licence validation.',
         documentId: null,
         createdAt: referenceNow,
         updatedAt: referenceNow
@@ -941,7 +948,7 @@ export async function seedOperationsMasterData(
         issuedAt: context.date(-120),
         expiresAt: context.date(245),
         status: 'VALID',
-        notes: 'Aircraft/type scope for PT AMA MRO licence validation.',
+        notes: 'Aircraft/type scope for Operator Demo MRO licence validation.',
         documentId: null,
         createdAt: referenceNow,
         updatedAt: referenceNow
@@ -959,7 +966,7 @@ export async function seedOperationsMasterData(
         visibility: 'INTERNAL',
         noteText: 'Available co-pilot for the main DJJ readiness pass scenario.',
         authorId: 'USR-SYSTEM',
-        authorName: 'AMA System',
+        authorName: 'Operator Demo System',
         createdAt: referenceNow,
         updatedAt: referenceNow
       }
@@ -1175,7 +1182,7 @@ export async function seedOperationsMasterData(
         templateCode: 'SCH_DJJ_WMX_MWF',
         routeId: 'route-djj-wmx',
         serviceTypeId: 'flight-service-type-scheduled-passenger',
-        defaultAircraftId: 'ac-pk-ama',
+        defaultAircraftId: 'ac-pk-dma',
         capacityProfileId: null,
         operatingDays: 'MON,WED,FRI',
         departureTimeLocal: '07:30',
@@ -1200,7 +1207,7 @@ export async function seedOperationsMasterData(
         templateCode: 'SCH_DJJ_NBX_MON_THU',
         routeId: 'route-djj-nbx',
         serviceTypeId: 'flight-service-type-scheduled-passenger',
-        defaultAircraftId: 'ac-pk-amb',
+        defaultAircraftId: 'ac-pk-dmb',
         capacityProfileId: null,
         operatingDays: 'MON,THU',
         departureTimeLocal: '10:00',
@@ -1224,7 +1231,7 @@ export async function seedOperationsMasterData(
         templateCode: 'SCH_TIM_DEX_TUE_THU',
         routeId: 'route-tim-dex',
         serviceTypeId: 'flight-service-type-charter-cargo',
-        defaultAircraftId: 'ac-pk-amb',
+        defaultAircraftId: 'ac-pk-dmb',
         capacityProfileId: null,
         operatingDays: 'TUE,THU',
         departureTimeLocal: '09:15',
@@ -1248,7 +1255,7 @@ export async function seedOperationsMasterData(
         templateCode: 'SCH_NBX_WMX_SAT',
         routeId: 'route-nbx-wmx',
         serviceTypeId: 'flight-service-type-charter-passenger',
-        defaultAircraftId: 'ac-pk-amc',
+        defaultAircraftId: 'ac-pk-dmc',
         capacityProfileId: null,
         operatingDays: 'SAT',
         departureTimeLocal: '11:00',
@@ -1272,7 +1279,7 @@ export async function seedOperationsMasterData(
         templateCode: 'SCH_MKQ_DJJ_SUN',
         routeId: 'route-mkq-djj',
         serviceTypeId: 'flight-service-type-positioning',
-        defaultAircraftId: 'ac-pk-amb',
+        defaultAircraftId: 'ac-pk-dmb',
         capacityProfileId: null,
         operatingDays: 'SUN',
         departureTimeLocal: '13:45',
@@ -1301,7 +1308,7 @@ export async function seedOperationsMasterData(
         id: 'cap-pilatus-djj-wmx-pax',
         profileCode: 'CAP_PC6_DJJ_WMX_PAX',
         profileName: 'Pilatus DJJ-WMX Passenger Standard',
-        aircraftId: 'ac-pk-ama',
+        aircraftId: 'ac-pk-dma',
         routeId: 'route-djj-wmx',
         serviceTypeId: 'flight-service-type-scheduled-passenger',
         seatCapacity: 8,
@@ -1317,7 +1324,7 @@ export async function seedOperationsMasterData(
         id: 'cap-pilatus-djj-wmx-charter-pax',
         profileCode: 'CAP_PC6_DJJ_WMX_CHARTER_PAX',
         profileName: 'Pilatus DJJ-WMX Charter Passenger',
-        aircraftId: 'ac-pk-ama',
+        aircraftId: 'ac-pk-dma',
         routeId: 'route-djj-wmx',
         serviceTypeId: 'flight-service-type-charter-passenger',
         seatCapacity: 8,
@@ -1333,7 +1340,7 @@ export async function seedOperationsMasterData(
         id: 'cap-pilatus-djj-wmx-cargo',
         profileCode: 'CAP_PC6_DJJ_WMX_CARGO',
         profileName: 'Pilatus DJJ-WMX Cargo',
-        aircraftId: 'ac-pk-ama',
+        aircraftId: 'ac-pk-dma',
         routeId: 'route-djj-wmx',
         serviceTypeId: 'flight-service-type-charter-cargo',
         seatCapacity: 3,
@@ -1349,7 +1356,7 @@ export async function seedOperationsMasterData(
         id: 'cap-pilatus-djj-wmx-medevac',
         profileCode: 'CAP_PC6_DJJ_WMX_MEDEVAC',
         profileName: 'Pilatus DJJ-WMX Medevac',
-        aircraftId: 'ac-pk-ama',
+        aircraftId: 'ac-pk-dma',
         routeId: 'route-djj-wmx',
         serviceTypeId: 'flight-service-type-medevac',
         seatCapacity: 4,
@@ -1365,7 +1372,7 @@ export async function seedOperationsMasterData(
         id: 'cap-pilatus-djj-wmx-positioning',
         profileCode: 'CAP_PC6_DJJ_WMX_POSITIONING',
         profileName: 'Pilatus DJJ-WMX Positioning',
-        aircraftId: 'ac-pk-ama',
+        aircraftId: 'ac-pk-dma',
         routeId: 'route-djj-wmx',
         serviceTypeId: 'flight-service-type-positioning',
         seatCapacity: 2,
@@ -1381,7 +1388,7 @@ export async function seedOperationsMasterData(
         id: 'cap-caravan-djj-nbx-pax',
         profileCode: 'CAP_C208_DJJ_NBX_PAX',
         profileName: 'Caravan DJJ-NBX Passenger Standard',
-        aircraftId: 'ac-pk-amb',
+        aircraftId: 'ac-pk-dmb',
         routeId: 'route-djj-nbx',
         serviceTypeId: 'flight-service-type-scheduled-passenger',
         seatCapacity: 10,
@@ -1397,7 +1404,7 @@ export async function seedOperationsMasterData(
         id: 'cap-caravan-tim-dex-cargo',
         profileCode: 'CAP_C208_TIM_DEX_CARGO',
         profileName: 'Caravan TIM-DEX Cargo Heavy',
-        aircraftId: 'ac-pk-amb',
+        aircraftId: 'ac-pk-dmb',
         routeId: 'route-tim-dex',
         serviceTypeId: 'flight-service-type-charter-cargo',
         seatCapacity: 4,
@@ -1413,7 +1420,7 @@ export async function seedOperationsMasterData(
         id: 'cap-pac-nbx-wmx-charter',
         profileCode: 'CAP_PAC_NBX_WMX_CHARTER',
         profileName: 'PAC NBX-WMX Charter Balanced',
-        aircraftId: 'ac-pk-amc',
+        aircraftId: 'ac-pk-dmc',
         routeId: 'route-nbx-wmx',
         serviceTypeId: 'flight-service-type-charter-passenger',
         seatCapacity: 9,
@@ -1592,16 +1599,16 @@ export async function seedOperationsMasterData(
 
   for (const aircraftRecord of [
     {
-      id: 'ac-pk-ama',
-      imageUrl: aircraftImageUrls.pkAma,
+      id: 'ac-pk-dma',
+      imageUrl: aircraftImageUrls.pkDma,
       currentStationId: 'st-djj',
       lastMaintenanceCheckAt: context.date(-16),
       nextMaintenanceDueAt: context.date(29),
       serviceabilityNote: 'Serviceable and positioned at DJJ for the main Flight Order happy path.'
     },
     {
-      id: 'ac-pk-amb',
-      imageUrl: aircraftImageUrls.pkAmb,
+      id: 'ac-pk-dmb',
+      imageUrl: aircraftImageUrls.pkDmb,
       currentStationId: 'st-wmx',
       lastMaintenanceCheckAt: context.date(-19),
       nextMaintenanceDueAt: context.date(3),
@@ -1609,24 +1616,24 @@ export async function seedOperationsMasterData(
         'Serviceable and positioned at WMX for the active WMX-OKS operational scenario.'
     },
     {
-      id: 'ac-pk-amc',
-      imageUrl: aircraftImageUrls.pkAmc,
+      id: 'ac-pk-dmc',
+      imageUrl: aircraftImageUrls.pkDmc,
       currentStationId: 'st-wmx',
       lastMaintenanceCheckAt: context.date(-33),
       nextMaintenanceDueAt: context.date(20),
       serviceabilityNote: 'Unserviceable aircraft for maintenance blocker scenarios.'
     },
     {
-      id: 'ac-pk-amd',
-      imageUrl: aircraftImageUrls.pkAmd,
+      id: 'ac-pk-dmd',
+      imageUrl: aircraftImageUrls.pkDmd,
       currentStationId: 'st-djj',
       lastMaintenanceCheckAt: context.date(-33),
       nextMaintenanceDueAt: context.date(-11),
       serviceabilityNote: 'Maintenance-due aircraft positioned at DJJ for readiness review.'
     },
     {
-      id: 'ac-pk-ame',
-      imageUrl: aircraftImageUrls.pkAme,
+      id: 'ac-pk-dme',
+      imageUrl: aircraftImageUrls.pkDme,
       currentStationId: 'st-wmx',
       lastMaintenanceCheckAt: context.date(-7),
       nextMaintenanceDueAt: context.date(21),
@@ -1634,24 +1641,24 @@ export async function seedOperationsMasterData(
         'Serviceable with a published payload restriction pending component review.'
     },
     {
-      id: 'ac-pk-amf',
-      imageUrl: aircraftImageUrls.pkAmf,
+      id: 'ac-pk-dmf',
+      imageUrl: aircraftImageUrls.pkDmf,
       currentStationId: 'st-bik',
       lastMaintenanceCheckAt: null,
       nextMaintenanceDueAt: null,
       serviceabilityNote: 'Available for user-created flight and MRO transactions.'
     },
     {
-      id: 'ac-pk-amg',
-      imageUrl: aircraftImageUrls.pkAmg,
+      id: 'ac-pk-dmg',
+      imageUrl: aircraftImageUrls.pkDmg,
       currentStationId: 'st-djj',
       lastMaintenanceCheckAt: null,
       nextMaintenanceDueAt: null,
       serviceabilityNote: 'Available for user-created flight and MRO transactions.'
     },
     {
-      id: 'ac-pk-amh',
-      imageUrl: aircraftImageUrls.pkAmh,
+      id: 'ac-pk-dmh',
+      imageUrl: aircraftImageUrls.pkDmh,
       currentStationId: 'st-soq',
       lastMaintenanceCheckAt: null,
       nextMaintenanceDueAt: null,
@@ -1675,22 +1682,22 @@ export async function seedOperationsMasterData(
     .insert(aircraftDefects)
     .values([
       {
-        id: 'adefect-pk-amc-open',
-        aircraftId: 'ac-pk-amc',
-        defectNumber: 'DEF-BASE-AMC-001',
+        id: 'adefect-pk-dmc-open',
+        aircraftId: 'ac-pk-dmc',
+        defectNumber: 'DEF-BASE-DMC-001',
         title: 'Engine indication anomaly',
         description: 'Engine indication anomaly requires troubleshooting before return to service.',
         detectedAt: context.at(-2, '09:00'),
         detectedByUserId: 'USR-MAINTENANCE-MANAGER',
-        sourceReference: 'TECHLOG-AMC-001',
-        evidenceReferences: JSON.stringify(['TECHLOG-AMC-001']),
+        sourceReference: 'TECHLOG-DMC-001',
+        evidenceReferences: JSON.stringify(['TECHLOG-DMC-001']),
         status: 'OPEN',
         createdAt: referenceNow,
         updatedAt: referenceNow
       },
       {
-        id: 'adefect-pk-ame-deferred',
-        aircraftId: 'ac-pk-ame',
+        id: 'adefect-pk-dme-deferred',
+        aircraftId: 'ac-pk-dme',
         defectNumber: 'DEF-BASE-AME-001',
         title: 'Cabin payload restraint limitation',
         description:
@@ -1709,9 +1716,9 @@ export async function seedOperationsMasterData(
   await db
     .insert(aircraftDeferments)
     .values({
-      id: 'adefer-pk-ame-001',
-      aircraftId: 'ac-pk-ame',
-      defectId: 'adefect-pk-ame-deferred',
+      id: 'adefer-pk-dme-001',
+      aircraftId: 'ac-pk-dme',
+      defectId: 'adefect-pk-dme-deferred',
       defermentType: 'MEL',
       referenceCode: 'MEL 25-20-01',
       category: 'C',
@@ -1731,12 +1738,12 @@ export async function seedOperationsMasterData(
     .onConflictDoNothing();
 
   const releaseableAircraft = [
-    ['ac-pk-ama', 'AMA'],
-    ['ac-pk-amb', 'AMB'],
-    ['ac-pk-ame', 'AME'],
-    ['ac-pk-amf', 'AMF'],
-    ['ac-pk-amg', 'AMG'],
-    ['ac-pk-amh', 'AMH']
+    ['ac-pk-dma', 'PRT'],
+    ['ac-pk-dmb', 'DMB'],
+    ['ac-pk-dme', 'AME'],
+    ['ac-pk-dmf', 'DMF'],
+    ['ac-pk-dmg', 'DMG'],
+    ['ac-pk-dmh', 'DMH']
   ] as const;
   await db
     .insert(aircraftMaintenanceReleases)
@@ -1746,10 +1753,10 @@ export async function seedOperationsMasterData(
         aircraftId,
         releaseNumber: `RTS-BASE-${suffix}-001`,
         resultingStatus:
-          aircraftId === 'ac-pk-ame' ? 'SERVICEABLE_WITH_RESTRICTIONS' : 'SERVICEABLE',
+          aircraftId === 'ac-pk-dme' ? 'SERVICEABLE_WITH_RESTRICTIONS' : 'SERVICEABLE',
         workOrderReference: `WO-BASE-${suffix}-001`,
         releaseStatement:
-          aircraftId === 'ac-pk-ame'
+          aircraftId === 'ac-pk-dme'
             ? 'Aircraft approved for return to service subject to the active MEL limitation.'
             : 'Aircraft approved for return to service after completion of the recorded inspection.',
         certifyingUserId: 'USR-CERTIFYING-STAFF',
@@ -1757,8 +1764,8 @@ export async function seedOperationsMasterData(
         releasedAt: context.at(-3, '14:00'),
         evidenceReferences: JSON.stringify([`WO-BASE-${suffix}-001`]),
         defectIds:
-          aircraftId === 'ac-pk-ame'
-            ? JSON.stringify(['adefect-pk-ame-deferred'])
+          aircraftId === 'ac-pk-dme'
+            ? JSON.stringify(['adefect-pk-dme-deferred'])
             : JSON.stringify([]),
         createdAt: referenceNow
       }))
@@ -1766,11 +1773,11 @@ export async function seedOperationsMasterData(
     .onConflictDoNothing();
 
   const maintenanceDates = [
-    ['ac-pk-ama', context.date(29)],
-    ['ac-pk-amb', context.date(3)],
-    ['ac-pk-amc', context.date(20)],
-    ['ac-pk-amd', context.date(-11)],
-    ['ac-pk-ame', context.date(21)]
+    ['ac-pk-dma', context.date(29)],
+    ['ac-pk-dmb', context.date(3)],
+    ['ac-pk-dmc', context.date(20)],
+    ['ac-pk-dmd', context.date(-11)],
+    ['ac-pk-dme', context.date(21)]
   ] as const;
   await db
     .insert(aircraftMaintenanceRequirements)
@@ -1810,7 +1817,7 @@ export async function seedOperationsMasterData(
           aircraftId,
           statusDimension: 'TECHNICAL',
           fromStatus: null,
-          toStatus: aircraftId === 'ac-pk-ame' ? 'SERVICEABLE_WITH_RESTRICTIONS' : 'SERVICEABLE',
+          toStatus: aircraftId === 'ac-pk-dme' ? 'SERVICEABLE_WITH_RESTRICTIONS' : 'SERVICEABLE',
           reason: 'Scenario maintenance release baseline',
           sourceType: 'MAINTENANCE_RELEASE',
           sourceId: `arelease-baseline-${aircraftId.replace('ac-pk-', '')}`,

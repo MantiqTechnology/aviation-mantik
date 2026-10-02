@@ -247,7 +247,7 @@ export function resolveDocumentOwnerAccess(
   }
   if (ownerType === 'company') {
     return {
-      exists: ownerId === 'pt-ama' || ownerId === 'company-ama',
+      exists: ownerId === 'pt-mantik' || ownerId === 'company-mantik',
       stationCodes: [],
       globalOnly: true,
       permissions: ['platform.dashboard.view']

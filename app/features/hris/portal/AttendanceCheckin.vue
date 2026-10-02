@@ -13,7 +13,13 @@ const stations = [
   { id: 'st-wmx', code: 'WMX', name: 'Wamena Airport', type: 'STATION', icon: 'mdi-airport' },
   { id: 'st-mkq', code: 'MKQ', name: 'Merauke Airport', type: 'STATION', icon: 'mdi-airport' },
   { id: 'st-nbx', code: 'NBX', name: 'Nabire Airport', type: 'STATION', icon: 'mdi-airport' },
-  { id: 'st-djj', code: 'HQ', name: 'AMA Headquarters Sentani', type: 'OFFICE', icon: 'mdi-domain' }
+  {
+    id: 'st-djj',
+    code: 'HQ',
+    name: 'Kantor Operasional Sentani',
+    type: 'OFFICE',
+    icon: 'mdi-domain'
+  }
 ];
 
 const selectedStation = ref(stations[0]);
@@ -268,7 +274,7 @@ const headers = [
 
                   <h2 class="text-h4 font-weight-bold text-success mb-1">Check-In Berhasil!</h2>
                   <p class="text-body-2 text-secondary mb-4">
-                    Jam masuk presensi Anda telah tercatat resmi di database HRIS PT. AMA.
+                    Jam masuk presensi Anda telah tercatat resmi di database HRIS Operator Demo.
                   </p>
 
                   <VCard border class="pa-4 bg-white text-start mb-6">

@@ -53,8 +53,8 @@ function statusText(status: string) {
           Management Presensi & Jam Absen Karyawan
         </h1>
         <p class="text-subtitle-1 text-secondary">
-          Monitoring detail jam masuk, jam keluar, dan lokasi stasiun presensi seluruh karyawan PT.
-          AMA
+          Monitoring detail jam masuk, jam keluar, dan lokasi stasiun presensi seluruh karyawan
+          Operator Demo
         </p>
       </div>
       <VBtn prepend-icon="mdi-refresh" variant="outlined" @click="refresh()">Refresh Data</VBtn>

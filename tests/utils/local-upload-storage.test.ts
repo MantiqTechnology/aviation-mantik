@@ -14,19 +14,19 @@ let manifestPath: string;
 let tempRoot: string;
 
 beforeEach(async () => {
-  tempRoot = await mkdtemp(join(tmpdir(), 'ama-local-uploads-'));
+  tempRoot = await mkdtemp(join(tmpdir(), 'mantik-local-uploads-'));
   uploadDir = join(tempRoot, 'uploads');
   manifestPath = join(tempRoot, 'local-uploads.json');
 
-  process.env.AMA_UPLOAD_DIR = uploadDir;
-  process.env.AMA_UPLOAD_MANIFEST = manifestPath;
+  process.env.MANTIK_UPLOAD_DIR = uploadDir;
+  process.env.MANTIK_UPLOAD_MANIFEST = manifestPath;
 });
 
 afterEach(async () => {
   await rm(tempRoot, { recursive: true, force: true });
 
-  delete process.env.AMA_UPLOAD_DIR;
-  delete process.env.AMA_UPLOAD_MANIFEST;
+  delete process.env.MANTIK_UPLOAD_DIR;
+  delete process.env.MANTIK_UPLOAD_MANIFEST;
 });
 
 describe('local upload storage', () => {

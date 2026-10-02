@@ -1,4 +1,14 @@
-# PT AMA Scenario Runbook
+# Mantik Aviation Scenario Runbook
+
+## Regional passenger examples
+
+The default fictional Operator Penerbangan Perintis includes Papua plus Kupang–Rote (`KOE–RTI`, WITA) and Ambon–Banda (`AMQ–NDA`, WIT). Both additional flights depart on seed date + 1, use dedicated Cessna Caravan aircraft and crews, and have open passenger sales, illustrative fares, and an initial booking synchronized to the draft manifest. Operational references use the fictional `PRT` prefix.
+
+Registrations `PK-DMA` through `PK-DMJ`, crew identities, schedules, prices, and payload parameters are illustrative; they do not represent a real operator. Regional fleet images use a local aircraft illustration.
+
+Airport identification and coordinates were checked against the official DJPU profiles: [El Tari](https://hubud.kemenhub.go.id/bandara/229), [David Constantijn Saudale](https://hubud.kemenhub.go.id/bandara/109), [Pattimura](https://hubud.kemenhub.go.id/bandara/18), and [Bandaneira](https://hubud.kemenhub.go.id/bandara/84). Facility availability is not asserted by these demo station records.
+
+For rollout, follow the new environment and data setup in the project README. Historical runbooks and audit artifacts are retained as archives.
 
 The scenario database is rebuilt whenever the application process starts with `DEMO_MODE=true`.
 Changes made during a session are intentionally discarded at the next restart.

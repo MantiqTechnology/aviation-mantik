@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { PaymentRequestDto, SupplierInvoiceDto } from '#shared/features/finance/transactions';
-useHead({ title: 'Accounts Payable - PT AMA' });
+useHead({ title: 'Accounts Payable - Operator Demo' });
 const { can } = useAuthorization();
 const canRecordPayment = computed(() => can('finance.payment.record').allowed);
 const canPostAccounting = computed(() => can('finance.accounting.post').allowed);
@@ -268,11 +268,7 @@ async function requestAction(id: string, action: 'submit' | 'approve' | 'execute
                 type="number"
               />
             </VCol><VCol cols="12" md="6">
-              <VTextField
-                v-model.number="form.taxMinor"
-                label="Tax (IDR)"
-                type="number"
-              />
+              <VTextField v-model.number="form.taxMinor" label="Tax (IDR)" type="number" />
             </VCol>
           </VRow>
         </VCardText><VCardActions>

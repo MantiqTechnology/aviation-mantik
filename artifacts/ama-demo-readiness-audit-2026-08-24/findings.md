@@ -1,5 +1,7 @@
 # Temuan Audit
 
+Catatan historis: dokumen roadmap dan SOW PT AMA yang dipakai sebagai baseline audit ini telah dihapus dari repo demo umum. Temuan di bawah merekam kondisi saat audit dan bukan penilaian ulang atas kode saat ini.
+
 ## Cara membaca
 
 - **BUG TERBUKTI**: dibuktikan oleh source dan/atau runtime.
@@ -87,7 +89,7 @@ Perbaikan: `devtools: { enabled: process.env.NODE_ENV === 'development' && proce
 Severity: **P0**  
 Klasifikasi: **GAP REQUIREMENT**
 
-Roadmap secara jujur menyatakan offline/sync station belum tersedia (`docs/roadmap-enterprise-mvp.md:19-24`), sementara acceptance yang diharapkan mencakup cache per station, queue, idempotency, replay validation, conflict UI, retry, dan sync audit (`docs/roadmap-enterprise-mvp.md:1027-1069`). Browser probe menemukan 0 service worker, 0 cache, dan reload offline gagal `ERR_INTERNET_DISCONNECTED` dengan body kosong.
+Roadmap historis menyatakan offline/sync station belum tersedia, sementara acceptance yang diharapkan mencakup cache per station, queue, idempotency, replay validation, conflict UI, retry, dan sync audit. Dokumen roadmap tersebut telah dihapus dari repo demo umum. Browser probe saat audit menemukan 0 service worker, 0 cache, dan reload offline gagal `ERR_INTERNET_DISCONNECTED` dengan body kosong.
 
 Dampak: station dengan koneksi terputus kehilangan workspace dan tidak dapat menyimpan draft/evidence. Memaksakan mutasi kritis offline tanpa desain khusus dapat menggandakan manifest, fuel, stock issue, sign-off, release, atau journal.
 
@@ -100,7 +102,7 @@ Klasifikasi: **RISIKO SANGAT MUNGKIN — PERLU VERIFIKASI SOURCE/RUNTIME pada ta
 
 Config memilih `/tmp/ama-demo.sqlite` ketika `VERCEL` atau production (`nuxt.config.ts:4-8`); DB client mengulang default itu (`server/db/client.ts:17-26`) dan memindahkan path Vercel ke `/tmp` (`server/db/client.ts:34-44`). SQLite sendiri mengaktifkan FK, busy timeout, dan WAL—kontrol lokal yang baik (`server/db/client.ts:56-62`).
 
-Dampak: `/tmp` pada serverless bersifat ephemeral dan per-instance; restart/cold start dapat kehilangan data, beberapa instance dapat memiliki state berbeda, dan local WAL tidak menjadi shared durability. Ini bertentangan dengan requirement PostgreSQL, object storage, backup/DR (`docs/statement-of-work.md:207-216`).
+Dampak: `/tmp` pada serverless bersifat ephemeral dan per-instance; restart/cold start dapat kehilangan data, beberapa instance dapat memiliki state berbeda, dan local WAL tidak menjadi shared durability. Hal ini bertentangan dengan kebutuhan PostgreSQL, object storage, backup, dan DR yang tercatat dalam SOW historis; dokumen SOW tersebut telah dihapus dari repo demo umum.
 
 Perbaikan: PostgreSQL managed, migrations versioned, object storage, transactional outbox/audit, backup/restore test, monitoring, dan deployment topology yang eksplisit.
 
@@ -109,7 +111,7 @@ Perbaikan: PostgreSQL managed, migrations versioned, object storage, transaction
 Severity: **P0**  
 Klasifikasi: **GAP REQUIREMENT**
 
-SOW meminta hazard/occurrence, confidential reporting, FRAT, hard-lock/override, CAPA, ERP, SPI, MOR, offline-first dan promotion/training (`docs/statement-of-work.md:160-175`). Source in-scope hanya memiliki halaman `maintenance/quality.vue` yang diberi label simulasi quality & safety; tidak ditemukan domain/API/page SMS end-to-end. **Nomor baris belum dapat diverifikasi** untuk implementasi karena file implementasi modul tersebut tidak ada.
+SOW historis meminta hazard/occurrence, confidential reporting, FRAT, hard-lock/override, CAPA, ERP, SPI, MOR, offline-first dan promotion/training. Dokumen SOW tersebut telah dihapus dari repo demo umum. Source in-scope saat audit hanya memiliki halaman `maintenance/quality.vue` yang diberi label simulasi quality & safety; tidak ditemukan domain/API/page SMS end-to-end. **Nomor baris belum dapat diverifikasi** untuk implementasi karena file implementasi modul tersebut tidak ada.
 
 Dampak: PT AMA dapat salah menganggap “Quality & Safety” sudah mendukung SMS, padahal siklus reporting–risk–mitigation–effectiveness–closure dan confidentiality belum tersedia. Baseline terbaru adalah PM 2 Tahun 2026; lihat `regulatory-baseline.md`.
 

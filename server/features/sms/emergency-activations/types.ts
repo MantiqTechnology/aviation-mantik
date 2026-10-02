@@ -4,7 +4,7 @@ export type EmergencyStatus = 'ACTIVE' | 'DOWNGRADED' | 'CLOSED';
 
 export interface EmergencyActivationDto {
   id: string;
-  activationNumber: string; // Format: SAR-AMA-YYYY-XXXX
+  activationNumber: string; // Format: SAR-PRT-YYYY-XXXX
   flightOperationId: string | null;
   aircraftId: string | null;
   stationId: string | null;

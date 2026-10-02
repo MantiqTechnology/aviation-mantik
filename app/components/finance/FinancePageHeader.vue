@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const branding = useBranding();
 defineProps<{
   title: string;
   subtitle: string;
@@ -17,7 +18,7 @@ const emit = defineEmits<{
   <header class="flex flex-wrap items-start justify-between gap-4">
     <div>
       <p class="text-xs font-semibold uppercase tracking-[0.16em] text-text-secondary">
-        Finance · PT AMA
+        Finance · {{ branding.operatorName }}
       </p>
       <h1 class="mt-1 text-2xl font-bold tracking-tight text-text-primary">{{ title }}</h1>
       <p class="mt-1 text-sm text-text-secondary">{{ subtitle }}</p>

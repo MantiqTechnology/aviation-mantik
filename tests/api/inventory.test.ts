@@ -21,11 +21,11 @@ import { resetDemoDatabase } from '../../server/db/reset-demo';
 process.env.DEMO_MODE = 'true';
 const testDbPath = './data/test-inventory-api.sqlite';
 const testDocumentPath = './data/test-inventory-api-documents.json';
-process.env.AMA_DB_PATH = testDbPath;
-process.env.AMA_DOCUMENT_MANIFEST = testDocumentPath;
+process.env.MANTIK_DB_PATH = testDbPath;
+process.env.MANTIK_DOCUMENT_MANIFEST = testDocumentPath;
 
-const controllerCookie = { cookie: 'ama_demo_role=Inventory%20Controller' };
-const directorCookie = { cookie: 'ama_demo_role=Director' };
+const controllerCookie = { cookie: 'mantik_demo_role=Inventory%20Controller' };
+const directorCookie = { cookie: 'mantik_demo_role=Director' };
 
 beforeAll(async () => {
   await resetDemoDatabase(testDbPath);
@@ -110,7 +110,7 @@ describe('inventory APIs', () => {
       '/api/inventory/quarantine/release',
       {
         method: 'POST',
-        headers: { cookie: 'ama_demo_role=Certifying%20Staff' },
+        headers: { cookie: 'mantik_demo_role=Certifying%20Staff' },
         body: {},
         ignoreResponseError: true
       }
@@ -121,7 +121,7 @@ describe('inventory APIs', () => {
 
     const financeMutation = await $fetch<ApiResponse<unknown>>('/api/inventory/parts', {
       method: 'POST',
-      headers: { cookie: 'ama_demo_role=Finance%20Reviewer' },
+      headers: { cookie: 'mantik_demo_role=Finance%20Reviewer' },
       body: {
         partNumber: 'DENIED-001',
         partName: 'Denied part',
@@ -162,7 +162,7 @@ describe('inventory APIs', () => {
 
     const maintenanceWarehouses = await $fetch<ApiResponse<InventoryWarehouseDto[]>>(
       '/api/inventory/warehouses',
-      { headers: { cookie: 'ama_demo_role=Maintenance%20Manager' } }
+      { headers: { cookie: 'mantik_demo_role=Maintenance%20Manager' } }
     );
     expect(maintenanceWarehouses.ok).toBe(true);
     expect(
@@ -172,7 +172,7 @@ describe('inventory APIs', () => {
 
     const stationWarehouses = await $fetch<ApiResponse<InventoryWarehouseDto[]>>(
       '/api/inventory/warehouses',
-      { headers: { cookie: 'ama_demo_role=Station%20Admin' } }
+      { headers: { cookie: 'mantik_demo_role=Station%20Admin' } }
     );
     expect(stationWarehouses.ok).toBe(true);
     expect(
@@ -192,7 +192,7 @@ describe('inventory APIs', () => {
     ).toBe(true);
 
     const mroDemand = await $fetch<ApiResponse<unknown>>('/api/inventory/maintenance-demand', {
-      headers: { cookie: 'ama_demo_role=Maintenance%20Manager' },
+      headers: { cookie: 'mantik_demo_role=Maintenance%20Manager' },
       ignoreResponseError: true
     });
     expect(!mroDemand.ok && mroDemand.error.code).toBe('FORBIDDEN');
@@ -201,7 +201,7 @@ describe('inventory APIs', () => {
       '/api/inventory/maintenance-demand/reservations',
       {
         method: 'POST',
-        headers: { cookie: 'ama_demo_role=Maintenance%20Manager' },
+        headers: { cookie: 'mantik_demo_role=Maintenance%20Manager' },
         body: {},
         ignoreResponseError: true
       }
@@ -357,14 +357,14 @@ describe('inventory APIs', () => {
   });
 
   it('hides valuation unless the active role can read it', async () => {
-    const maintenanceCookie = { cookie: 'ama_demo_role=Maintenance%20Manager' };
+    const maintenanceCookie = { cookie: 'mantik_demo_role=Maintenance%20Manager' };
     const stationDashboard = await $fetch<ApiResponse<InventoryDashboardDto>>(
       '/api/inventory/dashboard',
-      { headers: { cookie: 'ama_demo_role=Station%20Admin' } }
+      { headers: { cookie: 'mantik_demo_role=Station%20Admin' } }
     );
     const financeDashboard = await $fetch<ApiResponse<InventoryDashboardDto>>(
       '/api/inventory/dashboard',
-      { headers: { cookie: 'ama_demo_role=Finance%20Reviewer' } }
+      { headers: { cookie: 'mantik_demo_role=Finance%20Reviewer' } }
     );
     expect(stationDashboard.ok && stationDashboard.data.fifoValuationIdr).toBeNull();
     expect(financeDashboard.ok && financeDashboard.data.fifoValuationIdr).toBeGreaterThan(0);
@@ -398,8 +398,8 @@ describe('inventory APIs', () => {
   });
 
   it('enforces station scope for inventory document owners', async () => {
-    const maintenanceCookie = { cookie: 'ama_demo_role=Maintenance%20Manager' };
-    const stationCookie = { cookie: 'ama_demo_role=Station%20Admin' };
+    const maintenanceCookie = { cookie: 'mantik_demo_role=Maintenance%20Manager' };
+    const stationCookie = { cookie: 'mantik_demo_role=Station%20Admin' };
     const djjDocuments = await $fetch<ApiResponse<MasterDocumentDto[]>>(
       '/api/documents?ownerType=inventory_lot&ownerId=inv-lot-filter-260701',
       { headers: maintenanceCookie }

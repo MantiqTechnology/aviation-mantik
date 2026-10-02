@@ -5,13 +5,13 @@ import type {
   StationNetworkAttention,
   StationNetworkDashboardDto
 } from '#shared/contracts/operational-dashboards';
-import { AMA_THEME_HEX } from '../../../constants/themeColors';
+import { MANTIK_THEME_HEX } from '../../../constants/themeColors';
 import {
   formatLastUpdated,
   money
 } from '../../../features/station-operations/utils/stationOperationsFormatters';
 
-useHead({ title: 'Network Dashboard - PT AMA' });
+useHead({ title: 'Network Dashboard - Operator Demo' });
 
 const { period, anchorDate, query, periodOptions } = useOperationalDashboardFilters();
 const activeTab = ref<'overview' | 'performance' | 'financial'>('overview');
@@ -47,7 +47,7 @@ const activitySeries = computed<ApexAxisChartSeries>(() =>
 );
 const activityOptions = computed<ApexOptions>(() => ({
   chart: { toolbar: { show: false }, fontFamily: 'Inter, sans-serif' },
-  colors: [AMA_THEME_HEX.info, AMA_THEME_HEX.secondary, AMA_THEME_HEX.success],
+  colors: [MANTIK_THEME_HEX.info, MANTIK_THEME_HEX.secondary, MANTIK_THEME_HEX.success],
   dataLabels: { enabled: false },
   grid: { borderColor: '#E6ECF2', strokeDashArray: 3 },
   legend: { position: 'top', horizontalAlign: 'left' },
@@ -74,7 +74,7 @@ const riskSeries = computed<ApexAxisChartSeries>(() => [
 ]);
 const riskOptions = computed<ApexOptions>(() => ({
   chart: { toolbar: { show: false }, fontFamily: 'Inter, sans-serif' },
-  colors: [AMA_THEME_HEX.danger],
+  colors: [MANTIK_THEME_HEX.danger],
   dataLabels: { enabled: true },
   plotOptions: { bar: { borderRadius: 4, horizontal: true } },
   xaxis: {
@@ -94,7 +94,7 @@ const financialSeries = computed<ApexAxisChartSeries>(() => [
 ]);
 const financialOptions = computed<ApexOptions>(() => ({
   chart: { toolbar: { show: false }, fontFamily: 'Inter, sans-serif' },
-  colors: [AMA_THEME_HEX.secondary],
+  colors: [MANTIK_THEME_HEX.secondary],
   dataLabels: { enabled: false },
   grid: { borderColor: '#E6ECF2', strokeDashArray: 3 },
   plotOptions: { bar: { borderRadius: 4, columnWidth: '52%' } },

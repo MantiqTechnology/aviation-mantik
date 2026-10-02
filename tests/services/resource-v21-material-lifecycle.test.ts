@@ -29,7 +29,7 @@ async function createResourceFixture() {
 }
 
 async function createFileResourceFixture() {
-  const dir = mkdtempSync(join(tmpdir(), 'ama-m2-race-'));
+  const dir = mkdtempSync(join(tmpdir(), 'mantik-m2-race-'));
   const dbPath = join(dir, 'race.sqlite');
   const client = createDbClient(dbPath);
   dropDemoDatabase(client.sqlite);
@@ -277,7 +277,7 @@ describe('Resource-v21 M2 material lifecycle', () => {
     expect(trace?.installations[0]).toMatchObject({
       reservationId: reservation.id,
       issueId: issued.issueId,
-      aircraftId: 'ac-pk-amc',
+      aircraftId: 'ac-pk-dmc',
       partId: 'inv-part-brake-pc6',
       serializedPartId: 'inv-serial-brake-001'
     });

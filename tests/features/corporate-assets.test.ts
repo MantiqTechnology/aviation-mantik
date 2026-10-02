@@ -80,7 +80,7 @@ describe('Corporate Assets domain', () => {
         reason: 'Persistent movement feed test.',
         movedAt: '2026-07-22T08:00:00.000Z'
       },
-      'USR-DEMO-ADMIN',
+      'USR-OPERATOR-ADMIN',
       ['ALL'],
       true
     );
@@ -102,7 +102,7 @@ describe('Corporate Assets domain', () => {
           }
         ]
       },
-      'USR-DEMO-ADMIN',
+      'USR-OPERATOR-ADMIN',
       ['ALL']
     );
 
@@ -148,7 +148,7 @@ describe('Corporate Assets domain', () => {
           }
         ]
       },
-      'USR-DEMO-ADMIN',
+      'USR-OPERATOR-ADMIN',
       ['ALL']
     );
     assets.moveAsset(
@@ -163,7 +163,7 @@ describe('Corporate Assets domain', () => {
         reason: 'Approved cross-station custody transfer.',
         movedAt: '2026-07-22T08:00:00.000Z'
       },
-      'USR-DEMO-ADMIN',
+      'USR-OPERATOR-ADMIN',
       ['ALL'],
       true
     );
@@ -197,9 +197,9 @@ describe('Corporate Assets domain', () => {
       lifecycleStatus: 'ACTIVE' as const,
       conditionStatus: 'SERVICEABLE' as const
     };
-    expect(assets.createAsset(base, 'USR-DEMO-ADMIN', ['ALL']).assetCode).toBe('IT-00002');
+    expect(assets.createAsset(base, 'USR-OPERATOR-ADMIN', ['ALL']).assetCode).toBe('IT-00002');
     expect(() =>
-      assets.createAsset({ ...base, name: 'Duplicate' }, 'USR-DEMO-ADMIN', ['ALL'])
+      assets.createAsset({ ...base, name: 'Duplicate' }, 'USR-OPERATOR-ADMIN', ['ALL'])
     ).toThrow(/serial number already exists/u);
   });
 
@@ -218,7 +218,7 @@ describe('Corporate Assets domain', () => {
         reason: 'Approved internal reassignment.',
         movedAt: '2026-07-22T10:00:00.000Z'
       },
-      'USR-DEMO-ADMIN',
+      'USR-OPERATOR-ADMIN',
       ['ALL'],
       true
     );
@@ -234,7 +234,7 @@ describe('Corporate Assets domain', () => {
           reason: 'Stale assignment attempt.',
           startedAt: '2026-07-22T11:00:00.000Z'
         },
-        'USR-DEMO-ADMIN',
+        'USR-OPERATOR-ADMIN',
         ['ALL']
       );
       throw new Error('Expected stale mutation to fail.');
@@ -262,7 +262,7 @@ describe('Corporate Assets domain', () => {
         lifecycleStatus: 'ACTIVE',
         conditionStatus: 'SERVICEABLE'
       },
-      'USR-DEMO-ADMIN',
+      'USR-OPERATOR-ADMIN',
       ['ALL']
     );
     expect(created.custodyStatus).toBe('ASSIGNED');
@@ -280,7 +280,7 @@ describe('Corporate Assets domain', () => {
         reason: 'Transfer custody with movement.',
         movedAt: '2026-07-22T12:00:00.000Z'
       },
-      'USR-DEMO-ADMIN',
+      'USR-OPERATOR-ADMIN',
       ['ALL'],
       true
     );
@@ -392,7 +392,7 @@ describe('Corporate Assets domain', () => {
           }
         ]
       },
-      'USR-DEMO-ADMIN',
+      'USR-OPERATOR-ADMIN',
       ['ALL']
     );
     const audit = audited.audits.find((item) => item.hasDiscrepancy);
@@ -405,13 +405,13 @@ describe('Corporate Assets domain', () => {
       conditionStatus: 'SERVICEABLE' as const,
       reason: 'Physical location verified.'
     };
-    const reconciled = assets.reconcileAsset(asset.id, input, 'USR-DEMO-ADMIN', ['ALL']);
+    const reconciled = assets.reconcileAsset(asset.id, input, 'USR-OPERATOR-ADMIN', ['ALL']);
     expect(reconciled.locationDetail).toBe('DJJ Finance Room');
     expect(() =>
       assets.reconcileAsset(
         asset.id,
         { ...input, expectedVersion: reconciled.version },
-        'USR-DEMO-ADMIN',
+        'USR-OPERATOR-ADMIN',
         ['ALL']
       )
     ).toThrow(/already been reconciled/u);

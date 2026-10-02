@@ -1,9 +1,9 @@
-import type { 
-  RegulatoryReportItem, 
-  CompanyCertificateItem, 
-  OperationsManualItem, 
-  RegulatoryDeadlineItem, 
-  AuthorityMessageItem 
+import type {
+  RegulatoryReportItem,
+  CompanyCertificateItem,
+  OperationsManualItem,
+  RegulatoryDeadlineItem,
+  AuthorityMessageItem
 } from './types';
 
 export class SmsRegulatoryRepository {
@@ -128,7 +128,7 @@ export class SmsRegulatoryRepository {
       },
       {
         id: 'cert-4',
-        name: 'C of A (PK-AMA, AMB, AMC)',
+        name: 'C of A (PK-DMA, DMB, DMC)',
         desc: 'Certificate of Airworthiness for Fleet',
         expiry: '15 Sep 2026',
         status: 'Expiring Soon',
@@ -161,32 +161,150 @@ export class SmsRegulatoryRepository {
 
   async getOperationsManuals(): Promise<OperationsManualItem[]> {
     return [
-      { doc: 'Company Operations Manual (OM-A)', rev: '12.4', date: '01 Aug 2026', status: 'Approved', color: 'success', icon: 'mdi-book-check-outline', id: 'om-a' },
-      { doc: 'Aircraft Operating Manual (OM-B) C208B', rev: '09.1', date: '10 Aug 2026', status: 'Approved', color: 'success', icon: 'mdi-book-check-outline', id: 'om-b' },
-      { doc: 'Route & Aerodrome Manual (OM-C) Papua', rev: '15.0', date: '20 Aug 2026', status: 'Pending DKUPPU', color: 'warning', icon: 'mdi-book-clock-outline', id: 'om-c' },
-      { doc: 'Safety Management System (SMS) Manual', rev: '05.1', date: '15 Aug 2026', status: 'Pending DKUPPU', color: 'warning', icon: 'mdi-book-clock-outline', id: 'om-sms' },
-      { doc: 'Emergency Response Plan (ERP)', rev: '03.0', date: '20 Jul 2026', status: 'Approved', color: 'success', icon: 'mdi-book-check-outline', id: 'om-erp' },
-      { doc: 'Dangerous Goods Manual (OM-D)', rev: '08.2', date: '19 Aug 2026', status: 'Under Revision', color: 'error', icon: 'mdi-book-edit-outline', id: 'om-d' }
+      {
+        doc: 'Company Operations Manual (OM-A)',
+        rev: '12.4',
+        date: '01 Aug 2026',
+        status: 'Approved',
+        color: 'success',
+        icon: 'mdi-book-check-outline',
+        id: 'om-a'
+      },
+      {
+        doc: 'Aircraft Operating Manual (OM-B) C208B',
+        rev: '09.1',
+        date: '10 Aug 2026',
+        status: 'Approved',
+        color: 'success',
+        icon: 'mdi-book-check-outline',
+        id: 'om-b'
+      },
+      {
+        doc: 'Route & Aerodrome Manual (OM-C) Papua',
+        rev: '15.0',
+        date: '20 Aug 2026',
+        status: 'Pending DKUPPU',
+        color: 'warning',
+        icon: 'mdi-book-clock-outline',
+        id: 'om-c'
+      },
+      {
+        doc: 'Safety Management System (SMS) Manual',
+        rev: '05.1',
+        date: '15 Aug 2026',
+        status: 'Pending DKUPPU',
+        color: 'warning',
+        icon: 'mdi-book-clock-outline',
+        id: 'om-sms'
+      },
+      {
+        doc: 'Emergency Response Plan (ERP)',
+        rev: '03.0',
+        date: '20 Jul 2026',
+        status: 'Approved',
+        color: 'success',
+        icon: 'mdi-book-check-outline',
+        id: 'om-erp'
+      },
+      {
+        doc: 'Dangerous Goods Manual (OM-D)',
+        rev: '08.2',
+        date: '19 Aug 2026',
+        status: 'Under Revision',
+        color: 'error',
+        icon: 'mdi-book-edit-outline',
+        id: 'om-d'
+      }
     ];
   }
 
   async getUpcomingDeadlines(): Promise<RegulatoryDeadlineItem[]> {
     return [
-      { id: 'MOR-2026-048', subject: 'Runway Excursion Borme (BME)', timeLeft: '17h 04m', progress: 85 },
-      { id: 'SDR-2026-021', subject: 'Chip Detector Warning PK-RCX', timeLeft: '43h 04m', progress: 40 },
-      { id: 'C of A RENEWAL', subject: 'Airworthiness Cert for PK-AMA', timeLeft: '22 Days', progress: 65 },
-      { id: 'AOC RENEWAL', subject: 'Submit Application to DKUPPU', timeLeft: '80 Days', progress: 15 },
-      { id: 'CAPA FOLLOW-UP', subject: 'Submit corrective action for AUD-26', timeLeft: '5 Days', progress: 90 }
+      {
+        id: 'MOR-2026-048',
+        subject: 'Runway Excursion Borme (BME)',
+        timeLeft: '17h 04m',
+        progress: 85
+      },
+      {
+        id: 'SDR-2026-021',
+        subject: 'Chip Detector Warning PK-RCX',
+        timeLeft: '43h 04m',
+        progress: 40
+      },
+      {
+        id: 'C of A RENEWAL',
+        subject: 'Airworthiness Cert for PK-DMA',
+        timeLeft: '22 Days',
+        progress: 65
+      },
+      {
+        id: 'AOC RENEWAL',
+        subject: 'Submit Application to DKUPPU',
+        timeLeft: '80 Days',
+        progress: 15
+      },
+      {
+        id: 'CAPA FOLLOW-UP',
+        subject: 'Submit corrective action for AUD-26',
+        timeLeft: '5 Days',
+        progress: 90
+      }
     ];
   }
 
   async getAuthorityInbox(): Promise<AuthorityMessageItem[]> {
     return [
-      { ref: 'msg-1', authority: 'DKUPPU (DGCA)', subject: 'Receipt Acknowledged: MOR-2026-047', message: 'The report regarding windshear at Oksibil has been reviewed and accepted. Ensure FRAT limits are enforced.', datetime: '24 Aug 2026 10:15', icon: 'mdi-email-check', color: 'success' },
-      { ref: 'msg-2', authority: 'Otban Wilayah X', subject: 'Notice: Temporary Closure of Elelim Airstrip', message: 'Elelim airstrip is closed for 3 days due to tribal conflict around the perimeter. Please divert flights.', datetime: '23 Aug 2026 14:00', icon: 'mdi-information-outline', color: 'info' },
-      { ref: 'msg-3', authority: 'KNKT', subject: 'Request for Information: AMA126 Borme', message: 'Please provide crew manifests and weather briefing documents for the runway excursion incident at Borme.', datetime: '22 Aug 2026 09:30', icon: 'mdi-alert-circle-outline', color: 'warning' },
-      { ref: 'msg-4', authority: 'AirNav Indonesia', subject: 'Coordination: VHF Freq Change Wamena', message: 'New approach frequency for Wamena valley sector will be effective starting next week.', datetime: '21 Aug 2026 11:20', icon: 'mdi-radio-tower', color: 'primary' },
-      { ref: 'msg-5', authority: 'DKUPPU (DGCA)', subject: 'Approval: SMS Manual Rev 05', message: 'The submitted SMS manual revision has been stamped and approved by the Directorate.', datetime: '20 Aug 2026 15:45', icon: 'mdi-check-decagram', color: 'success' }
+      {
+        ref: 'msg-1',
+        authority: 'DKUPPU (DGCA)',
+        subject: 'Receipt Acknowledged: MOR-2026-047',
+        message:
+          'The report regarding windshear at Oksibil has been reviewed and accepted. Ensure FRAT limits are enforced.',
+        datetime: '24 Aug 2026 10:15',
+        icon: 'mdi-email-check',
+        color: 'success'
+      },
+      {
+        ref: 'msg-2',
+        authority: 'Otban Wilayah X',
+        subject: 'Notice: Temporary Closure of Elelim Airstrip',
+        message:
+          'Elelim airstrip is closed for 3 days due to tribal conflict around the perimeter. Please divert flights.',
+        datetime: '23 Aug 2026 14:00',
+        icon: 'mdi-information-outline',
+        color: 'info'
+      },
+      {
+        ref: 'msg-3',
+        authority: 'KNKT',
+        subject: 'Request for Information: PRT126 Borme',
+        message:
+          'Please provide crew manifests and weather briefing documents for the runway excursion incident at Borme.',
+        datetime: '22 Aug 2026 09:30',
+        icon: 'mdi-alert-circle-outline',
+        color: 'warning'
+      },
+      {
+        ref: 'msg-4',
+        authority: 'AirNav Indonesia',
+        subject: 'Coordination: VHF Freq Change Wamena',
+        message:
+          'New approach frequency for Wamena valley sector will be effective starting next week.',
+        datetime: '21 Aug 2026 11:20',
+        icon: 'mdi-radio-tower',
+        color: 'primary'
+      },
+      {
+        ref: 'msg-5',
+        authority: 'DKUPPU (DGCA)',
+        subject: 'Approval: SMS Manual Rev 05',
+        message:
+          'The submitted SMS manual revision has been stamped and approved by the Directorate.',
+        datetime: '20 Aug 2026 15:45',
+        icon: 'mdi-check-decagram',
+        color: 'success'
+      }
     ];
   }
 }

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="Illustrative demo aircraft">
+  <rect width="640" height="360" rx="16" fill="#F7F9FA"/>
+  <path d="m124 199 185-21 119-83h30l-69 80 114 13 36-36h21l-17 52-107 13-123-2-189 3z" fill="#082B49"/>
+  <path d="m257 216 106 51h31l-62-53" fill="#0E8C8A"/>
+  <text x="320" y="316" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#5D6A6B">Demo aircraft · Illustrative image</text>
+</svg>

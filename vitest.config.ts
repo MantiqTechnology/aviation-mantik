@@ -4,7 +4,7 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
   define: {
     'process.env.DEMO_SEED_DATE': JSON.stringify('2026-07-17'),
-    'process.env.AMA_SKIP_STARTUP_RESET': JSON.stringify('true')
+    'process.env.MANTIK_SKIP_STARTUP_RESET': JSON.stringify('true')
   },
   resolve: {
     alias: {
@@ -21,8 +21,8 @@ export default defineConfig({
     fileParallelism: false,
     testTimeout: 15000,
     env: {
-      DEMO_SESSION_SECRET: 'ama-test-session-secret-at-least-32-bytes',
-      AMA_ALLOW_LEGACY_TEST_ROLE_COOKIE: 'true'
+      DEMO_SESSION_SECRET: 'mantik-test-session-secret-at-least-32-bytes',
+      MANTIK_ALLOW_LEGACY_TEST_ROLE_COOKIE: 'true'
     }
   }
 });

@@ -3,7 +3,7 @@ import { expect, test, type BrowserContext } from '@playwright/test';
 async function setRole(context: BrowserContext, baseURL: string | undefined, role: string) {
   const cookieUrl = new URL('/', baseURL ?? 'http://localhost:3100').toString();
   await context.clearCookies();
-  await context.addCookies([{ name: 'ama_demo_role', value: role, url: cookieUrl }]);
+  await context.addCookies([{ name: 'mantik_demo_role', value: role, url: cookieUrl }]);
 }
 
 test('approved maintenance data library renders controlled table, filters, drawer, and preview', async ({
@@ -22,11 +22,11 @@ test('approved maintenance data library renders controlled table, filters, drawe
   await expect(page.getByRole('columnheader', { name: 'Document' })).toBeVisible();
   await expect(page.getByRole('columnheader', { name: 'Lifecycle' })).toBeVisible();
   const libraryTable = page.locator('.approved-data-table');
-  await expect(libraryTable.getByText('AMA-MROV2-AMM-001')).toBeVisible();
-  await expect(libraryTable.getByText('AMA-MROV2-IPC-001')).toBeVisible();
-  await expect(libraryTable.getByText('AMA-MROV2-SRM-001')).toBeVisible();
-  await expect(libraryTable.getByText('AMA-OPR-PROC-001')).toBeVisible();
-  await expect(libraryTable.getByText('AMA-MOD-INS-004')).toBeVisible();
+  await expect(libraryTable.getByText('PRT-MROV2-AMM-001')).toBeVisible();
+  await expect(libraryTable.getByText('PRT-MROV2-IPC-001')).toBeVisible();
+  await expect(libraryTable.getByText('PRT-MROV2-SRM-001')).toBeVisible();
+  await expect(libraryTable.getByText('PRT-OPR-PROC-001')).toBeVisible();
+  await expect(libraryTable.getByText('PRT-MOD-INS-004')).toBeVisible();
 
   await expect(page.getByText('Revisi Aktif')).toBeVisible();
   await expect(page.getByText('File Dokumen')).toBeVisible();
@@ -36,17 +36,17 @@ test('approved maintenance data library renders controlled table, filters, drawe
     .getByRole('button', { name: /Under Review/u })
     .first()
     .click();
-  await expect(libraryTable.getByText('AMA-MROV2-IPC-001')).toBeVisible();
+  await expect(libraryTable.getByText('PRT-MROV2-IPC-001')).toBeVisible();
   await expect(libraryTable.getByText('Technical Review')).toBeVisible();
-  await expect(libraryTable.getByText('AMA-MROV2-SRM-001')).toHaveCount(0);
+  await expect(libraryTable.getByText('PRT-MROV2-SRM-001')).toHaveCount(0);
 
   await page.getByRole('button', { name: 'Reset Filter' }).click();
   await page.getByRole('textbox', { name: /Cari dokumen/u }).fill('SRM');
-  await expect(libraryTable.getByText('AMA-MROV2-SRM-001')).toBeVisible();
-  await expect(libraryTable.getByText('AMA-MROV2-IPC-001')).toHaveCount(0);
+  await expect(libraryTable.getByText('PRT-MROV2-SRM-001')).toBeVisible();
+  await expect(libraryTable.getByText('PRT-MROV2-IPC-001')).toHaveCount(0);
 
   await page.getByRole('button', { name: 'Reset Filter' }).click();
-  await page.getByText('AMA-MROV2-AMM-001').first().click();
+  await page.getByText('PRT-MROV2-AMM-001').first().click();
   await page.getByRole('button', { name: 'Preview' }).click();
   await expect(page.getByText('DEMONSTRATION DATA — NOT FOR ACTUAL MAINTENANCE')).toBeVisible();
   await expect(page.getByRole('button', { name: 'Open Full Document' }).last()).toBeVisible();

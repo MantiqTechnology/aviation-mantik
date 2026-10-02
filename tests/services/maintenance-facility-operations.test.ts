@@ -38,7 +38,7 @@ async function createFixture() {
 }
 
 async function createFileFixture() {
-  const dir = mkdtempSync(join(tmpdir(), 'ama-m85-race-'));
+  const dir = mkdtempSync(join(tmpdir(), 'mantik-m85-race-'));
   const dbPath = join(dir, 'race.sqlite');
   const client = createDbClient(dbPath);
   dropDemoDatabase(client.sqlite);
@@ -181,7 +181,7 @@ describe('M8.5 maintenance facility operations', () => {
     const { services } = await createFixture();
     let workPackage = createWorkPackage(
       services,
-      'ac-pk-ama',
+      'ac-pk-dma',
       'M8.5 command-center blocked handback package'
     );
     workPackage = services.maintenance.addJobCard(
@@ -229,7 +229,7 @@ describe('M8.5 maintenance facility operations', () => {
       slotId: slot.id,
       workPackageId: workPackage.id,
       packageNumber: workPackage.packageNumber,
-      aircraftRegistrationNumber: 'PK-AMA',
+      aircraftRegistrationNumber: 'PK-DMA',
       stationCode: 'DJJ',
       bayCode: slot.bayCode,
       custodyStatus: 'IN_BAY',
@@ -268,12 +268,12 @@ describe('M8.5 maintenance facility operations', () => {
     const { services } = await createFixture();
     const firstWorkPackage = createWorkPackage(
       services,
-      'ac-pk-ama',
+      'ac-pk-dma',
       'M8.5 command-center fallback package one'
     );
     const secondWorkPackage = createWorkPackage(
       services,
-      'ac-pk-ama',
+      'ac-pk-dma',
       'M8.5 command-center fallback package two'
     );
     const firstSlot = bookSlot(services, firstWorkPackage.id);
@@ -287,7 +287,7 @@ describe('M8.5 maintenance facility operations', () => {
 
     const dashboard = services.maintenance.getFacilityOperations(
       {
-        aircraftId: 'ac-pk-ama',
+        aircraftId: 'ac-pk-dma',
         dateFrom: '2026-08-27T00:00:00+09:00',
         dateTo: '2026-08-30T00:00:00+09:00'
       },
@@ -299,12 +299,12 @@ describe('M8.5 maintenance facility operations', () => {
         expect.objectContaining({
           slotId: firstSlot.id,
           workPackageId: firstWorkPackage.id,
-          aircraftRegistrationNumber: 'PK-AMA'
+          aircraftRegistrationNumber: 'PK-DMA'
         }),
         expect.objectContaining({
           slotId: secondSlot.id,
           workPackageId: secondWorkPackage.id,
-          aircraftRegistrationNumber: 'PK-AMA'
+          aircraftRegistrationNumber: 'PK-DMA'
         })
       ])
     );
@@ -410,7 +410,7 @@ describe('M8.5 maintenance facility operations', () => {
 
   it('blocks Flight while technical release is complete but maintenance handback is still pending', async () => {
     const { services, sqlite } = await createFixture();
-    const workPackage = createWorkPackage(services, 'ac-pk-ama');
+    const workPackage = createWorkPackage(services, 'ac-pk-dma');
     const slot = bookSlot(services, workPackage.id);
     const requirement = services.maintenance.createGseRequirement(
       workPackage.id,
@@ -438,11 +438,11 @@ describe('M8.5 maintenance facility operations', () => {
     );
     services.maintenance.confirmAircraftInBay(slot.id, {}, manager);
 
-    markWorkPackageReleasedForCustodyTest(sqlite, workPackage.id, 'ac-pk-ama');
+    markWorkPackageReleasedForCustodyTest(sqlite, workPackage.id, 'ac-pk-dma');
 
     services.maintenance.markAircraftReadyForMoveOut(slot.id, {}, manager);
     const operational =
-      services.maintenance.evaluateMaintenanceOperationalAvailability('ac-pk-ama');
+      services.maintenance.evaluateMaintenanceOperationalAvailability('ac-pk-dma');
     expect(operational.available).toBe(false);
     expect(operational.status).toBe('HANDBACK_PENDING');
 
@@ -455,7 +455,7 @@ describe('M8.5 maintenance facility operations', () => {
     services.maintenance.moveAircraftOut(slot.id, {}, manager);
     services.maintenance.handbackAircraft(slot.id, { idempotencyKey: 'm85-handback' }, manager);
     expect(
-      services.maintenance.evaluateMaintenanceOperationalAvailability('ac-pk-ama').status
+      services.maintenance.evaluateMaintenanceOperationalAvailability('ac-pk-dma').status
     ).toBe('AVAILABLE');
   });
 

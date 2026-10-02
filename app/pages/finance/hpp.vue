@@ -5,7 +5,7 @@ import type {
   FinanceReportingPeriodDto
 } from '#shared/features/finance/reporting';
 
-useHead({ title: 'Aviation Profitability - PT AMA' });
+useHead({ title: 'Aviation Profitability - Operator Demo' });
 const selectedPeriod = ref('');
 const view = ref<'flights' | 'routes' | 'stations'>('flights');
 const search = ref('');
@@ -93,7 +93,9 @@ function money(value: number) {
       <section class="metric-grid mb-5">
         <VCard border class="pa-4" rounded="lg">
           <div class="text-caption">Attributed revenue</div>
-          <div class="text-h6 font-weight-bold">{{ money(report.totals.revenueMinor) }}</div>
+          <div class="text-h6 font-weight-bold">
+            {{ money(report.totals.revenueMinor) }}
+          </div>
         </VCard><VCard border class="pa-4" rounded="lg">
           <div class="text-caption">Attributed direct cost</div>
           <div class="text-h6 font-weight-bold">{{ money(report.totals.costMinor) }}</div>
@@ -179,9 +181,7 @@ function money(value: number) {
               <tr v-for="item in selected.evidence" :key="item.journalLineId">
                 <td>
                   <NuxtLink :to="`/finance/accounting?journal=${item.journalId}`">
-                    {{
-                      item.journalNumber
-                    }}
+                    {{ item.journalNumber }}
                   </NuxtLink>
                 </td>
                 <td>{{ item.accountCode }} · {{ item.accountName }}</td>

@@ -1704,16 +1704,12 @@ watch(
                               </td>
                               <td>
                                 <VChip size="x-small" variant="tonal">
-                                  {{
-                                    candidate.availabilityStatus
-                                  }}
+                                  {{ candidate.availabilityStatus }}
                                 </VChip>
                               </td>
                               <td>
                                 <VChip size="x-small" variant="tonal">
-                                  {{
-                                    candidate.eligibilityStatus
-                                  }}
+                                  {{ candidate.eligibilityStatus }}
                                 </VChip>
                               </td>
                               <td class="text-caption">
@@ -1765,9 +1761,7 @@ watch(
                         <td>{{ alloc.toolSerialNumber || '-' }}</td>
                         <td>
                           <VChip size="x-small" variant="tonal">
-                            {{
-                              toolCalibrationState(alloc)
-                            }}
+                            {{ toolCalibrationState(alloc) }}
                           </VChip>
                         </td>
                         <td>{{ alloc.custodianName || alloc.custodianPersonnelId || '-' }}</td>
@@ -1857,7 +1851,7 @@ watch(
                             <tr>
                               <th>Personel</th>
                               <th>Lisensi</th>
-                              <th>PT AMA Auth</th>
+                              <th>Operator Demo Auth</th>
                               <th>Ketersediaan</th>
                               <th>Eligibility</th>
                               <th>Alasan</th>
@@ -1874,16 +1868,12 @@ watch(
                               <td>{{ candidate.authorizationReference || '-' }}</td>
                               <td>
                                 <VChip size="x-small" variant="tonal">
-                                  {{
-                                    candidate.availabilityStatus
-                                  }}
+                                  {{ candidate.availabilityStatus }}
                                 </VChip>
                               </td>
                               <td>
                                 <VChip size="x-small" variant="tonal">
-                                  {{
-                                    candidate.eligibilityStatus
-                                  }}
+                                  {{ candidate.eligibilityStatus }}
                                 </VChip>
                               </td>
                               <td class="text-caption">
@@ -1937,9 +1927,7 @@ watch(
                         <td>{{ assign.licenceNumber || '-' }}</td>
                         <td>
                           <VChip size="x-small" variant="tonal">
-                            {{
-                              assign.eligibilityStatus || 'PENDING'
-                            }}
+                            {{ assign.eligibilityStatus || 'PENDING' }}
                           </VChip>
                         </td>
                         <td>

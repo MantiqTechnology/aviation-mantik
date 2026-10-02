@@ -18,7 +18,7 @@ import { resetDemoDatabase } from '../../server/db/reset-demo';
 process.env.DEMO_MODE = 'true';
 process.env.DEMO_SEED_DATE = '2026-08-01';
 const testDbPath = './data/test-maintenance-api.sqlite';
-process.env.AMA_DB_PATH = testDbPath;
+process.env.MANTIK_DB_PATH = testDbPath;
 
 beforeAll(async () => {
   await resetDemoDatabase(testDbPath);
@@ -48,7 +48,7 @@ describe('maintenance command-center APIs', () => {
   ])('lets %s read the Internal AOG scenario snapshot', async (role) => {
     const response = await $fetch<ApiResponse<InternalAogDemoDto>>(
       '/api/maintenance/demo/internal-aog',
-      { headers: { cookie: `ama_demo_role=${encodeURIComponent(role)}` } }
+      { headers: { cookie: `mantik_demo_role=${encodeURIComponent(role)}` } }
     );
 
     expect(response.ok).toBe(true);
@@ -56,13 +56,13 @@ describe('maintenance command-center APIs', () => {
     expect(response.data).toMatchObject({
       scenarioId: 'INTERNAL_AOG_MATERIAL',
       workPackage: { id: 'mroaog-work-package' },
-      aircraft: { registrationNumber: 'PK-AMD' }
+      aircraft: { registrationNumber: 'PK-DMD' }
     });
   });
 
   it('restricts reset to the Maintenance Manager and restores a partially-run scenario', async () => {
-    const inventoryCookie = 'ama_demo_role=Inventory%20Controller';
-    const managerCookie = 'ama_demo_role=Maintenance%20Manager';
+    const inventoryCookie = 'mantik_demo_role=Inventory%20Controller';
+    const managerCookie = 'mantik_demo_role=Maintenance%20Manager';
     const demand = await $fetch<ApiResponse<InventoryMaintenanceDemandDto[]>>(
       '/api/inventory/maintenance-demand',
       {
@@ -129,7 +129,7 @@ describe('maintenance command-center APIs', () => {
   it('returns authoritative seeded MRO queues without client-side placeholder metrics', async () => {
     const response = await $fetch<ApiResponse<MaintenanceCommandCenterDto>>(
       '/api/maintenance/command-center',
-      { headers: { cookie: 'ama_demo_role=Maintenance%20Manager' } }
+      { headers: { cookie: 'mantik_demo_role=Maintenance%20Manager' } }
     );
 
     expect(response.ok).toBe(true);
@@ -148,7 +148,7 @@ describe('maintenance command-center APIs', () => {
       expect.arrayContaining([
         expect.objectContaining({
           cardNumber: 'MWP-MROV1-ACTIVE-JC-001',
-          aircraftRegistrationNumber: 'PK-AMC'
+          aircraftRegistrationNumber: 'PK-DMC'
         })
       ])
     );
@@ -179,13 +179,13 @@ describe('maintenance command-center APIs', () => {
     );
     expect(response.data.onTimePerformancePct).toEqual(expect.any(Number));
     expect(response.data.dueInspectionTasks).toEqual(expect.any(Array));
-    expect(response.data.authorizationNotice).toContain('PT AMA authorization verified');
+    expect(response.data.authorizationNotice).toContain('Operator Demo authorization verified');
   });
 
   it('returns repository-compatible selectors for contextual creation and signer licence state', async () => {
     const manager = await $fetch<ApiResponse<MaintenanceSelectorDataDto>>(
       '/api/maintenance/selector-data',
-      { headers: { cookie: 'ama_demo_role=Maintenance%20Manager' } }
+      { headers: { cookie: 'mantik_demo_role=Maintenance%20Manager' } }
     );
     expect(manager.ok).toBe(true);
     if (!manager.ok) throw new Error(manager.error.message);
@@ -220,7 +220,7 @@ describe('maintenance command-center APIs', () => {
 
     const certifier = await $fetch<ApiResponse<MaintenanceSelectorDataDto>>(
       '/api/maintenance/selector-data',
-      { headers: { cookie: 'ama_demo_role=Certifying%20Staff' } }
+      { headers: { cookie: 'mantik_demo_role=Certifying%20Staff' } }
     );
     expect(certifier.ok).toBe(true);
     if (!certifier.ok) throw new Error(certifier.error.message);
@@ -244,7 +244,7 @@ describe('maintenance command-center APIs', () => {
     const response = await $fetch<ApiResponse<{ items: MaintenanceWorkPackageDto[] }>>(
       '/api/maintenance/work-packages',
       {
-        headers: { cookie: 'ama_demo_role=Maintenance%20Manager' },
+        headers: { cookie: 'mantik_demo_role=Maintenance%20Manager' },
         query: { status: '', search: '', limit: 50, offset: 0 },
         ignoreResponseError: true
       }
@@ -286,7 +286,7 @@ describe('maintenance command-center APIs', () => {
         total: number;
       }>
     >('/api/maintenance/records', {
-      headers: { cookie: 'ama_demo_role=Maintenance%20Manager' },
+      headers: { cookie: 'mantik_demo_role=Maintenance%20Manager' },
       query: { package: 'MWP-MROV1-RTS', limit: 50, offset: 0 },
       ignoreResponseError: true
     });
@@ -307,7 +307,7 @@ describe('maintenance command-center APIs', () => {
   it('rejects unsafe work-package creation contexts before writing package records', async () => {
     const linkedDefect = await $fetch<ApiResponse<unknown>>('/api/maintenance/work-packages', {
       method: 'POST',
-      headers: { cookie: 'ama_demo_role=Maintenance%20Manager' },
+      headers: { cookie: 'mantik_demo_role=Maintenance%20Manager' },
       body: {
         aircraftId: 'ac-pk-mra',
         primaryDefectId: 'adefect-mrov1-release',
@@ -326,7 +326,7 @@ describe('maintenance command-center APIs', () => {
       '/api/maintenance/work-packages',
       {
         method: 'POST',
-        headers: { cookie: 'ama_demo_role=Maintenance%20Manager' },
+        headers: { cookie: 'mantik_demo_role=Maintenance%20Manager' },
         body: {
           aircraftId: 'ac-pk-mrb',
           primaryDefectId: 'adefect-mrov1-selector',
@@ -345,7 +345,7 @@ describe('maintenance command-center APIs', () => {
 
     const mismatchedFlight = await $fetch<ApiResponse<unknown>>('/api/maintenance/work-packages', {
       method: 'POST',
-      headers: { cookie: 'ama_demo_role=Maintenance%20Manager' },
+      headers: { cookie: 'mantik_demo_role=Maintenance%20Manager' },
       body: {
         aircraftId: 'ac-pk-mrb',
         primaryDefectId: 'adefect-mrov1-selector',
@@ -386,7 +386,7 @@ describe('maintenance command-center APIs', () => {
 
     const unassessed = await $fetch<ApiResponse<unknown>>('/api/maintenance/work-packages', {
       method: 'POST',
-      headers: { cookie: 'ama_demo_role=Maintenance%20Manager' },
+      headers: { cookie: 'mantik_demo_role=Maintenance%20Manager' },
       body: {
         aircraftId: 'ac-pk-mrb',
         primaryDefectId: 'adefect-api-unassessed',
@@ -405,7 +405,7 @@ describe('maintenance command-center APIs', () => {
   it('supports atomic contextual package creation from selector output', async () => {
     const selectors = await $fetch<ApiResponse<MaintenanceSelectorDataDto>>(
       '/api/maintenance/selector-data',
-      { headers: { cookie: 'ama_demo_role=Maintenance%20Manager' } }
+      { headers: { cookie: 'mantik_demo_role=Maintenance%20Manager' } }
     );
     expect(selectors.ok).toBe(true);
     if (!selectors.ok) throw new Error(selectors.error.message);
@@ -418,7 +418,7 @@ describe('maintenance command-center APIs', () => {
       '/api/maintenance/work-packages',
       {
         method: 'POST',
-        headers: { cookie: 'ama_demo_role=Maintenance%20Manager' },
+        headers: { cookie: 'mantik_demo_role=Maintenance%20Manager' },
         body: {
           aircraftId: defect!.aircraftId,
           primaryDefectId: defect!.id,
@@ -472,7 +472,7 @@ describe('maintenance command-center APIs', () => {
       '/api/maintenance/work-packages/mwp-mrov1-release-ready/actions/release',
       {
         method: 'POST',
-        headers: { cookie: 'ama_demo_role=Certifying%20Staff' },
+        headers: { cookie: 'mantik_demo_role=Certifying%20Staff' },
         body,
         ignoreResponseError: true
       }
@@ -485,14 +485,14 @@ describe('maintenance command-center APIs', () => {
       actorUserId: 'USR-CERTIFYING-STAFF',
       licenseNumber: 'AME-CERT-MRO-001',
       companyAuthorizationValidated: true,
-      companyAuthorizationNumber: 'PTAMA-MRO-AUTH-REL-001'
+      companyAuthorizationNumber: 'Operator Demo-MRO-AUTH-REL-001'
     });
 
     const replay = await $fetch<ApiResponse<MaintenanceWorkPackageDto>>(
       '/api/maintenance/work-packages/mwp-mrov1-release-ready/actions/release',
       {
         method: 'POST',
-        headers: { cookie: 'ama_demo_role=Certifying%20Staff' },
+        headers: { cookie: 'mantik_demo_role=Certifying%20Staff' },
         body,
         ignoreResponseError: true
       }
@@ -524,7 +524,7 @@ describe('maintenance command-center APIs', () => {
     const technicalRecord = await $fetch<ApiResponse<MaintenanceTechnicalRecordPackageDto>>(
       '/api/maintenance/work-packages/mwp-mrov1-release-ready/technical-record',
       {
-        headers: { cookie: 'ama_demo_role=Certifying%20Staff' },
+        headers: { cookie: 'mantik_demo_role=Certifying%20Staff' },
         ignoreResponseError: true
       }
     );
@@ -558,7 +558,7 @@ describe('maintenance command-center APIs', () => {
     const authorized = await $fetch<ApiResponse<MaintenanceTechnicalRecordPackageDto>>(
       '/api/maintenance/work-packages/mwp-mrov1-release-ready/technical-record',
       {
-        headers: { cookie: 'ama_demo_role=Maintenance%20Manager' },
+        headers: { cookie: 'mantik_demo_role=Maintenance%20Manager' },
         ignoreResponseError: true
       }
     );
@@ -579,7 +579,7 @@ describe('maintenance command-center APIs', () => {
     const denied = await $fetch<ApiResponse<unknown>>(
       '/api/maintenance/work-packages/mwp-mrov1-release-ready/technical-record',
       {
-        headers: { cookie: 'ama_demo_role=Inventory%20Controller' },
+        headers: { cookie: 'mantik_demo_role=Inventory%20Controller' },
         ignoreResponseError: true
       }
     );
@@ -588,7 +588,7 @@ describe('maintenance command-center APIs', () => {
     const missing = await $fetch<ApiResponse<unknown>>(
       '/api/maintenance/work-packages/mwp-does-not-exist/technical-record',
       {
-        headers: { cookie: 'ama_demo_role=Maintenance%20Manager' },
+        headers: { cookie: 'mantik_demo_role=Maintenance%20Manager' },
         ignoreResponseError: true
       }
     );
@@ -599,7 +599,7 @@ describe('maintenance command-center APIs', () => {
     const active = await $fetch<ApiResponse<MaintenanceWorkPackageDto>>(
       '/api/maintenance/work-packages/mwp-mrov1-active',
       {
-        headers: { cookie: 'ama_demo_role=Maintenance%20Manager' },
+        headers: { cookie: 'mantik_demo_role=Maintenance%20Manager' },
         ignoreResponseError: true
       }
     );
@@ -609,7 +609,7 @@ describe('maintenance command-center APIs', () => {
       '/api/maintenance/work-packages/mwp-mrov1-active/actions/request-release',
       {
         method: 'POST',
-        headers: { cookie: 'ama_demo_role=Maintenance%20Manager' },
+        headers: { cookie: 'mantik_demo_role=Maintenance%20Manager' },
         body: { expectedVersion: active.data.version },
         ignoreResponseError: true
       }
@@ -636,7 +636,7 @@ describe('maintenance command-center APIs', () => {
       '/api/maintenance/work-packages/mwp-mrov1-release-ready/actions/release',
       {
         method: 'POST',
-        headers: { cookie: 'ama_demo_role=Finance%20Reviewer' },
+        headers: { cookie: 'mantik_demo_role=Finance%20Reviewer' },
         body: {
           expectedVersion: 4,
           releaseNumber: 'RTS-MROV1-FINANCE-DENIED',

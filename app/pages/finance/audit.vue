@@ -27,7 +27,7 @@ type ExportResult = {
   rowCount: number;
   createdAt: string;
 };
-useHead({ title: 'Finance Audit & Export - PT AMA' });
+useHead({ title: 'Finance Audit & Export - Operator Demo' });
 const { can } = useAuthorization();
 const canExport = computed(() => can('finance.audit.export').allowed);
 const selectedPeriod = ref('');
@@ -241,9 +241,7 @@ async function traceJournal() {
       </VCol>
     </VRow>
     <VAlert v-if="exportError" class="mb-4" color="error" title="Export failed" variant="tonal">
-      {{
-        exportError
-      }}
+      {{ exportError }}
     </VAlert>
     <VCard v-if="trace" border class="mb-5" rounded="lg">
       <VCardTitle>Accounting lineage</VCardTitle><VCardText>

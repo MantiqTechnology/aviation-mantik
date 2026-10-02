@@ -7,7 +7,7 @@ import type {
   ApexOptions
 } from 'apexcharts';
 import type { OpsDashboardDto } from '#shared/contracts/operational-dashboards';
-import { AMA_THEME_HEX } from '../../constants/themeColors';
+import { MANTIK_THEME_HEX } from '../../constants/themeColors';
 
 const { period, anchorDate, stationId, query, periodOptions } = useOperationalDashboardFilters();
 const { can } = useAuthorization();
@@ -74,9 +74,9 @@ const activityOptions = computed<ApexOptions>(() => ({
       }
     }
   },
-  colors: [AMA_THEME_HEX.info, AMA_THEME_HEX.secondary, AMA_THEME_HEX.success],
+  colors: [MANTIK_THEME_HEX.info, MANTIK_THEME_HEX.secondary, MANTIK_THEME_HEX.success],
   dataLabels: { enabled: false },
-  grid: { borderColor: AMA_THEME_HEX.borderDefault, strokeDashArray: 4 },
+  grid: { borderColor: MANTIK_THEME_HEX.borderDefault, strokeDashArray: 4 },
   legend: { position: 'top', horizontalAlign: 'left' },
   markers: { size: 4, strokeWidth: 0 },
   stroke: { curve: 'straight', width: [2, 3, 3] },
@@ -107,7 +107,7 @@ const trackingOptions = computed<ApexOptions>(() => ({
       }
     }
   },
-  colors: [AMA_THEME_HEX.success, AMA_THEME_HEX.warning, AMA_THEME_HEX.textSecondary],
+  colors: [MANTIK_THEME_HEX.success, MANTIK_THEME_HEX.warning, MANTIK_THEME_HEX.textSecondary],
   labels: data.value?.trackingHealth.data.map((point) => point.label) ?? [],
   legend: { position: 'bottom' },
   plotOptions: {
@@ -137,7 +137,7 @@ const routeOptions = computed<ApexOptions>(() => ({
       }
     }
   },
-  colors: [AMA_THEME_HEX.primary],
+  colors: [MANTIK_THEME_HEX.primary],
   dataLabels: { enabled: true },
   plotOptions: { bar: { borderRadius: 4, horizontal: true } },
   xaxis: { categories: data.value?.routeTraffic.data.map((point) => point.label) ?? [] }
@@ -170,7 +170,7 @@ const movementOptions = computed<ApexOptions>(() => ({
       }
     }
   },
-  colors: [AMA_THEME_HEX.secondary, AMA_THEME_HEX.info],
+  colors: [MANTIK_THEME_HEX.secondary, MANTIK_THEME_HEX.info],
   dataLabels: { enabled: false },
   legend: { position: 'top', horizontalAlign: 'left' },
   plotOptions: { bar: { borderRadius: 3, columnWidth: '52%' } },
@@ -194,7 +194,7 @@ const capabilityOptions = computed<ApexOptions>(() => ({
     toolbar: { show: false },
     fontFamily: 'Inter, sans-serif'
   },
-  colors: [AMA_THEME_HEX.secondary, AMA_THEME_HEX.borderDefault],
+  colors: [MANTIK_THEME_HEX.secondary, MANTIK_THEME_HEX.borderDefault],
   dataLabels: { enabled: true },
   legend: { position: 'bottom' },
   plotOptions: { bar: { borderRadius: 4, horizontal: true } },

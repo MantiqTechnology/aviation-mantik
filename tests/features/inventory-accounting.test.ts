@@ -53,7 +53,7 @@ function insertComponentOperationalEvent(
         reversal_of_movement_id, total_base_value_idr, is_finalized,
         created_by_user_id, created_at
       ) VALUES (?, ?, 'INSTALL', 'COMPONENT_INSTALLATION', ?, 'st-djj', NULL,
-        'ac-pk-ama', NULL, 'Accounting test component installation', 'POSTED',
+        'ac-pk-dma', NULL, 'Accounting test component installation', 'POSTED',
         NULL, 3200000, 1, 'USR-MAINTENANCE-MANAGER', '2026-07-17T12:00:00.000Z')`
     )
     .run(`inv-move-${id}`, `MOV-${id}`, `installation-${id}`);
@@ -64,7 +64,7 @@ function insertComponentOperationalEvent(
         flight_id, currency_id, source_amount_minor, exchange_rate_to_idr_micros,
         base_amount_idr, integration_status, payload_json, created_at
       ) VALUES (?, 'INVENTORY_COMPONENT_INSTALL', 'COMPONENT_INSTALLATION',
-        'inv-serial-starter-installed', ?, 'st-djj', 'ac-pk-ama', NULL, 'cur-idr',
+        'inv-serial-starter-installed', ?, 'st-djj', 'ac-pk-dma', NULL, 'cur-idr',
         3200000, 1000000, 3200000, 'PENDING_INTEGRATION', ?, '2026-07-17T12:00:00.000Z')`
     )
     .run(`inv-ae-${id}`, `inv-move-${id}`, JSON.stringify(payload));
@@ -83,7 +83,7 @@ function insertMaintenanceOperationalEvent(
         reversal_of_movement_id, total_base_value_idr, is_finalized,
         created_by_user_id, created_at
       ) VALUES (?, ?, 'ISSUE', 'MAINTENANCE_PART_ISSUE', ?, 'st-djj', NULL,
-        'ac-pk-ama', NULL, 'Accounting test heavy component issue', 'POSTED',
+        'ac-pk-dma', NULL, 'Accounting test heavy component issue', 'POSTED',
         NULL, 3200000, 0, 'USR-INVENTORY-CONTROLLER', '2026-07-17T10:00:00.000Z')`
     )
     .run(`inv-move-${id}`, `MOV-${id}`, `issue-${id}`);
@@ -107,8 +107,8 @@ function insertMaintenanceOperationalEvent(
         id, issue_number, maintenance_handoff_id, target_type, target_id,
         asset_maintenance_work_order_id, aircraft_id, flight_id, warehouse_id,
         reason, movement_id, status, total_parts_value_idr, issued_by_user_id, issued_at
-      ) VALUES (?, ?, 'maintenance-landed-filter-draft', 'AIRCRAFT', 'ac-pk-ama', NULL,
-        'ac-pk-ama', NULL,
+      ) VALUES (?, ?, 'maintenance-landed-filter-draft', 'AIRCRAFT', 'ac-pk-dma', NULL,
+        'ac-pk-dma', NULL,
         'inv-wh-djj-main', 'Accounting test heavy issue', ?, 'ISSUED', 3200000,
         'USR-INVENTORY-CONTROLLER', '2026-07-17T10:00:00.000Z')`
     )
@@ -127,7 +127,7 @@ function insertMaintenanceOperationalEvent(
         flight_id, currency_id, source_amount_minor, exchange_rate_to_idr_micros,
         base_amount_idr, integration_status, payload_json, created_at
       ) VALUES (?, 'INVENTORY_MAINTENANCE_ISSUE', 'MAINTENANCE_PART_ISSUE', ?, ?,
-        'st-djj', 'ac-pk-ama', NULL, 'cur-idr', 3200000, 1000000, 3200000,
+        'st-djj', 'ac-pk-dma', NULL, 'cur-idr', 3200000, 1000000, 3200000,
         'PENDING_INTEGRATION', ?, '2026-07-17T10:00:00.000Z')`
     )
     .run(`inv-ae-${id}`, `issue-${id}`, `inv-move-${id}`, JSON.stringify(payload));
@@ -186,7 +186,7 @@ describe('inventory accounting integration', () => {
       {
         maintenanceHandoffId: null,
         maintenanceCategory: 'ROUTINE',
-        aircraftId: 'ac-pk-ama',
+        aircraftId: 'ac-pk-dma',
         flightId: null,
         warehouseId: 'inv-wh-djj-main',
         reason: 'Routine oil replenishment.',
@@ -229,7 +229,7 @@ describe('inventory accounting integration', () => {
       {
         maintenanceHandoffId: null,
         maintenanceCategory: 'MINOR_REPAIR',
-        aircraftId: 'ac-pk-ama',
+        aircraftId: 'ac-pk-dma',
         flightId: null,
         warehouseId: 'inv-wh-djj-main',
         reason: 'Minor oil servicing.',
@@ -284,12 +284,12 @@ describe('inventory accounting integration', () => {
     );
     expect(routineJournal).toBeDefined();
     expect(
-      journalForEvent(sqlite, 'AIRCRAFT_COMPONENT_READY_FOR_USE', 'inv-install-starter-pk-ama')
+      journalForEvent(sqlite, 'AIRCRAFT_COMPONENT_READY_FOR_USE', 'inv-install-starter-pk-dma')
     ).toBeUndefined();
     expect(services.accounting.listExceptions({ limit: 250, offset: 0 })).toContainEqual(
       expect.objectContaining({
         eventType: 'AIRCRAFT_COMPONENT_READY_FOR_USE',
-        sourceId: 'inv-install-starter-pk-ama',
+        sourceId: 'inv-install-starter-pk-dma',
         reasonCode: 'MANUAL_REVIEW_REQUIRED'
       })
     );
@@ -308,7 +308,7 @@ describe('inventory accounting integration', () => {
       {
         maintenanceHandoffId: null,
         maintenanceCategory: 'HEAVY_MAINTENANCE',
-        aircraftId: 'ac-pk-ama',
+        aircraftId: 'ac-pk-dma',
         flightId: null,
         warehouseId: 'inv-wh-djj-main',
         reason: 'Heavy maintenance brake replacement.',
@@ -336,7 +336,7 @@ describe('inventory accounting integration', () => {
     await inventory.installSerializedPart(
       'inv-serial-brake-001',
       {
-        aircraftId: 'ac-pk-ama',
+        aircraftId: 'ac-pk-dma',
         position: 'LEFT MAIN BRAKE',
         installedAt: '2026-07-17T12:00:00.000+09:00',
         hoursAtInstall: 1510,
@@ -488,7 +488,7 @@ describe('inventory accounting integration', () => {
     const journal = journalForEvent(
       sqlite,
       'AIRCRAFT_COMPONENT_READY_FOR_USE',
-      'inv-install-starter-pk-ama'
+      'inv-install-starter-pk-dma'
     );
     expect(journalLines(sqlite, journal!.id)).toEqual([
       { account_code: '1310', debit: 3_200_000, credit: 0 },
@@ -533,7 +533,7 @@ describe('inventory accounting integration', () => {
     const journal = journalForEvent(
       sqlite,
       'AIRCRAFT_COMPONENT_READY_FOR_USE',
-      'inv-install-starter-pk-ama'
+      'inv-install-starter-pk-dma'
     );
     services.accounting.submitJournal(journal!.id, 'USR-FINANCE-REVIEWER');
     services.accounting.approveJournal(journal!.id, 'USR-DIRECTOR');
@@ -586,7 +586,7 @@ describe('inventory accounting integration', () => {
         .filter(
           (exception) =>
             exception.eventType === 'AIRCRAFT_COMPONENT_READY_FOR_USE' &&
-            exception.sourceId === 'inv-install-starter-pk-ama'
+            exception.sourceId === 'inv-install-starter-pk-dma'
         )
     ).toContainEqual(
       expect.objectContaining({

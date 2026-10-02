@@ -6,13 +6,13 @@ import { runMigrations } from '../server/db/migrate';
 
 loadLocalEnv();
 
-const dbPath = process.env.AMA_DB_PATH ?? './data/ama-demo.sqlite';
+const dbPath = process.env.MANTIK_DB_PATH ?? './data/mantik-demo.sqlite';
 const exportPath =
-  process.env.AMA_EXPORT_PATH ??
+  process.env.MANTIK_EXPORT_PATH ??
   join(
     process.cwd(),
     'data',
-    `ama-demo-export-${new Date().toISOString().replace(/[:.]/g, '-')}.json`
+    `mantik-demo-export-${new Date().toISOString().replace(/[:.]/g, '-')}.json`
   );
 
 const { sqlite } = createDbClient(dbPath);
@@ -38,4 +38,4 @@ await mkdir(dirname(exportPath), { recursive: true });
 await writeFile(exportPath, JSON.stringify(payload, null, 2));
 sqlite.close();
 
-console.log(`Exported AMA demo data to ${exportPath}`);
+console.log(`Exported MANTIK demo data to ${exportPath}`);

@@ -6,7 +6,7 @@ import type {
   ProfitAndLossDto
 } from '#shared/features/finance/reporting';
 
-useHead({ title: 'Financial Statements - PT AMA' });
+useHead({ title: 'Financial Statements - Operator Demo' });
 const route = useRoute();
 const selectedPeriod = ref('');
 const tab = ref<'pnl' | 'balance-sheet' | 'ratios'>(
@@ -90,7 +90,7 @@ const categories = [
   { id: 'LIQUIDITY', label: 'Likuiditas (3)' },
   { id: 'SOLVENCY', label: 'Solvabilitas (2)' },
   { id: 'PROFITABILITY', label: 'Profitabilitas (3)' },
-  { id: 'AVIATION', label: 'Kinerja Aviasi AMA (4)' }
+  { id: 'AVIATION', label: 'Kinerja Aviasi Operator Perintis (4)' }
 ];
 
 type RatioAnalysisItem = {
@@ -281,12 +281,12 @@ const comprehensiveRatios = computed<RatioAnalysisItem[]>(() => {
       status: roa >= 5.0 ? 'Efisien' : 'Optimalisasi',
       tone: roa >= 5.0 ? 'success' : 'info',
       evaluation:
-        'Efektivitas seluruh modal aset pesawat dan operasional AMA dalam menghasilkan keuntungan bersih.'
+        'Efektivitas seluruh modal aset pesawat dan operasional operator perintis dalam menghasilkan keuntungan bersih.'
     },
     {
       id: 'cpfh',
       category: 'AVIATION',
-      categoryLabel: 'Kinerja Aviasi AMA',
+      categoryLabel: 'Kinerja Aviasi Operator Perintis',
       name: 'Cost per Flight Hour (CPFH)',
       formula: 'Total Beban Operasi Langsung ÷ Total Jam Terbang (FH)',
       sourceAccount: 'Akun 5100-5500 ÷ Total Jam Terbang Riil',
@@ -299,7 +299,7 @@ const comprehensiveRatios = computed<RatioAnalysisItem[]>(() => {
     {
       id: 'rpfh',
       category: 'AVIATION',
-      categoryLabel: 'Kinerja Aviasi AMA',
+      categoryLabel: 'Kinerja Aviasi Operator Perintis',
       name: 'Revenue per Flight Hour (RPFH)',
       formula: 'Total Pendapatan Penerbangan ÷ Total Jam Terbang (FH)',
       sourceAccount: 'Akun 4000 ÷ Total Jam Terbang Riil',
@@ -312,7 +312,7 @@ const comprehensiveRatios = computed<RatioAnalysisItem[]>(() => {
     {
       id: 'fuel-ratio',
       category: 'AVIATION',
-      categoryLabel: 'Kinerja Aviasi AMA',
+      categoryLabel: 'Kinerja Aviasi Operator Perintis',
       name: 'Fuel Cost Ratio (% Avtur)',
       formula: 'Beban Bahan Bakar Avtur ÷ Total Beban Langsung',
       sourceAccount: 'Akun 5100 ÷ Total Beban Langsung (5100-5500)',
@@ -325,7 +325,7 @@ const comprehensiveRatios = computed<RatioAnalysisItem[]>(() => {
     {
       id: 'mro-ratio',
       category: 'AVIATION',
-      categoryLabel: 'Kinerja Aviasi AMA',
+      categoryLabel: 'Kinerja Aviasi Operator Perintis',
       name: 'Maintenance Cost Ratio (% MRO)',
       formula: 'Beban Pemeliharaan & Parts ÷ Total Beban Langsung',
       sourceAccount: 'Akun 5400 ÷ Total Beban Langsung (5100-5500)',
@@ -447,7 +447,8 @@ const bsRatioCards = computed(() => {
       <div>
         <h1 class="text-h5 font-weight-bold">Financial Statements</h1>
         <p class="text-body-2 text-medium-emphasis mt-1 mb-0">
-          Posisi keuangan, laba rugi, dan rasio kelayakan bisnis PT AMA — dihitung dari Buku Besar.
+          Posisi keuangan, laba rugi, dan rasio kelayakan bisnis Operator Demo — dihitung dari Buku
+          Besar.
         </p>
       </div>
       <div class="d-flex align-center ga-3">

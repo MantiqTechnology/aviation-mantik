@@ -1,0 +1,627 @@
+openapi: 3.1.0
+info:
+  title: AMA Flight Charter Demo API
+  version: 0.1.0-draft
+  description: P0 route inventory. DTO placeholders must be resolved from the Nuxt consumers in backlog stage A.
+servers:
+  - url: /
+security:
+  - demoSession: []
+paths:
+  /api/auth/login:
+    post:
+      operationId: demoLogin
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '401': { $ref: '#/components/responses/Failure' }
+  /api/auth/session:
+    get:
+      operationId: demoSession
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '401': { $ref: '#/components/responses/Failure' }
+  /api/auth/logout:
+    post:
+      operationId: demoLogout
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+  /api/flight-operations/lookups:
+    get:
+      operationId: getFlightLookups
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+  /api/flight-operations/flights:
+    get:
+      operationId: listFlights
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+  /api/flight-operations/flights/{id}:
+    parameters:
+      - $ref: '#/components/parameters/FlightId'
+    get:
+      operationId: getFlight
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '404': { $ref: '#/components/responses/Failure' }
+  /api/flight-operations/flights/{id}/manifest:
+    parameters:
+      - $ref: '#/components/parameters/FlightId'
+    get:
+      operationId: getFlightManifest
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+  /api/flight-operations/flights/{id}/operational-audit:
+    parameters:
+      - $ref: '#/components/parameters/FlightId'
+    get:
+      operationId: getFlightAudit
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+  /api/flight-operations/dashboard:
+    get:
+      operationId: getFlightDashboard
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+  /api/invoices:
+    get:
+      operationId: listInvoices
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+  /api/invoices/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema: { type: string }
+    get:
+      operationId: getInvoice
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+  /api/flight-operations/flights/{id}/actions/submit:
+    post:
+      operationId: command1
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '409': { $ref: '#/components/responses/Failure' }
+        '422': { $ref: '#/components/responses/Failure' }
+  /api/flight-operations/flights/{id}/actions/evaluate:
+    post:
+      operationId: command2
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '409': { $ref: '#/components/responses/Failure' }
+        '422': { $ref: '#/components/responses/Failure' }
+  /api/flight-operations/flights/{id}/actions/accept-readiness:
+    post:
+      operationId: command3
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Approval'
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '409': { $ref: '#/components/responses/Failure' }
+        '422': { $ref: '#/components/responses/Failure' }
+  /api/flight-operations/flights/{id}/actions/approve:
+    post:
+      operationId: command4
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Approval'
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '409': { $ref: '#/components/responses/Failure' }
+        '422': { $ref: '#/components/responses/Failure' }
+  /api/flight-operations/flights/{id}/actions/schedule:
+    post:
+      operationId: command5
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lifecycle'
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '409': { $ref: '#/components/responses/Failure' }
+        '422': { $ref: '#/components/responses/Failure' }
+  /api/flight-operations/flights/{id}/actions/open-check-in:
+    post:
+      operationId: command6
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lifecycle'
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '409': { $ref: '#/components/responses/Failure' }
+        '422': { $ref: '#/components/responses/Failure' }
+  /api/flight-operations/flights/{id}/actions/close-check-in:
+    post:
+      operationId: command7
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Concurrency'
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '409': { $ref: '#/components/responses/Failure' }
+        '422': { $ref: '#/components/responses/Failure' }
+  /api/flight-operations/flights/{id}/actions/mark-ready-for-departure:
+    post:
+      operationId: command8
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Concurrency'
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '409': { $ref: '#/components/responses/Failure' }
+        '422': { $ref: '#/components/responses/Failure' }
+  /api/flight-operations/flights/{id}/actions/depart:
+    post:
+      operationId: command9
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActualTime'
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '409': { $ref: '#/components/responses/Failure' }
+        '422': { $ref: '#/components/responses/Failure' }
+  /api/flight-operations/flights/{id}/actions/land:
+    post:
+      operationId: command10
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActualTime'
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '409': { $ref: '#/components/responses/Failure' }
+        '422': { $ref: '#/components/responses/Failure' }
+  /api/flight-operations/flights/{id}/actions/pending-closure:
+    post:
+      operationId: command11
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lifecycle'
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '409': { $ref: '#/components/responses/Failure' }
+        '422': { $ref: '#/components/responses/Failure' }
+  /api/flight-operations/flights/{id}/actions/close:
+    post:
+      operationId: command12
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '409': { $ref: '#/components/responses/Failure' }
+        '422': { $ref: '#/components/responses/Failure' }
+  /api/flight-operations/manifests/{manifestId}/actions/submit:
+    post:
+      operationId: command13
+      parameters:
+        - name: manifestId
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExpectedVersion'
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '409': { $ref: '#/components/responses/Failure' }
+        '422': { $ref: '#/components/responses/Failure' }
+  /api/flight-operations/manifests/{manifestId}/actions/approve:
+    post:
+      operationId: command14
+      parameters:
+        - name: manifestId
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExpectedVersion'
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '409': { $ref: '#/components/responses/Failure' }
+        '422': { $ref: '#/components/responses/Failure' }
+  /api/flight-operations/station-services/{id}/actions/complete:
+    post:
+      operationId: command15
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StationCompletion'
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '409': { $ref: '#/components/responses/Failure' }
+        '422': { $ref: '#/components/responses/Failure' }
+  /api/flight-operations/station-services/{id}/actions/verify:
+    post:
+      operationId: command16
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExpectedVersion'
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '409': { $ref: '#/components/responses/Failure' }
+        '422': { $ref: '#/components/responses/Failure' }
+  /api/flight-operations/station-costs/{id}/actions/submit:
+    post:
+      operationId: command17
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExpectedVersion'
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '409': { $ref: '#/components/responses/Failure' }
+        '422': { $ref: '#/components/responses/Failure' }
+  /api/flight-operations/station-costs/{id}/actions/approve:
+    post:
+      operationId: command18
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExpectedVersion'
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '409': { $ref: '#/components/responses/Failure' }
+        '422': { $ref: '#/components/responses/Failure' }
+  /api/flight-operations/maintenance/{id}/actions/approve:
+    post:
+      operationId: command19
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '409': { $ref: '#/components/responses/Failure' }
+        '422': { $ref: '#/components/responses/Failure' }
+  /api/flight-operations/fuel:
+    get:
+      operationId: listFuel
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '409': { $ref: '#/components/responses/Failure' }
+        '422': { $ref: '#/components/responses/Failure' }
+    post:
+      operationId: createFuel
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Payload'
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '409': { $ref: '#/components/responses/Failure' }
+        '422': { $ref: '#/components/responses/Failure' }
+  /api/flight-operations/fuel/{id}/actions/{action}:
+    post:
+      operationId: fuelAction
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      parameters:
+        - name: action
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FuelAction'
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '409': { $ref: '#/components/responses/Failure' }
+        '422': { $ref: '#/components/responses/Failure' }
+  /api/flight-operations/station-services:
+    get:
+      operationId: listStationServices
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '409': { $ref: '#/components/responses/Failure' }
+        '422': { $ref: '#/components/responses/Failure' }
+    post:
+      operationId: createStationService
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Payload'
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '409': { $ref: '#/components/responses/Failure' }
+        '422': { $ref: '#/components/responses/Failure' }
+  /api/flight-operations/station-costs:
+    get:
+      operationId: listStationCosts
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '409': { $ref: '#/components/responses/Failure' }
+        '422': { $ref: '#/components/responses/Failure' }
+    post:
+      operationId: createStationCost
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Payload'
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '409': { $ref: '#/components/responses/Failure' }
+        '422': { $ref: '#/components/responses/Failure' }
+  /api/flight-operations/station-costs/{id}:
+    patch:
+      operationId: updateStationCost
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Payload'
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '409': { $ref: '#/components/responses/Failure' }
+        '422': { $ref: '#/components/responses/Failure' }
+  /api/flight-operations/maintenance:
+    get:
+      operationId: listMaintenance
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '409': { $ref: '#/components/responses/Failure' }
+        '422': { $ref: '#/components/responses/Failure' }
+    post:
+      operationId: createMaintenance
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Payload'
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '409': { $ref: '#/components/responses/Failure' }
+        '422': { $ref: '#/components/responses/Failure' }
+components:
+  securitySchemes:
+    demoSession:
+      type: apiKey
+      in: cookie
+      name: ama_demo_session
+  parameters:
+    FlightId:
+      name: id
+      in: path
+      required: true
+      schema: { type: string, minLength: 1 }
+  schemas:
+    Payload:
+      description: P0 write DTO placeholder; resolve from shared contracts and active Nuxt consumer in stage A.
+      type: object
+      additionalProperties: true
+    Approval:
+      type: object
+      required: [expectedVersion, readinessRevision, note]
+      properties:
+        expectedVersion: { type: integer, minimum: 1 }
+        readinessRevision: { type: integer, minimum: 1 }
+        note: { type: string, minLength: 3, maxLength: 1000 }
+    Lifecycle:
+      type: object
+      required: [expectedVersion, idempotencyKey]
+      properties:
+        expectedVersion: { type: integer, minimum: 1 }
+        idempotencyKey: { type: string, minLength: 12, maxLength: 200 }
+        note: { type: string, maxLength: 500 }
+    Concurrency:
+      type: object
+      required: [expectedUpdatedAt]
+      properties:
+        expectedUpdatedAt: { type: string, format: date-time }
+        note: { type: string, maxLength: 500 }
+    ActualTime:
+      type: object
+      required: [actualAt]
+      properties:
+        actualAt: { type: string, format: date-time }
+        stationId: { type: string }
+        note: { type: string, maxLength: 1000 }
+        expectedVersion: { type: integer, minimum: 1 }
+        idempotencyKey: { type: string, minLength: 8, maxLength: 200 }
+    ExpectedVersion:
+      type: object
+      required: [expectedVersion]
+      properties:
+        expectedVersion: { type: integer, minimum: 1 }
+    StationCompletion:
+      type: object
+      required: [expectedVersion, completionRecord, evidenceReference]
+      properties:
+        expectedVersion: { type: integer, minimum: 1 }
+        completionRecord: { type: string, minLength: 5, maxLength: 1000 }
+        evidenceReference: { type: string, minLength: 3, maxLength: 500 }
+    FuelAction:
+      type: object
+      required: [expectedVersion, idempotencyKey]
+      properties:
+        expectedVersion: { type: integer, minimum: 1 }
+        idempotencyKey: { type: string, minLength: 8, maxLength: 200 }
+        approvedQuantityLitre: { type: number, exclusiveMinimum: 0 }
+        actualUpliftLitre: { type: number, exclusiveMinimum: 0 }
+        actualPricePerLitre: { type: number, minimum: 0 }
+    Login:
+      type: object
+      required: [username, password]
+      properties:
+        username: { type: string, minLength: 3, maxLength: 64 }
+        password: { type: string, minLength: 8, maxLength: 128 }
+    Envelope:
+      type: object
+      required: [ok, meta]
+      properties:
+        ok: { type: boolean }
+        data:
+          description: Replace with consumer-audited P0 DTO at stage A.
+        error:
+          type: object
+          properties:
+            code: { type: string }
+            message: { type: string }
+            details: {}
+        meta:
+          type: object
+          required: [requestId, demoMode]
+          properties:
+            requestId: { type: string }
+            demoMode: { type: boolean }
+            count: { type: integer, minimum: 0 }
+  responses:
+    Success:
+      description: Request succeeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Envelope'
+    Failure:
+      description: Request rejected
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Envelope'

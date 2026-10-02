@@ -6,7 +6,7 @@ import type {
 } from '#shared/features/finance/closing';
 import type { FinanceReportingPeriodDto } from '#shared/features/finance/reporting';
 
-useHead({ title: 'Period Closing - PT AMA' });
+useHead({ title: 'Period Closing - Operator Demo' });
 const { can } = useAuthorization();
 const session = useDemoSession();
 const canPost = computed(() => can('finance.accounting.post').allowed);
@@ -402,10 +402,7 @@ async function approveReopen(id: string) {
                 type="number"
               />
             </VCol><VCol cols="12"><VTextField v-model="accrual.description" label="Description" /></VCol><VCol cols="12">
-              <VTextField
-                v-model="accrual.evidenceReference"
-                label="Evidence reference"
-              />
+              <VTextField v-model="accrual.evidenceReference" label="Evidence reference" />
             </VCol>
           </VRow>
         </VCardText><VCardActions>
@@ -444,10 +441,7 @@ async function approveReopen(id: string) {
                 type="number"
               />
             </VCol><VCol cols="12">
-              <VTextField
-                v-model="prepayment.evidenceReference"
-                label="Evidence reference"
-              />
+              <VTextField v-model="prepayment.evidenceReference" label="Evidence reference" />
             </VCol>
           </VRow>
         </VCardText><VCardActions>

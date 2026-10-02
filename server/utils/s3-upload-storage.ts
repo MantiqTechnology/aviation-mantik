@@ -70,7 +70,7 @@ function safeExtension(filename: string) {
 }
 
 function getMaxUploadBytes() {
-  const configured = Number(process.env.AMA_UPLOAD_MAX_BYTES);
+  const configured = Number(process.env.MANTIK_UPLOAD_MAX_BYTES);
   return Number.isFinite(configured) && configured > 0 ? configured : DEFAULT_MAX_UPLOAD_BYTES;
 }
 
@@ -262,7 +262,7 @@ function withConfiguredUrls(config: S3UploadConfig, upload: LocalUploadDto): Loc
 }
 
 function manifestKey() {
-  return process.env.S3_UPLOAD_MANIFEST_KEY?.trim() || '_manifests/ama-uploads.json';
+  return process.env.S3_UPLOAD_MANIFEST_KEY?.trim() || '_manifests/mantik-uploads.json';
 }
 
 async function s3Request(
@@ -431,7 +431,7 @@ export async function saveS3Upload(input: SaveS3UploadInput) {
     contentType,
     isImage: Boolean(input.contentType?.startsWith('image/')),
     uploadedAt,
-    uploadedBy: input.uploadedBy ?? 'AMA System Administrator',
+    uploadedBy: input.uploadedBy ?? 'Operator Demo System Administrator',
     status: input.status ?? 'ATTACHED',
     stationScopes: input.stationScopes ?? ['ALL'],
     purpose: input.purpose ?? 'DOCUMENT',

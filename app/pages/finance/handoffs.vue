@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { FinanceHandoffDto, FinanceHandoffStatus } from '#shared/features/finance/handoffs';
 
-useHead({ title: 'Finance Handoffs - PT AMA' });
+useHead({ title: 'Finance Handoffs - Operator Demo' });
 
 const { can } = useAuthorization();
 const search = ref('');
@@ -265,7 +265,7 @@ function getHandoffRatioImpact(item: FinanceHandoffDto) {
         </div>
         <p class="text-body-2 text-medium-emphasis mb-0">
           Jembatan integrasi data operasional (Penerbangan, Avtur, MRO, Tiket) menuju pembukuan Buku
-          Besar PT AMA.
+          Besar Operator Demo.
         </p>
       </div>
 

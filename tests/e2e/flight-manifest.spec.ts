@@ -3,7 +3,7 @@ import { expect, test, type BrowserContext } from '@playwright/test';
 async function setRole(context: BrowserContext, baseURL: string | undefined, role: string) {
   const cookieUrl = new URL('/', baseURL ?? 'http://localhost:3100').toString();
   await context.clearCookies();
-  await context.addCookies([{ name: 'ama_demo_role', value: role, url: cookieUrl }]);
+  await context.addCookies([{ name: 'mantik_demo_role', value: role, url: cookieUrl }]);
 }
 
 test('manifest control renders dispatch workspace and prepares passenger and cargo load', async ({
@@ -15,7 +15,7 @@ test('manifest control renders dispatch workspace and prepares passenger and car
   await page.goto('/flights/fop-route-profile-djj-nbx/manifest', { waitUntil: 'networkidle' });
 
   await expect(page.getByRole('heading', { name: 'Manifest Control' })).toBeVisible();
-  await expect(page.getByLabel('Flight manifest metadata')).toContainText('AMA-');
+  await expect(page.getByLabel('Flight manifest metadata')).toContainText('PRT-');
   await expect(page.getByText('Departure not ready')).toBeVisible();
   await expect(page.getByRole('button', { name: /Review Required Actions/u })).toBeVisible();
   await expect(page.locator('.domain-card').filter({ hasText: 'Passenger' })).toBeVisible();

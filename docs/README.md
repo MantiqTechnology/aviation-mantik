@@ -1,6 +1,6 @@
-# PT AMA Ops Interface
+# Mantik Aviation
 
-Nuxt 3 + TypeScript demo app for an internal aviation operations prototype. It is shaped like a production application, but tuned for local laptop demos with a SQLite database, deterministic seed data, and a simple role switcher.
+Nuxt 3 + TypeScript demo app for an internal aviation operations prototype. It is shaped like a production application, but tuned for local laptop demos with a SQLite database, deterministic seed data, and demo accounts for each role.
 
 ## Setup
 
@@ -15,7 +15,7 @@ pnpm dev
 
 If pnpm blocks native build scripts for `better-sqlite3`, run `pnpm approve-builds`, select `better-sqlite3`, then rerun `pnpm demo:reset`.
 
-Open the Nuxt dev URL and use the demo persona switcher in the header to move between Director, OCC, Station Admin, Maintenance Manager, and Demo Admin.
+Open the Nuxt dev URL and sign in with a demo account for the role needed in the walkthrough. The optional account helper lists fictional credentials when enabled.
 
 ## Scripts
 
@@ -23,7 +23,7 @@ Open the Nuxt dev URL and use the demo persona switcher in the header to move be
 - `pnpm build`: build the Nuxt app.
 - `pnpm preview`: preview the production build.
 - `pnpm db:migrate`: create the SQLite schema.
-- `pnpm db:seed`: seed fictional PT AMA data.
+- `pnpm db:seed`: seed fictional Operator Demo data.
 - `pnpm demo:reset`: drop/recreate the demo DB and reseed.
 - `pnpm demo:export`: export all demo tables to JSON.
 - `pnpm test`: run Vitest.
@@ -46,7 +46,7 @@ scripts/              Local demo lifecycle commands
 public/uploads/       Mock receipt files and upload target
 ```
 
-The UI uses Vuetify through `vuetify-nuxt-module`. Brand colors are configured in `nuxt.config.ts` as the `amaLight` Vuetify theme and mirrored in `app/assets/css/theme.css` for CSS utility tokens.
+The UI uses Vuetify through `vuetify-nuxt-module`. Brand colors are configured in `nuxt.config.ts` as the `mantikLight` Vuetify theme and mirrored in `app/assets/css/theme.css` for CSS utility tokens.
 
 `flight_operations` is the only persisted flight parent. Ticketing, manifests, fuel, station costs, maintenance handoffs, approvals, invoices, dashboard, command center, and flight following all read the same operation ID. Feature repositories map their own DTOs explicitly to SQLite columns; shared infrastructure is limited to database access, HTTP parsing, error handling, and the standard API envelope.
 
@@ -59,11 +59,10 @@ The UI uses Vuetify through `vuetify-nuxt-module`. Brand colors are configured i
 5. Open `/ticketing/management` to review sales readiness, then use `/ticketing/booking` for passenger and cargo booking.
 6. Review synchronized passenger and cargo manifests from the flight workspace.
 7. Close a ready flight and review the idempotently created draft invoice under Finance.
-8. Switch demo roles from the header to exercise server-side workflow permissions.
+8. Sign in as another demo role to exercise server-side workflow permissions.
 
 The ticketing architecture and OCC manifest synchronization are documented in [ticketing-flow.md](ticketing-flow.md).
-The enterprise MVP planning, HRIS/CRM roadmap, offline sync scope, and implementation rundown are documented in [roadmap-enterprise-mvp.md](roadmap-enterprise-mvp.md).
-The business use case diagrams and module workflows (in Excalidraw-ready Mermaid format) are documented in [business-use-cases.md](business-use-cases.md).
+The scoped Go backend demo specification and implementation backlog are documented in [backend-demo/README.md](backend-demo/README.md).
 
 ## Data
 
@@ -71,10 +70,10 @@ The seed includes canonical flight operations, requests, readiness, approvals, m
 
 ## Local Storage
 
-By default the app writes `./data/ama-demo.sqlite`. Override with:
+By default the app writes `./data/mantik-demo.sqlite`. Override with:
 
 ```bash
-AMA_DB_PATH=./data/another-demo.sqlite pnpm demo:reset
+MANTIK_DB_PATH=./data/another-demo.sqlite pnpm demo:reset
 ```
 
 Receipt uploads go to `public/uploads/mock-receipts`. This is deliberate for demo visibility; production storage should move to object storage or an internal document service.

@@ -97,18 +97,18 @@ describe('operations master data services', () => {
     expect(profile.scheduleTemplates[0]).toMatchObject({
       templateCode: 'SCH_DJJ_NBX_MON_THU',
       operatingDays: ['MON', 'THU'],
-      defaultAircraftRegistration: 'PK-AMB'
+      defaultAircraftRegistration: 'PK-DMB'
     });
     expect(profile.compatibleAircraft[0]).toMatchObject({
       profileCode: 'CAP_C208_DJJ_NBX_PAX',
-      registrationNumber: 'PK-AMB'
+      registrationNumber: 'PK-DMB'
     });
     expect(profile.availableServices.map((service) => service.serviceTypeLabel)).toEqual(
       expect.arrayContaining(['Cargo', 'Scheduled Passenger'])
     );
     expect(profile.upcomingFlights).toHaveLength(1);
     expect(profile.upcomingFlights[0]).toMatchObject({
-      flightNumber: 'AMA-20260720-009',
+      flightNumber: 'PRT-20260720-009',
       status: 'SCHEDULED'
     });
   });

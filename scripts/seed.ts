@@ -6,7 +6,7 @@ import { seedScenarioDatabase } from '../server/db/seeds/scenario-database';
 
 loadLocalEnv();
 
-const dbPath = process.env.AMA_DB_PATH ?? './data/ama-demo.sqlite';
+const dbPath = process.env.MANTIK_DB_PATH ?? './data/mantik-demo.sqlite';
 const { db, sqlite } = createDbClient(dbPath);
 
 try {
@@ -18,7 +18,7 @@ try {
     throw new Error('Scenario data already exists. Run `pnpm demo:reset` for a clean baseline.');
   }
   await seedScenarioDatabase({ db, sqlite }, { context: createDemoSeedContext() });
-  console.log(`Seeded fictional PT AMA operational scenarios at ${dbPath}`);
+  console.log(`Seeded fictional Operator Demo operational scenarios at ${dbPath}`);
 } finally {
   sqlite.close();
 }

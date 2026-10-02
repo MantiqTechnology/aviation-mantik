@@ -34,15 +34,15 @@ export function seedTicketingData(
   context: DemoSeedContext = createDemoSeedContext()
 ) {
   const ticketingSeedTime = context.now;
-  const passengerPaidTicketId = `AMA-TKT-${context.compactDate(1)}-001`;
-  const passengerUnpaidTicketId = `AMA-TKT-${context.compactDate(1)}-002`;
-  const passengerRescheduleTicketId = `AMA-TKT-${context.compactDate(1)}-003`;
-  const otaPrimaryTicketId = `AMA-TKT-${context.compactDate(4)}-004`;
-  const otaSecondaryTicketId = `AMA-TKT-${context.compactDate(4)}-005`;
-  const generalCargoId = `AMA-AWB-${context.compactDate(2)}-001`;
-  const dangerousCargoId = `AMA-AWB-${context.compactDate(2)}-002`;
-  const checkedInTicketId = `AMA-TKT-${context.compactDate(0)}-006`;
-  const refundReviewTicketId = `AMA-TKT-${context.compactDate(0)}-007`;
+  const passengerPaidTicketId = `PRT-TKT-${context.compactDate(1)}-001`;
+  const passengerUnpaidTicketId = `PRT-TKT-${context.compactDate(1)}-002`;
+  const passengerRescheduleTicketId = `PRT-TKT-${context.compactDate(1)}-003`;
+  const otaPrimaryTicketId = `PRT-TKT-${context.compactDate(4)}-004`;
+  const otaSecondaryTicketId = `PRT-TKT-${context.compactDate(4)}-005`;
+  const generalCargoId = `PRT-AWB-${context.compactDate(2)}-001`;
+  const dangerousCargoId = `PRT-AWB-${context.compactDate(2)}-002`;
+  const checkedInTicketId = `PRT-TKT-${context.compactDate(0)}-006`;
+  const refundReviewTicketId = `PRT-TKT-${context.compactDate(0)}-007`;
   const seed = sqlite.transaction(() => {
     seedOtaAgents(sqlite, ticketingSeedTime);
 

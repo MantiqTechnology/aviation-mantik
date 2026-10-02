@@ -319,7 +319,7 @@ function refreshAll() {
         <h1 class="text-h4 font-weight-bold text-primary">Penjadwalan Shift & Roster Crew</h1>
         <p class="text-subtitle-1 text-secondary">
           Pengaturan master shift per tipe roster dan multi-employee shift assignment / tukar shift
-          karyawan PT. AMA
+          karyawan Operator Demo
         </p>
       </div>
       <div class="d-flex ga-2">

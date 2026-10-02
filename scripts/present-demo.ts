@@ -14,7 +14,7 @@ await access(serverEntry).catch(() => {
   process.exit(1);
 });
 
-const dbPath = process.env.AMA_DB_PATH ?? './data/ama-demo.sqlite';
+const dbPath = process.env.MANTIK_DB_PATH ?? './data/mantik-demo.sqlite';
 const helper = process.env.DEMO_ACCOUNT_HELPER ?? 'true';
 const child = spawn(process.execPath, [serverEntry], {
   stdio: 'inherit',
@@ -26,7 +26,7 @@ const child = spawn(process.execPath, [serverEntry], {
     DEMO_MODE: 'true',
     DEMO_ACCOUNT_HELPER: helper,
     DEMO_SESSION_SECRET: secret,
-    AMA_DB_PATH: dbPath,
+    MANTIK_DB_PATH: dbPath,
     NUXT_DB_PATH: dbPath,
     NUXT_DEMO_MODE: 'true',
     NUXT_DEMO_SESSION_SECRET: secret,

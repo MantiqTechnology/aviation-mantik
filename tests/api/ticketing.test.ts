@@ -1,7 +1,8 @@
 import { rm } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import Database from 'better-sqlite3';
-import { setup, $fetch } from '@nuxt/test-utils/e2e';
+import { setup } from '@nuxt/test-utils/e2e';
+import { demoApiFetch as $fetch } from '../helpers/demo-api-fetch';
 import { describe, expect, it } from 'vitest';
 import type { ApiResponse } from '../../shared/contracts/api';
 import type { CargoBookingDto } from '../../shared/features/ticketing/cargo';
@@ -23,14 +24,14 @@ import { seedFlightOperationsData } from '../../server/db/seed-flight-operations
 import { seedTicketingData } from '../../server/db/seeds/ticketing';
 
 process.env.DEMO_MODE = 'true';
-process.env.AMA_DB_PATH = './data/test-ticketing-api.sqlite';
+process.env.MANTIK_DB_PATH = './data/test-ticketing-api.sqlite';
 
-const resolved = resolveDbPath(process.env.AMA_DB_PATH);
+const resolved = resolveDbPath(process.env.MANTIK_DB_PATH);
 await rm(resolved, { force: true });
 await rm(`${resolved}-wal`, { force: true });
 await rm(`${resolved}-shm`, { force: true });
 
-const { db, sqlite } = createDbClient(process.env.AMA_DB_PATH);
+const { db, sqlite } = createDbClient(process.env.MANTIK_DB_PATH);
 dropDemoDatabase(sqlite);
 runMigrations(sqlite);
 await seedDemoData(db);
@@ -44,10 +45,10 @@ sqlite.exec(
        scheduled_arrival_at, current_status_id, created_by_user_id, approved_by_user_id,
        billing_type, currency_code, is_locked, created_at, updated_at
      ) VALUES (
-       'fop-ticketing-api-open', 'FO-TICKETING-API', 'AMA-TICKETING-API', '2026-07-18',
+       'fop-ticketing-api-open', 'FO-TICKETING-API', 'PRT-TICKETING-API', '2026-07-18',
        'flight-type-passenger', 'flight-service-type-scheduled-passenger',
        'API integration test', 'flight-priority-normal', 'route-djj-wmx', 'st-djj', 'st-wmx',
-       'cust-individual-1', 'ac-pk-ama', 'crew-pic-valid', 'crew-cop-valid',
+       'cust-individual-1', 'ac-pk-dma', 'crew-pic-valid', 'crew-cop-valid',
        '2026-07-18T08:00:00.000+09:00', '2026-07-18T08:55:00.000+09:00',
        'flight-operation-status-scheduled', 'USR-001', 'USR-ADMIN', 'CHARTER', 'IDR',
        0, '2026-07-13T10:00:00.000+07:00', '2026-07-13T10:00:00.000+07:00'
@@ -59,6 +60,8 @@ await setup({
   rootDir: fileURLToPath(new URL('../..', import.meta.url)),
   server: true,
   browser: false,
+  // Exercise the API against its own fixture, including the Vercel SPA configuration.
+  nuxtConfig: { ssr: false, runtimeConfig: { dbPath: process.env.MANTIK_DB_PATH } },
   setupTimeout: 300_000
 });
 
@@ -68,7 +71,7 @@ describe('ticketing APIs', () => {
       '/api/flight-operations/flights/fop-dg-pending/actions/approve',
       {
         method: 'POST',
-        headers: { cookie: 'ama_demo_role=OCC' },
+        headers: { cookie: 'mantik_demo_role=OCC' },
         body: {},
         ignoreResponseError: true
       }
@@ -86,33 +89,33 @@ describe('ticketing APIs', () => {
       '/api/flight-operations/flights/fop-dg-pending/actions/approve',
       {
         method: 'POST',
-        headers: { cookie: 'ama_demo_role=Unknown' },
+        headers: { cookie: 'mantik_demo_role=Unknown' },
         body: {},
         ignoreResponseError: true
       }
     );
     expect(invalidRole).toMatchObject({
       ok: false,
-      error: { code: 'FORBIDDEN', details: { role: 'Unknown' } }
+      error: { code: 'UNAUTHORIZED' }
     });
 
     const emptyRole = await $fetch<ApiResponse<unknown>>(
       '/api/flight-operations/flights/fop-dg-pending/actions/approve',
       {
         method: 'POST',
-        headers: { cookie: 'ama_demo_role=' },
+        headers: { cookie: 'mantik_demo_role=' },
         body: {},
         ignoreResponseError: true
       }
     );
     expect(emptyRole).toMatchObject({
       ok: false,
-      error: { code: 'FORBIDDEN', details: { role: '' } }
+      error: { code: 'UNAUTHORIZED' }
     });
   });
 
   it('rejects refund records whose subject belongs to another operation', () => {
-    const ownershipDb = new Database(resolveDbPath(process.env.AMA_DB_PATH));
+    const ownershipDb = new Database(resolveDbPath(process.env.MANTIK_DB_PATH));
     ownershipDb.pragma('foreign_keys = ON');
 
     expect(() =>
@@ -122,7 +125,7 @@ describe('ticketing APIs', () => {
              id, flight_operation_id, subject_type, passenger_ticket_id, reason, status,
              amount, currency_code, requested_by_user_id, requested_at, created_at, updated_at
            ) VALUES (
-             'refund-invalid-owner', 'fop-ticketing-cargo', 'PASSENGER', 'AMA-TKT-20260718-002',
+             'refund-invalid-owner', 'fop-ticketing-cargo', 'PASSENGER', 'PRT-TKT-20260718-002',
              'Ownership mismatch regression test', 'REQUESTED', 1800000, 'IDR',
              'USR-ADMIN', '2026-07-14T00:00:00.000Z',
              '2026-07-14T00:00:00.000Z', '2026-07-14T00:00:00.000Z'
@@ -155,7 +158,7 @@ describe('ticketing APIs', () => {
       expect.objectContaining({ flightOperationId: 'fop-ticketing-cargo', baseRate: 32000 })
     );
 
-    const statusDb = new Database(resolveDbPath(process.env.AMA_DB_PATH));
+    const statusDb = new Database(resolveDbPath(process.env.MANTIK_DB_PATH));
     statusDb
       .prepare(
         "UPDATE flight_operations SET current_status_id = 'flight-operation-status-cancelled' WHERE id = ?"
@@ -166,7 +169,7 @@ describe('ticketing APIs', () => {
       '/api/ticketing/available-flights',
       { query: { serviceType: 'PASSENGER' } }
     );
-    const restoreDb = new Database(resolveDbPath(process.env.AMA_DB_PATH));
+    const restoreDb = new Database(resolveDbPath(process.env.MANTIK_DB_PATH));
     restoreDb
       .prepare(
         "UPDATE flight_operations SET current_status_id = 'flight-operation-status-scheduled' WHERE id = ?"
@@ -249,7 +252,7 @@ describe('ticketing APIs', () => {
     );
     expect(checkedIn.ok && checkedIn.data.checkInStatus).toBe('CHECKED_IN');
 
-    const sqlite = new Database(resolveDbPath(process.env.AMA_DB_PATH), { readonly: true });
+    const sqlite = new Database(resolveDbPath(process.env.MANTIK_DB_PATH), { readonly: true });
     const sync = sqlite
       .prepare('SELECT manifest_id FROM flight_manifest_passengers WHERE id = ?')
       .get(`ticket-sync-${created.data.id}`) as { manifest_id: string };
@@ -260,7 +263,7 @@ describe('ticketing APIs', () => {
 
   it('requests and approves a passenger refund with an auditable finance reversal', async () => {
     const requested = await $fetch<ApiResponse<TicketRefundRequestDto>>(
-      '/api/ticketing/passenger-tickets/AMA-TKT-20260718-001/refund-request',
+      '/api/ticketing/passenger-tickets/PRT-TKT-20260718-001/refund-request',
       {
         method: 'POST',
         body: { reason: 'Unable to travel due to a medical appointment.' }
@@ -270,13 +273,13 @@ describe('ticketing APIs', () => {
     if (!requested.ok) throw new Error(requested.error.message);
     expect(requested.data).toMatchObject({
       subjectType: 'PASSENGER',
-      subjectId: 'AMA-TKT-20260718-001',
+      subjectId: 'PRT-TKT-20260718-001',
       status: 'REQUESTED',
       amount: 1800000
     });
 
     const duplicate = await $fetch<ApiResponse<TicketRefundRequestDto>>(
-      '/api/ticketing/passenger-tickets/AMA-TKT-20260718-001/refund-request',
+      '/api/ticketing/passenger-tickets/PRT-TKT-20260718-001/refund-request',
       {
         method: 'POST',
         body: { reason: 'A second request must not be accepted.' },
@@ -301,7 +304,7 @@ describe('ticketing APIs', () => {
     expect(approved.ok && approved.data.status).toBe('APPROVED');
 
     const ticket = await $fetch<ApiResponse<PassengerTicketDto>>(
-      '/api/ticketing/passenger-tickets/AMA-TKT-20260718-001'
+      '/api/ticketing/passenger-tickets/PRT-TKT-20260718-001'
     );
     expect(ticket.ok && ticket.data.refundRequest).toMatchObject({ status: 'APPROVED' });
     const occupiedSeats = await $fetch<ApiResponse<string[]>>(
@@ -310,7 +313,7 @@ describe('ticketing APIs', () => {
     expect(occupiedSeats.ok && occupiedSeats.data).not.toContain('1A');
 
     const refundedCheckIn = await $fetch<ApiResponse<PassengerTicketDto>>(
-      '/api/ticketing/passenger-tickets/AMA-TKT-20260718-001/check-in',
+      '/api/ticketing/passenger-tickets/PRT-TKT-20260718-001/check-in',
       { method: 'PATCH', ignoreResponseError: true }
     );
     expect(!refundedCheckIn.ok && refundedCheckIn.error.code).toBe(
@@ -321,7 +324,7 @@ describe('ticketing APIs', () => {
     expect(ledger.ok && ledger.data.entries).toContainEqual(
       expect.objectContaining({
         entryType: 'PASSENGER_REFUND',
-        referenceNumber: 'AMA-TKT-20260718-001',
+        referenceNumber: 'PRT-TKT-20260718-001',
         amount: -1800000,
         paymentStatus: 'REFUNDED'
       })
@@ -330,7 +333,7 @@ describe('ticketing APIs', () => {
 
   it('reschedules an active passenger ticket and moves its OCC manifest entry atomically', async () => {
     const historicalRefund = await $fetch<ApiResponse<TicketRefundRequestDto>>(
-      '/api/ticketing/passenger-tickets/AMA-TKT-20260718-003/refund-request',
+      '/api/ticketing/passenger-tickets/PRT-TKT-20260718-003/refund-request',
       {
         method: 'POST',
         body: { reason: 'Passenger requested review before changing the original flight.' }
@@ -350,18 +353,18 @@ describe('ticketing APIs', () => {
     );
 
     const options = await $fetch<ApiResponse<PassengerRescheduleOptionDto[]>>(
-      '/api/ticketing/passenger-tickets/AMA-TKT-20260718-003/reschedule-options'
+      '/api/ticketing/passenger-tickets/PRT-TKT-20260718-003/reschedule-options'
     );
     expect(options.ok && options.data).toContainEqual(
       expect.objectContaining({
         flightOperationId: 'fop-ticketing-passenger-later',
-        flightNumber: 'AMA-20260721-008',
+        flightNumber: 'PRT-20260721-008',
         availableSeats: expect.arrayContaining(['1A'])
       })
     );
 
     const rescheduled = await $fetch<ApiResponse<PassengerTicketDto>>(
-      '/api/ticketing/passenger-tickets/AMA-TKT-20260718-003/reschedule',
+      '/api/ticketing/passenger-tickets/PRT-TKT-20260718-003/reschedule',
       {
         method: 'POST',
         body: {
@@ -372,7 +375,7 @@ describe('ticketing APIs', () => {
     );
     expect(rescheduled.ok && rescheduled.data).toMatchObject({
       flightOperationId: 'fop-ticketing-passenger-later',
-      flightNumber: 'AMA-20260721-008',
+      flightNumber: 'PRT-20260721-008',
       seatNumber: '1A'
     });
 
@@ -393,12 +396,12 @@ describe('ticketing APIs', () => {
       expect.objectContaining({
         id: historicalRefund.data.id,
         flightOperationId: 'fop-ticketing-passenger',
-        flightNumber: 'AMA-20260718-006'
+        flightNumber: 'PRT-20260718-006'
       })
     );
 
     const duplicateSeat = await $fetch<ApiResponse<PassengerTicketDto>>(
-      '/api/ticketing/passenger-tickets/AMA-TKT-20260718-002/reschedule',
+      '/api/ticketing/passenger-tickets/PRT-TKT-20260718-002/reschedule',
       {
         method: 'POST',
         body: {
@@ -412,7 +415,7 @@ describe('ticketing APIs', () => {
   });
 
   it('books, pays, and delivers cargo with server-calculated tariff and OCC sync', async () => {
-    const occCapacityDb = new Database(resolveDbPath(process.env.AMA_DB_PATH));
+    const occCapacityDb = new Database(resolveDbPath(process.env.MANTIK_DB_PATH));
     occCapacityDb.pragma('foreign_keys = ON');
     occCapacityDb
       .prepare("UPDATE rate_cards SET cargo_price_basis = 'VOLUME_WEIGHT' WHERE id = ?")
@@ -455,7 +458,7 @@ describe('ticketing APIs', () => {
         }
       }
     );
-    const removeOccLoadDb = new Database(resolveDbPath(process.env.AMA_DB_PATH));
+    const removeOccLoadDb = new Database(resolveDbPath(process.env.MANTIK_DB_PATH));
     removeOccLoadDb
       .prepare('DELETE FROM flight_manifest_cargo_items WHERE id = ?')
       .run('occ-only-capacity-item');
@@ -516,14 +519,14 @@ describe('ticketing APIs', () => {
     );
     expect(delivered.ok && delivered.data.status).toBe('DELIVERED');
 
-    const sqlite = new Database(resolveDbPath(process.env.AMA_DB_PATH), { readonly: true });
+    const sqlite = new Database(resolveDbPath(process.env.MANTIK_DB_PATH), { readonly: true });
     expect(
       sqlite
         .prepare('SELECT manifest_id FROM flight_manifest_cargo_items WHERE id = ?')
         .get(`ticket-sync-${created.data.id}`)
     ).toEqual({ manifest_id: 'fop-ticketing-cargo-manifest-cargo' });
     sqlite.close();
-    const restoreRateDb = new Database(resolveDbPath(process.env.AMA_DB_PATH));
+    const restoreRateDb = new Database(resolveDbPath(process.env.MANTIK_DB_PATH));
     restoreRateDb
       .prepare("UPDATE rate_cards SET cargo_price_basis = 'CHARGEABLE_WEIGHT' WHERE id = ?")
       .run('rate-cargo-djj-wmx');
@@ -532,7 +535,7 @@ describe('ticketing APIs', () => {
 
   it('requests and rejects a cargo refund without removing the booking from OCC', async () => {
     const requested = await $fetch<ApiResponse<TicketRefundRequestDto>>(
-      '/api/ticketing/cargo-bookings/AMA-AWB-20260719-001/refund-request',
+      '/api/ticketing/cargo-bookings/PRT-AWB-20260719-001/refund-request',
       {
         method: 'POST',
         body: { reason: 'Sender requested cancellation after cargo acceptance.' }
@@ -551,20 +554,22 @@ describe('ticketing APIs', () => {
     expect(rejected.ok && rejected.data.status).toBe('REJECTED');
 
     const booking = await $fetch<ApiResponse<CargoBookingDto>>(
-      '/api/ticketing/cargo-bookings/AMA-AWB-20260719-001'
+      '/api/ticketing/cargo-bookings/PRT-AWB-20260719-001'
     );
     expect(booking.ok && booking.data.refundRequest).toMatchObject({ status: 'REJECTED' });
-    const sqlite = new Database(resolveDbPath(process.env.AMA_DB_PATH), { readonly: true });
+    const sqlite = new Database(resolveDbPath(process.env.MANTIK_DB_PATH), { readonly: true });
     expect(
       sqlite
         .prepare('SELECT id FROM flight_manifest_cargo_items WHERE id = ?')
-        .get('ticket-sync-AMA-AWB-20260719-001')
-    ).toEqual({ id: 'ticket-sync-AMA-AWB-20260719-001' });
+        .get('ticket-sync-PRT-AWB-20260719-001')
+    ).toEqual({ id: 'ticket-sync-PRT-AWB-20260719-001' });
     sqlite.close();
   });
 
   it('opens OCC sales once and exposes the new commercial flight', async () => {
-    const beforeOpenDb = new Database(resolveDbPath(process.env.AMA_DB_PATH), { readonly: true });
+    const beforeOpenDb = new Database(resolveDbPath(process.env.MANTIK_DB_PATH), {
+      readonly: true
+    });
     const operationCountBefore = (
       beforeOpenDb.prepare('SELECT COUNT(*) AS count FROM flight_operations').get() as {
         count: number;
@@ -594,12 +599,12 @@ describe('ticketing APIs', () => {
     );
     expect(opened.ok && opened.data).toMatchObject({
       flightOperationId: 'fop-ticketing-api-open',
-      flightNumber: 'AMA-TICKETING-API',
+      flightNumber: 'PRT-TICKETING-API',
       serviceType: 'PASSENGER'
     });
     if (!opened.ok) throw new Error(opened.error.message);
 
-    const sqlite = new Database(resolveDbPath(process.env.AMA_DB_PATH));
+    const sqlite = new Database(resolveDbPath(process.env.MANTIK_DB_PATH));
     sqlite.pragma('foreign_keys = ON');
     expect(
       (sqlite.prepare('SELECT COUNT(*) AS count FROM flight_operations').get() as { count: number })
@@ -680,7 +685,7 @@ describe('ticketing APIs', () => {
     );
     expect(ticket.ok).toBe(true);
     if (!ticket.ok) throw new Error(ticket.error.message);
-    const manifestDb = new Database(resolveDbPath(process.env.AMA_DB_PATH), { readonly: true });
+    const manifestDb = new Database(resolveDbPath(process.env.MANTIK_DB_PATH), { readonly: true });
     expect(
       manifestDb
         .prepare('SELECT manifest_id FROM flight_manifest_passengers WHERE id = ?')

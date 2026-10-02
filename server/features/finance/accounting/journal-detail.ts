@@ -30,7 +30,7 @@ type PolicySnapshot = {
 const actorLabels = new Map(
   Object.entries(demoRoleActorIds).map(([role, id]) => [
     id,
-    role === 'Demo Admin' ? 'AMA Demo Administrator' : role
+    role === 'Demo Admin' ? 'MANTIK Demo Administrator' : role
   ])
 );
 

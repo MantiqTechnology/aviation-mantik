@@ -32,15 +32,15 @@ import { seedDemoData } from '../../server/db/seed';
 import { seedFlightOperationsData } from '../../server/db/seed-flight-operations';
 
 process.env.DEMO_MODE = 'true';
-process.env.AMA_DB_PATH = './data/test-operations-master-data.sqlite';
+process.env.MANTIK_DB_PATH = './data/test-operations-master-data.sqlite';
 
 beforeAll(async () => {
-  const resolved = resolveDbPath(process.env.AMA_DB_PATH);
+  const resolved = resolveDbPath(process.env.MANTIK_DB_PATH);
   await rm(resolved, { force: true });
   await rm(`${resolved}-wal`, { force: true });
   await rm(`${resolved}-shm`, { force: true });
 
-  const { db, sqlite } = createDbClient(process.env.AMA_DB_PATH);
+  const { db, sqlite } = createDbClient(process.env.MANTIK_DB_PATH);
   dropDemoDatabase(sqlite);
   runMigrations(sqlite);
   await seedDemoData(db);
@@ -57,7 +57,7 @@ await setup({
 
 describe('operations master data APIs', () => {
   it('recalculates existing flight readiness when a crew qualification changes', async () => {
-    const headers = { cookie: 'ama_demo_role=OCC' };
+    const headers = { cookie: 'mantik_demo_role=OCC' };
     const qualifications = await $fetch<ApiResponse<PersonnelQualificationDto[]>>(
       '/api/master-data/personnel/crew-pic-valid/qualifications',
       { headers }
@@ -114,18 +114,18 @@ describe('operations master data APIs', () => {
 
   it('separates maintenance management from certifying-staff release authority', async () => {
     const detail = await $fetch<ApiResponse<AircraftAirworthinessDto>>(
-      '/api/master-data/aircraft/ac-pk-ama/airworthiness',
-      { headers: { cookie: 'ama_demo_role=Certifying%20Staff' } }
+      '/api/master-data/aircraft/ac-pk-dma/airworthiness',
+      { headers: { cookie: 'mantik_demo_role=Certifying%20Staff' } }
     );
     expect(detail.ok).toBe(true);
     if (!detail.ok) throw new Error(detail.error.message);
-    expect(detail.data.releases[0]?.releaseNumber).toBe('RTS-BASE-AMA-001');
+    expect(detail.data.releases[0]?.releaseNumber).toBe('RTS-BASE-PRT-001');
 
     const maintenanceRelease = await $fetch<ApiResponse<unknown>>(
-      '/api/master-data/aircraft/ac-pk-ama/releases',
+      '/api/master-data/aircraft/ac-pk-dma/releases',
       {
         method: 'POST',
-        headers: { cookie: 'ama_demo_role=Maintenance%20Manager' },
+        headers: { cookie: 'mantik_demo_role=Maintenance%20Manager' },
         body: {},
         ignoreResponseError: true
       }
@@ -133,10 +133,10 @@ describe('operations master data APIs', () => {
     expect(!maintenanceRelease.ok && maintenanceRelease.error.code).toBe('FORBIDDEN');
 
     const certifierDeferment = await $fetch<ApiResponse<unknown>>(
-      '/api/master-data/aircraft/ac-pk-ama/deferments',
+      '/api/master-data/aircraft/ac-pk-dma/deferments',
       {
         method: 'POST',
-        headers: { cookie: 'ama_demo_role=Certifying%20Staff' },
+        headers: { cookie: 'mantik_demo_role=Certifying%20Staff' },
         body: {},
         ignoreResponseError: true
       }
@@ -246,8 +246,8 @@ describe('operations master data APIs', () => {
     }
     expect(aircraft.data).toContainEqual(
       expect.objectContaining({
-        id: 'ac-pk-ama',
-        registrationNumber: 'PK-AMA',
+        id: 'ac-pk-dma',
+        registrationNumber: 'PK-DMA',
         passengerCapacity: expect.any(Number),
         cargoCapacityKg: expect.any(Number),
         serviceabilityStatus: expect.any(String)
@@ -269,7 +269,7 @@ describe('operations master data APIs', () => {
         originStationCode: 'DJJ',
         destinationStationCode: 'WMX',
         serviceTypeLabel: 'Scheduled Passenger',
-        defaultAircraftRegistration: 'PK-AMA',
+        defaultAircraftRegistration: 'PK-DMA',
         operatingDays: expect.any(Array),
         departureTimeLocal: expect.any(String)
       })
@@ -277,7 +277,7 @@ describe('operations master data APIs', () => {
     expect(capacities.data).toContainEqual(
       expect.objectContaining({
         id: 'cap-pilatus-djj-wmx-pax',
-        aircraftId: 'ac-pk-ama',
+        aircraftId: 'ac-pk-dma',
         routeId: 'route-djj-wmx',
         seatCapacity: expect.any(Number)
       })
@@ -299,7 +299,7 @@ describe('operations master data APIs', () => {
       reverseRoute: null
     });
     expect(profile.data.upcomingFlights).toHaveLength(1);
-    expect(profile.data.upcomingFlights[0]?.flightNumber).toBe('AMA-20260720-009');
+    expect(profile.data.upcomingFlights[0]?.flightNumber).toBe('PRT-20260720-009');
     expect(profile.data.availableServices.map((service) => service.serviceTypeLabel)).toEqual(
       expect.arrayContaining(['Cargo', 'Scheduled Passenger'])
     );
@@ -330,7 +330,7 @@ describe('operations master data APIs', () => {
         destination: { stationCode: 'NBX', stationName: expect.any(String) }
       },
       serviceType: { name: 'Scheduled Passenger' },
-      defaultAircraft: { registration: 'PK-AMB' },
+      defaultAircraft: { registration: 'PK-DMB' },
       bookingOpenMinutesBefore: 10080,
       bookingCloseMinutesBefore: 5400,
       arrivalDayOffset: 0
@@ -414,14 +414,14 @@ describe('operations master data APIs', () => {
   it('enforces route read and manage permissions on the server', async () => {
     const allowed = await $fetch<ApiResponse<RouteOperationalProfileDto>>(
       '/api/master-data/routes/route-djj-nbx/operational-profile',
-      { headers: { cookie: 'ama_demo_role=OCC' } }
+      { headers: { cookie: 'mantik_demo_role=OCC' } }
     );
     expect(allowed.ok).toBe(true);
 
     const readDenied = await $fetch<ApiResponse<RouteOperationalProfileDto>>(
       '/api/master-data/routes/route-djj-nbx/operational-profile',
       {
-        headers: { cookie: 'ama_demo_role=Finance%20Reviewer' },
+        headers: { cookie: 'mantik_demo_role=Finance%20Reviewer' },
         ignoreResponseError: true
       }
     );
@@ -433,7 +433,7 @@ describe('operations master data APIs', () => {
       '/api/master-data/routes/route-djj-nbx',
       {
         method: 'PUT',
-        headers: { cookie: 'ama_demo_role=OCC' },
+        headers: { cookie: 'mantik_demo_role=OCC' },
         body: {
           routeCode: 'DJJ-NBX',
           originStationId: 'st-djj',
@@ -452,7 +452,7 @@ describe('operations master data APIs', () => {
     expect(updateDenied.error.code).toBe('FORBIDDEN');
 
     const options = await $fetch<ApiResponse<RouteOption[]>>('/api/master-data/routes/options', {
-      headers: { cookie: 'ama_demo_role=Finance%20Reviewer' }
+      headers: { cookie: 'mantik_demo_role=Finance%20Reviewer' }
     });
     expect(options.ok).toBe(true);
   });
@@ -475,12 +475,12 @@ describe('operations master data APIs', () => {
   });
 
   it('protects aircraft mutations with the master-data permission', async () => {
-    const detail = await $fetch<ApiResponse<AircraftDto>>('/api/master-data/aircraft/ac-pk-ama');
+    const detail = await $fetch<ApiResponse<AircraftDto>>('/api/master-data/aircraft/ac-pk-dma');
     if (!detail.ok) throw new Error(detail.error.message);
 
-    const denied = await $fetch<ApiResponse<AircraftDto>>('/api/master-data/aircraft/ac-pk-ama', {
+    const denied = await $fetch<ApiResponse<AircraftDto>>('/api/master-data/aircraft/ac-pk-dma', {
       method: 'PUT',
-      headers: { cookie: 'ama_demo_role=OCC' },
+      headers: { cookie: 'mantik_demo_role=OCC' },
       body: detail.data,
       ignoreResponseError: true
     });

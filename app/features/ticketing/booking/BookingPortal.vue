@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const branding = useBranding();
 import type { CargoBookingDto } from '#shared/features/ticketing/cargo';
 import type { PassengerTicketDto } from '#shared/features/ticketing/passenger';
 import BookingLookup from './BookingLookup.vue';
@@ -29,14 +30,14 @@ function cargoBooked(booking: CargoBookingDto) {
       <div class="mx-auto d-flex h-100 max-w-7xl align-center px-4">
         <NuxtLink class="d-flex align-center ga-3 text-decoration-none" to="/ticketing/booking">
           <VImg
-            alt="AMA logo"
+            :alt="branding.productName"
             class="rounded"
             height="48"
-            src="https://amapapua.com/files/ama-pt-logo-shaded4.png"
+            :src="branding.logoUrl"
             width="68"
           />
           <div>
-            <div class="font-weight-bold text-brand-primary">Associated Mission Aviation</div>
+            <div class="font-weight-bold text-brand-primary">{{ branding.productName }}</div>
             <div class="text-xs text-text-secondary">Passenger & Cargo Booking</div>
           </div>
         </NuxtLink>

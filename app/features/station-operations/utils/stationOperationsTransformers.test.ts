@@ -6,7 +6,7 @@ describe('station operations transformers', () => {
   it('filters station tasks using the master-data id instead of deriving it from the code', () => {
     const flight = {
       flightId: 'flight-1',
-      flightNumber: 'AMA101',
+      flightNumber: 'MANTIK101',
       tasks: [
         { id: 'task-djj', stationId: 'station-master-djj' },
         { id: 'task-wmx', stationId: 'station-master-wmx' }
@@ -17,7 +17,7 @@ describe('station operations transformers', () => {
       expect.objectContaining({
         id: 'task-djj',
         flightId: 'flight-1',
-        flightNumber: 'AMA101'
+        flightNumber: 'MANTIK101'
       })
     ]);
   });

@@ -86,11 +86,11 @@ const draftDocumentQueued = ref(false);
 const uploadForm = reactive({
   documentId: '',
   revision: '',
-  fileName: 'AMA-MROV2-AMM-001-REV43.pdf',
+  fileName: 'PRT-MROV2-AMM-001-REV43.pdf',
   effectivity: '2026-09-15'
 });
 const newDocumentForm = reactive({
-  documentNumber: 'AMA-MROV2-WDM-002',
+  documentNumber: 'PRT-MROV2-WDM-002',
   title: 'C208B Wiring Diagram Manual - Avionics Harness',
   documentType: 'WDM',
   owner: 'Engineering Dept.'
@@ -134,7 +134,7 @@ const demoOverlayDocuments = computed<EnrichedApprovedDataDocument[]>(() => [
       syntheticDocument(
         'mdata-doc-ui-amm',
         'AMM',
-        'AMA-MROV2-AMM-001',
+        'PRT-MROV2-AMM-001',
         'C208B Aircraft Maintenance Manual'
       ),
     {
@@ -162,7 +162,7 @@ const demoOverlayDocuments = computed<EnrichedApprovedDataDocument[]>(() => [
       approvalBasis: 'Approved Source Data',
       approvedBy: 'Chief Engineer',
       approvalDate: '2026-07-14',
-      fileName: 'AMA-MROV2-AMM-001-REV42.pdf',
+      fileName: 'PRT-MROV2-AMM-001-REV42.pdf',
       fileSize: '45.2 MB',
       impactActions: [
         'Continue Using Frozen Revision',
@@ -176,7 +176,7 @@ const demoOverlayDocuments = computed<EnrichedApprovedDataDocument[]>(() => [
       syntheticDocument(
         'mdata-doc-ui-ipc',
         'IPC',
-        'AMA-MROV2-IPC-001',
+        'PRT-MROV2-IPC-001',
         'C208B Illustrated Parts Catalogue'
       ),
     {
@@ -204,7 +204,7 @@ const demoOverlayDocuments = computed<EnrichedApprovedDataDocument[]>(() => [
       approvalBasis: 'Pending technical review',
       approvedBy: 'Unassigned',
       approvalDate: '-',
-      fileName: 'AMA-MROV2-IPC-001-REV16.pdf',
+      fileName: 'PRT-MROV2-IPC-001-REV16.pdf',
       fileSize: '18.7 MB',
       impactActions: ['Not Affected']
     }
@@ -214,7 +214,7 @@ const demoOverlayDocuments = computed<EnrichedApprovedDataDocument[]>(() => [
       syntheticDocument(
         'mdata-doc-ui-srm',
         'SRM',
-        'AMA-MROV2-SRM-001',
+        'PRT-MROV2-SRM-001',
         'C208B Structural Repair Manual'
       ),
     {
@@ -242,7 +242,7 @@ const demoOverlayDocuments = computed<EnrichedApprovedDataDocument[]>(() => [
       approvalBasis: 'Manufacturer revision',
       approvedBy: 'Chief Engineer',
       approvalDate: '2026-06-03',
-      fileName: 'AMA-MROV2-SRM-001-REV12.pdf',
+      fileName: 'PRT-MROV2-SRM-001-REV12.pdf',
       fileSize: '32.8 MB',
       impactActions: ['Reissue Job Card']
     }
@@ -251,14 +251,14 @@ const demoOverlayDocuments = computed<EnrichedApprovedDataDocument[]>(() => [
     syntheticDocument(
       'mdata-doc-ui-opr',
       'STANDARD_PRACTICE',
-      'AMA-OPR-PROC-001',
+      'PRT-OPR-PROC-001',
       'Operator Maintenance Procedure - Tire Change'
     ),
     {
       ataChapter: '32',
       aircraftType: 'C208B',
       owner: 'Quality Assurance',
-      sourceOrganization: 'AMA Approval',
+      sourceOrganization: 'Operator Perintis',
       activeRevisionLabel: 'REV 05',
       lifecycle: 'Current',
       lifecycleNote: 'Approved',
@@ -279,7 +279,7 @@ const demoOverlayDocuments = computed<EnrichedApprovedDataDocument[]>(() => [
       approvalBasis: 'Operator approved procedure',
       approvedBy: 'Quality Manager',
       approvalDate: '2026-06-27',
-      fileName: 'AMA-OPR-PROC-001-REV05.pdf',
+      fileName: 'PRT-OPR-PROC-001-REV05.pdf',
       fileSize: '2.4 MB',
       impactActions: ['Continue Using Frozen Revision']
     }
@@ -288,7 +288,7 @@ const demoOverlayDocuments = computed<EnrichedApprovedDataDocument[]>(() => [
     syntheticDocument(
       'mdata-doc-ui-mod',
       'OTHER',
-      'AMA-MOD-INS-004',
+      'PRT-MOD-INS-004',
       'MOD Installation Instruction - Avionics Upgrade'
     ),
     {
@@ -316,7 +316,7 @@ const demoOverlayDocuments = computed<EnrichedApprovedDataDocument[]>(() => [
       approvalBasis: 'Engineering order approval',
       approvedBy: 'Engineering Manager',
       approvalDate: '2026-06-17',
-      fileName: 'AMA-MOD-INS-004-REV02.pdf',
+      fileName: 'PRT-MOD-INS-004-REV02.pdf',
       fileSize: '7.9 MB',
       impactActions: ['Update Before Execution', 'Not Affected']
     }
@@ -477,7 +477,7 @@ function syntheticDocument(
     documentType,
     documentNumber,
     title,
-    sourceIssuer: 'PT AMA Sample Library',
+    sourceIssuer: 'Operator Demo Sample Library',
     applicability: 'C208B Fleet',
     status: 'ACTIVE',
     fictionalDemo: true,

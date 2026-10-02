@@ -7,7 +7,7 @@ test('MRO work package list loads without conflicting error and empty states', a
 }) => {
   const cookieUrl = new URL('/', baseURL ?? 'http://localhost:3100').toString();
   await context.addCookies([
-    { name: 'ama_demo_role', value: 'Maintenance Manager', url: cookieUrl }
+    { name: 'mantik_demo_role', value: 'Maintenance Manager', url: cookieUrl }
   ]);
 
   await page.goto('/maintenance/work-packages', { waitUntil: 'networkidle' });
@@ -25,7 +25,7 @@ test('MRO work package list renders API failure without empty state', async ({
 }) => {
   const cookieUrl = new URL('/', baseURL ?? 'http://localhost:3100').toString();
   await context.addCookies([
-    { name: 'ama_demo_role', value: 'Maintenance Manager', url: cookieUrl }
+    { name: 'mantik_demo_role', value: 'Maintenance Manager', url: cookieUrl }
   ]);
   await page.goto('/maintenance/work-packages', { waitUntil: 'networkidle' });
   await expect(page.getByText('MWP-MROV1-RTS')).toBeVisible();
@@ -59,7 +59,9 @@ test('MRO workspace deep links split overview, execution, records, and release',
   page
 }) => {
   const cookieUrl = new URL('/', baseURL ?? 'http://localhost:3100').toString();
-  await context.addCookies([{ name: 'ama_demo_role', value: 'Certifying Staff', url: cookieUrl }]);
+  await context.addCookies([
+    { name: 'mantik_demo_role', value: 'Certifying Staff', url: cookieUrl }
+  ]);
 
   await page.goto('/maintenance', { waitUntil: 'networkidle' });
   await expect(page.getByRole('heading', { name: 'Pusat Kendali MRO' })).toBeVisible();
@@ -138,7 +140,7 @@ test('MRO technical record workspace renders release gates without release actio
 }) => {
   const cookieUrl = new URL('/', baseURL ?? 'http://localhost:3100').toString();
   await context.addCookies([
-    { name: 'ama_demo_role', value: 'Maintenance Manager', url: cookieUrl }
+    { name: 'mantik_demo_role', value: 'Maintenance Manager', url: cookieUrl }
   ]);
 
   await page.goto('/maintenance/work-packages/mwp-mrov21-conflict/records', {
@@ -168,7 +170,7 @@ test('MRO command center renders priority dashboard, filters rows, and opens ass
 }) => {
   const cookieUrl = new URL('/', baseURL ?? 'http://localhost:3100').toString();
   await context.addCookies([
-    { name: 'ama_demo_role', value: 'Maintenance Manager', url: cookieUrl }
+    { name: 'mantik_demo_role', value: 'Maintenance Manager', url: cookieUrl }
   ]);
 
   await page.goto('/maintenance', { waitUntil: 'networkidle' });
@@ -242,7 +244,7 @@ test('MRO command center creates initial job card with selected approved data', 
 }) => {
   const cookieUrl = new URL('/', baseURL ?? 'http://localhost:3100').toString();
   await context.addCookies([
-    { name: 'ama_demo_role', value: 'Maintenance Manager', url: cookieUrl }
+    { name: 'mantik_demo_role', value: 'Maintenance Manager', url: cookieUrl }
   ]);
 
   await page.goto('/maintenance?defect=DEF-MROV1-MRB-001', { waitUntil: 'networkidle' });
@@ -251,10 +253,10 @@ test('MRO command center creates initial job card with selected approved data', 
 
   await dialog.getByRole('tab', { name: 'Material' }).click();
   await dialog.getByRole('combobox', { name: 'Approved maintenance data' }).click();
-  await page.getByRole('option', { name: 'AMM AMA-MROV2-AMM-001 / REV-MROV2-ACTIVE' }).click();
+  await page.getByRole('option', { name: 'AMM PRT-MROV2-AMM-001 / REV-MROV2-ACTIVE' }).click();
   await expect(
     dialog.getByRole('textbox', { name: 'Approved maintenance data reference' })
-  ).toHaveValue('AMA-MROV2-AMM-001');
+  ).toHaveValue('PRT-MROV2-AMM-001');
   await expect(dialog.getByRole('textbox', { name: 'Revision snapshot' })).toHaveValue(
     'REV-MROV2-ACTIVE'
   );
@@ -276,7 +278,7 @@ test('MRO command center creates initial job card with selected approved data', 
     hasText: 'Brake wear indication'
   });
   await expect(jobCardPanel.getByText('Dokumen kerja')).toBeVisible();
-  await expect(jobCardPanel.getByText('AMA-MROV2-AMM-001 / REV-MROV2-ACTIVE')).toBeVisible();
+  await expect(jobCardPanel.getByText('PRT-MROV2-AMM-001 / REV-MROV2-ACTIVE')).toBeVisible();
   await expect(jobCardPanel.getByRole('link', { name: 'AMM reference extract' })).toHaveAttribute(
     'href',
     '/mro/reference/amm-c208b-rev-a.txt'
@@ -291,7 +293,7 @@ test('MRO command center remains usable across desktop, tablet, and mobile width
 }) => {
   const cookieUrl = new URL('/', baseURL ?? 'http://localhost:3100').toString();
   await context.addCookies([
-    { name: 'ama_demo_role', value: 'Maintenance Manager', url: cookieUrl }
+    { name: 'mantik_demo_role', value: 'Maintenance Manager', url: cookieUrl }
   ]);
 
   for (const viewport of [

@@ -24,11 +24,11 @@ function interpolate(message: string, params?: MessageParams) {
 }
 
 export function useAppLocale() {
-  const cookie = useCookie<AppLocale>('ama_locale', {
+  const cookie = useCookie<AppLocale>('mantik_locale', {
     default: () => defaultLocale,
     sameSite: 'lax'
   });
-  const locale = useState<AppLocale>('ama-locale', () => normalizeLocale(cookie.value));
+  const locale = useState<AppLocale>('mantik-locale', () => normalizeLocale(cookie.value));
 
   watch(
     locale,

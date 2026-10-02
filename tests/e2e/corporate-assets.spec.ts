@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 test('Director can open Corporate Assets from the sidebar', async ({ context, page }) => {
   await context.addCookies([
-    { name: 'ama_demo_role', value: 'Director', url: 'http://localhost:3100' }
+    { name: 'mantik_demo_role', value: 'Director', url: 'http://localhost:3100' }
   ]);
 
   await page.goto('/dashboard', { waitUntil: 'networkidle' });
@@ -19,7 +19,7 @@ test('Demo Admin uses the persistent Corporate Assets register and detail', asyn
   page
 }) => {
   await context.addCookies([
-    { name: 'ama_demo_role', value: 'Demo Admin', url: 'http://localhost:3100' }
+    { name: 'mantik_demo_role', value: 'Demo Admin', url: 'http://localhost:3100' }
   ]);
   const runtimeErrors: string[] = [];
   page.on('pageerror', (error) => runtimeErrors.push(error.message));
@@ -42,13 +42,15 @@ test('Station Admin is scoped to WMX and OCC cannot access Corporate Assets', as
   page
 }) => {
   await context.addCookies([
-    { name: 'ama_demo_role', value: 'Station Admin', url: 'http://localhost:3100' }
+    { name: 'mantik_demo_role', value: 'Station Admin', url: 'http://localhost:3100' }
   ]);
   await page.goto('/asset-management/register', { waitUntil: 'networkidle' });
   await expect(page.getByText('VEH-00001')).toBeVisible();
   await expect(page.getByText('GSE-00001')).toHaveCount(0);
 
-  await context.addCookies([{ name: 'ama_demo_role', value: 'OCC', url: 'http://localhost:3100' }]);
+  await context.addCookies([
+    { name: 'mantik_demo_role', value: 'OCC', url: 'http://localhost:3100' }
+  ]);
   const response = await page.goto('/asset-management/register', { waitUntil: 'networkidle' });
   expect(response?.status()).toBe(200);
   await expect(page.getByText('Asset register could not be loaded')).toBeVisible();
@@ -59,7 +61,7 @@ test('Maintenance Manager requests a part through Inventory and sees persisted s
   page
 }) => {
   await context.addCookies([
-    { name: 'ama_demo_role', value: 'Maintenance Manager', url: 'http://localhost:3100' }
+    { name: 'mantik_demo_role', value: 'Maintenance Manager', url: 'http://localhost:3100' }
   ]);
   await page.goto('/asset-management/assets/asset-gse-gpu-01', { waitUntil: 'networkidle' });
   await page.getByRole('tab', { name: 'Maintenance' }).click();

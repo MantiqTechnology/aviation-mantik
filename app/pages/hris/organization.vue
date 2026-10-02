@@ -92,7 +92,8 @@ function getRankBadgeColor(title: string) {
       <div>
         <h1 class="text-h4 font-weight-bold text-primary">Struktur Organisasi & Hirarki Jabatan</h1>
         <p class="text-subtitle-1 text-secondary">
-          Struktur hirarki direktorat, divisi, dan posisi jabatan karyawan per departemen PT. AMA
+          Struktur hirarki direktorat, divisi, dan posisi jabatan karyawan per departemen Operator
+          Demo
         </p>
       </div>
 

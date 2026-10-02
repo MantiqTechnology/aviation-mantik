@@ -10,8 +10,8 @@ import {
 import { DomainError } from './errors';
 import { demoAccountByRole, type DemoAccount } from './demo-accounts';
 
-export const demoSessionCookieName = 'ama_demo_session';
-const legacyRoleCookieName = 'ama_demo_role';
+export const demoSessionCookieName = 'mantik_demo_session';
+const legacyRoleCookieName = 'mantik_demo_role';
 const SESSION_DURATION_SECONDS = 60 * 60 * 8;
 
 export type DemoSessionPayload = {
@@ -122,7 +122,7 @@ export function requireExplicitDemoRuntime(action = 'demo helper') {
 }
 
 function legacyTestSession(event: H3Event): DemoSessionPayload | null {
-  if (process.env.AMA_ALLOW_LEGACY_TEST_ROLE_COOKIE !== 'true') {
+  if (process.env.MANTIK_ALLOW_LEGACY_TEST_ROLE_COOKIE !== 'true') {
     return null;
   }
   const parsed = demoRoleSchema.safeParse(getCookie(event, legacyRoleCookieName));
@@ -254,7 +254,7 @@ export function hasDemoPermission(event: H3Event, permissionId: string) {
   return permissions.includes('*') || permissions.includes(permissionId) || isDirectorHrisBypass;
 }
 
-const employeeCookieName = 'ama_employee_id';
+const employeeCookieName = 'mantik_employee_id';
 const EMPLOYEE_SESSION_DURATION_SECONDS = 60 * 60 * 24 * 7;
 
 type EmployeeSessionPayload = {

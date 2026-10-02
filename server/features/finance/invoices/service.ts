@@ -454,7 +454,7 @@ export class InvoiceService {
   private invoiceNumber(flight: FlightBillingContext) {
     const date = flight.flightDate.replaceAll('-', '');
     const number = flight.flightNumber.replaceAll(/[^A-Z0-9]/giu, '').toUpperCase();
-    return `AMA-INV-${date}-${number}`;
+    return `PRT-INV-${date}-${number}`;
   }
 
   private toSummary(row: InvoiceRow): InvoiceSummaryDto {

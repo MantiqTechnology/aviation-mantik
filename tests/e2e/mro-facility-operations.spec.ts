@@ -61,7 +61,7 @@ type FacilityOperations = {
 async function setRole(context: BrowserContext, baseURL: string | undefined, role: string) {
   const cookieUrl = new URL('/', baseURL ?? 'http://localhost:3100').toString();
   await context.clearCookies();
-  await context.addCookies([{ name: 'ama_demo_role', value: role, url: cookieUrl }]);
+  await context.addCookies([{ name: 'mantik_demo_role', value: role, url: cookieUrl }]);
 }
 
 async function unwrap<T>(response: APIResponse): Promise<T> {
@@ -405,7 +405,7 @@ test('facility operations command center renders derived operation and handback 
                 workPackageId: 'wp-ui-command',
                 packageNumber: 'WP-2026-0142',
                 aircraftId: 'ac-ui-command',
-                aircraftRegistrationNumber: 'PK-AMA',
+                aircraftRegistrationNumber: 'PK-DMA',
                 stationId: 'station-wmx',
                 stationCode: 'WMX',
                 stationName: 'Wamena',
@@ -494,7 +494,7 @@ test('facility operations command center renders derived operation and handback 
               workPackageTitle: 'Hydraulic leak rectification',
               workPackageStatus: 'IN_PROGRESS',
               aircraftId: 'ac-ui-command',
-              aircraftRegistrationNumber: 'PK-AMA',
+              aircraftRegistrationNumber: 'PK-DMA',
               aircraftImageUrl: null,
               aircraftType: 'DHC-6 Twin Otter',
               aircraftModel: 'Regional Airline',
@@ -591,7 +591,7 @@ test('facility operations command center renders derived operation and handback 
   await page.goto('/maintenance/facility-operations', { waitUntil: 'networkidle' });
   await expect(page.getByRole('heading', { name: 'Maintenance Operations' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Facility Operations' })).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'PK-AMA' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'PK-DMA' })).toBeVisible();
   await expect(page.getByText('NOT READY FOR HAND BACK')).toBeVisible();
   await expect(page.getByText('Release Blockers')).toBeVisible();
   await expect(page.getByText('Operational Workflow')).toBeVisible();

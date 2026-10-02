@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { BankStatementDto } from '#shared/features/finance/reconciliation';
 type CashAccount = { id: string; accountName: string };
-useHead({ title: 'Bank Reconciliation - PT AMA' });
+useHead({ title: 'Bank Reconciliation - Operator Demo' });
 const { can } = useAuthorization();
 const canManage = computed(() => can('finance.payment.record').allowed);
 const dialog = ref(false);
@@ -113,7 +113,13 @@ async function autoMatch(id: string) {
     >
       {{ actionError || error?.message }}
     </VAlert>
-    <VCard v-for="statement in statements" :key="statement.id" border class="mb-3 pa-4" rounded="lg">
+    <VCard
+      v-for="statement in statements"
+      :key="statement.id"
+      border
+      class="mb-3 pa-4"
+      rounded="lg"
+    >
       <div class="d-flex flex-wrap align-center ga-3">
         <div>
           <div class="font-weight-medium">{{ statement.statementNumber }}</div>
@@ -202,10 +208,7 @@ async function autoMatch(id: string) {
                 type="number"
               />
             </VCol><VCol cols="12">
-              <VTextField
-                v-model="form.description"
-                label="Line description"
-              />
+              <VTextField v-model="form.description" label="Line description" />
             </VCol>
           </VRow>
         </VCardText><VCardActions>

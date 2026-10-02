@@ -8,7 +8,7 @@ import type {
   FinanceReportingPeriodDto
 } from '#shared/features/finance/reporting';
 
-useHead({ title: 'Finance Dashboard - PT AMA' });
+useHead({ title: 'Finance Dashboard - Operator Demo' });
 
 const selectedPeriod = ref<string>();
 const {
@@ -396,7 +396,7 @@ function actionValue(item: FinanceActionDto) {
         <div class="d-flex align-center ga-2 mb-1">
           <h1 class="text-h5 font-weight-bold text-text-primary">Finance Overview</h1>
           <VChip color="primary" density="compact" size="small" variant="tonal">
-            PT AMA · Executive Ledger
+            Operator Demo · Executive Ledger
           </VChip>
         </div>
         <p class="text-body-2 text-medium-emphasis mb-0">
@@ -478,9 +478,9 @@ function actionValue(item: FinanceActionDto) {
         </VCol>
       </VRow>
 
-      <!-- 3. Dua Pilar Analisis Berdampingan: Aviasi AMA vs Finansial PSAK -->
+      <!-- 3. Dua Pilar Analisis Berdampingan: Aviasi MANTIK vs Finansial PSAK -->
       <VRow class="mb-5">
-        <!-- Pilar A: Kinerja Operasional Aviasi PT AMA -->
+        <!-- Pilar A: Kinerja Operasional Aviasi Operator Demo -->
         <VCol cols="12" lg="6">
           <VCard border class="fill-height pa-4 elevation-0" rounded="lg">
             <div class="d-flex align-center justify-space-between mb-4">

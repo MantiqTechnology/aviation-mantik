@@ -1655,7 +1655,7 @@ const obsoleteOperationalTables = new Set([
   'serialized_parts'
 ]);
 const cleanRebuildRequiredMessage =
-  'AMA demo database uses the pre-cleanup schema. Run `pnpm demo:reset` or remove the SQLite DB before starting the app.';
+  'MANTIK demo database uses the pre-cleanup schema. Run `pnpm demo:reset` or remove the SQLite DB before starting the app.';
 
 const canonicalShapeRequirements = [
   { table: 'aircraft', column: 'registration_number' },

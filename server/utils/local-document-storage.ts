@@ -1,3 +1,4 @@
+import { PRODUCT_BRANDING } from '../../shared/branding';
 import { mkdir, readFile, rename, rm, writeFile } from 'node:fs/promises';
 import { basename, dirname, isAbsolute, join } from 'node:path';
 import { nanoid } from 'nanoid';
@@ -20,8 +21,8 @@ import { resetLocalUploadStorage } from './local-upload-storage';
 import { attachUpload, getUpload, getUploadStorageDriver, saveUpload } from './upload-storage';
 import { createDemoSeedContext, type DemoSeedContext } from '../db/seeds/context';
 
-const DEFAULT_MANIFEST_PATH = join(process.cwd(), 'data', 'local-documents.json');
-const SYSTEM_USER = 'AMA System Administrator';
+const DEFAULT_MANIFEST_PATH = join(process.cwd(), 'data', 'mantik-local-documents.json');
+const SYSTEM_USER = 'Operator Demo System Administrator';
 
 const documentManifestSchema = z.object({
   documents: z.array(masterDocumentSchema)
@@ -62,7 +63,7 @@ function resolveWritablePath(path: string) {
 }
 
 function getManifestPath() {
-  return resolveWritablePath(process.env.AMA_DOCUMENT_MANIFEST ?? DEFAULT_MANIFEST_PATH);
+  return resolveWritablePath(process.env.MANTIK_DOCUMENT_MANIFEST ?? DEFAULT_MANIFEST_PATH);
 }
 
 async function readManifest(): Promise<DocumentManifest> {
@@ -176,7 +177,13 @@ function escapePdfText(value: string) {
 }
 
 function createSeededPdf(title: string, lines: string[]) {
-  const contentLines = ['PT AMA AVIATION', 'CONTROLLED OPERATIONAL RECORD', '', title, ...lines];
+  const contentLines = [
+    PRODUCT_BRANDING.operatorName,
+    'CONTROLLED OPERATIONAL RECORD',
+    '',
+    title,
+    ...lines
+  ];
   const stream = [
     'BT',
     '/F1 18 Tf',
@@ -216,38 +223,38 @@ function createSeededPdf(title: string, lines: string[]) {
 const demoDocumentSeeds: DemoDocumentSeed[] = [
   {
     ownerType: 'aircraft',
-    ownerId: 'ac-pk-ama',
+    ownerId: 'ac-pk-dma',
     documentType: 'AIRCRAFT_CERTIFICATE_OF_REGISTRATION',
-    title: 'PK-AMA Certificate of Registration',
-    documentNumber: 'AMA-COR-PKAMA-2026',
-    issuer: 'PT AMA Aircraft Registry',
+    title: 'PK-DMA Certificate of Registration',
+    documentNumber: 'PRT-COR-PKDMA-2026',
+    issuer: 'Operator Demo Aircraft Registry',
     expiresAt: '2027-03-30'
   },
   {
     ownerType: 'aircraft',
-    ownerId: 'ac-pk-ama',
+    ownerId: 'ac-pk-dma',
     documentType: 'AIRCRAFT_CERTIFICATE_OF_AIRWORTHINESS',
-    title: 'PK-AMA Certificate of Airworthiness',
-    documentNumber: 'AMA-COA-PKAMA-2026',
-    issuer: 'PT AMA Airworthiness Office',
+    title: 'PK-DMA Certificate of Airworthiness',
+    documentNumber: 'PRT-COA-PKDMA-2026',
+    issuer: 'Operator Demo Airworthiness Office',
     expiresAt: '2026-07-19'
   },
   {
     ownerType: 'aircraft',
-    ownerId: 'ac-pk-ama',
+    ownerId: 'ac-pk-dma',
     documentType: 'AIRCRAFT_INSURANCE_CERTIFICATE',
-    title: 'PK-AMA Insurance Certificate',
-    documentNumber: 'AMA-INS-PKAMA-2026',
+    title: 'PK-DMA Insurance Certificate',
+    documentNumber: 'PRT-INS-PKDMA-2026',
     issuer: 'Nusantara Aviation Insurance',
     expiresAt: '2027-01-15'
   },
   {
     ownerType: 'aircraft',
-    ownerId: 'ac-pk-ama',
+    ownerId: 'ac-pk-dma',
     documentType: 'AIRCRAFT_WEIGHT_AND_BALANCE',
-    title: 'PK-AMA Weight & Balance Report',
-    documentNumber: 'AMA-WB-PKAMA-2026',
-    issuer: 'PT AMA Maintenance Control',
+    title: 'PK-DMA Weight & Balance Report',
+    documentNumber: 'PRT-WB-PKDMA-2026',
+    issuer: 'Operator Demo Maintenance Control',
     expiresAt: '2026-06-24'
   },
   {
@@ -255,7 +262,7 @@ const demoDocumentSeeds: DemoDocumentSeed[] = [
     ownerId: 'crew-pic-expired',
     documentType: 'PILOT_LICENSE',
     title: 'Pilot Licence - Yohanis Tabuni',
-    documentNumber: 'AMA-LIC-PIC-003',
+    documentNumber: 'PRT-LIC-PIC-003',
     issuer: 'Directorate of Flight Operations',
     expiresAt: '2026-06-25'
   },
@@ -264,7 +271,7 @@ const demoDocumentSeeds: DemoDocumentSeed[] = [
     ownerId: 'crew-pic-expired',
     documentType: 'PILOT_MEDICAL_CERTIFICATE',
     title: 'Medical Certificate - Yohanis Tabuni',
-    documentNumber: 'AMA-MED-PIC-003',
+    documentNumber: 'PRT-MED-PIC-003',
     issuer: 'Papua Aviation Medical Centre',
     expiresAt: '2026-06-30',
     visibility: 'RESTRICTED'
@@ -274,8 +281,8 @@ const demoDocumentSeeds: DemoDocumentSeed[] = [
     ownerId: 'crew-pic-expiring',
     documentType: 'PILOT_RECURRENCY_TRAINING',
     title: 'Recurrency Training - Mikael Kogoya',
-    documentNumber: 'AMA-TRN-PIC-002',
-    issuer: 'PT AMA Training Centre',
+    documentNumber: 'PRT-TRN-PIC-002',
+    issuer: 'Operator Demo Training Centre',
     expiresAt: '2026-07-27',
     verificationStatus: 'PENDING_VERIFICATION'
   },
@@ -284,8 +291,8 @@ const demoDocumentSeeds: DemoDocumentSeed[] = [
     ownerId: 'st-djj',
     documentType: 'STATION_INFORMATION_SHEET',
     title: 'Sentani Station Information Sheet',
-    documentNumber: 'AMA-STN-DJJ-INFO',
-    issuer: 'PT AMA Station Operations',
+    documentNumber: 'PRT-STN-DJJ-INFO',
+    issuer: 'Operator Demo Station Operations',
     expiresAt: '2027-04-01'
   },
   {
@@ -293,8 +300,8 @@ const demoDocumentSeeds: DemoDocumentSeed[] = [
     ownerId: 'st-djj',
     documentType: 'STATION_LOCAL_SOP',
     title: 'Sentani Local SOP',
-    documentNumber: 'AMA-STN-DJJ-SOP',
-    issuer: 'PT AMA Station Operations',
+    documentNumber: 'PRT-STN-DJJ-SOP',
+    issuer: 'Operator Demo Station Operations',
     expiresAt: '2026-08-04'
   },
   {
@@ -302,7 +309,7 @@ const demoDocumentSeeds: DemoDocumentSeed[] = [
     ownerId: 'vendor-maintenance',
     documentType: 'VENDOR_LEGAL_DOCUMENT',
     title: 'Maintenance Vendor Legal Document',
-    documentNumber: 'AMA-VND-MAINT-LEGAL',
+    documentNumber: 'PRT-VND-MAINT-LEGAL',
     issuer: 'Papua Aero Services Registry',
     expiresAt: '2027-02-01'
   },
@@ -311,8 +318,8 @@ const demoDocumentSeeds: DemoDocumentSeed[] = [
     ownerId: 'vendor-maintenance',
     documentType: 'VENDOR_BANK_VERIFICATION',
     title: 'Maintenance Vendor Bank Verification',
-    documentNumber: 'AMA-VND-MAINT-BANK',
-    issuer: 'PT AMA Finance Control',
+    documentNumber: 'PRT-VND-MAINT-BANK',
+    issuer: 'Operator Demo Finance Control',
     expiresAt: '2026-07-28',
     visibility: 'RESTRICTED'
   },
@@ -321,8 +328,8 @@ const demoDocumentSeeds: DemoDocumentSeed[] = [
     ownerId: 'cust-papua-logistics',
     documentType: 'CHARTER_AGREEMENT',
     title: 'Papua Logistics Charter Agreement',
-    documentNumber: 'AMA-CUST-PLG-AGR',
-    issuer: 'PT AMA Commercial',
+    documentNumber: 'PRT-CUST-PLG-AGR',
+    issuer: 'Operator Demo Commercial',
     expiresAt: '2026-12-31'
   },
   {
@@ -330,8 +337,8 @@ const demoDocumentSeeds: DemoDocumentSeed[] = [
     ownerId: 'cust-papua-logistics',
     documentType: 'CUSTOMER_RATE_CARD',
     title: 'Papua Logistics Rate Card',
-    documentNumber: 'AMA-CUST-PLG-RATE',
-    issuer: 'PT AMA Commercial',
+    documentNumber: 'PRT-CUST-PLG-RATE',
+    issuer: 'Operator Demo Commercial',
     expiresAt: '2026-08-01'
   },
   {
@@ -339,8 +346,8 @@ const demoDocumentSeeds: DemoDocumentSeed[] = [
     ownerId: 'route-djj-wmx',
     documentType: 'ROUTE_RISK_ASSESSMENT',
     title: 'DJJ-WMX Route Risk Assessment',
-    documentNumber: 'AMA-RTE-DJJ-WMX',
-    issuer: 'PT AMA Operations Control Centre',
+    documentNumber: 'PRT-RTE-DJJ-WMX',
+    issuer: 'Operator Demo Operations Control Centre',
     expiresAt: '2026-07-16'
   },
   {
@@ -383,15 +390,15 @@ const demoDocumentSeeds: DemoDocumentSeed[] = [
 
 function seededDocuments(context: DemoSeedContext) {
   const expiryOffsets: Record<string, number> = {
-    'AMA-COA-PKAMA-2026': 2,
-    'AMA-WB-PKAMA-2026': -23,
-    'AMA-LIC-PIC-003': -22,
-    'AMA-MED-PIC-003': -17,
-    'AMA-TRN-PIC-002': 10,
-    'AMA-STN-DJJ-SOP': 18,
-    'AMA-VND-MAINT-BANK': 11,
-    'AMA-CUST-PLG-RATE': 15,
-    'AMA-RTE-DJJ-WMX': -1
+    'PRT-COA-PKDMA-2026': 2,
+    'PRT-WB-PKDMA-2026': -23,
+    'PRT-LIC-PIC-003': -22,
+    'PRT-MED-PIC-003': -17,
+    'PRT-TRN-PIC-002': 10,
+    'PRT-STN-DJJ-SOP': 18,
+    'PRT-VND-MAINT-BANK': 11,
+    'PRT-CUST-PLG-RATE': 15,
+    'PRT-RTE-DJJ-WMX': -1
   };
   const scenarioDocuments: DemoDocumentSeed[] = [
     {
@@ -400,7 +407,7 @@ function seededDocuments(context: DemoSeedContext) {
       documentType: 'FLIGHT_CLOSURE_REPORT',
       title: 'Flight Closure Report',
       documentNumber: `CLS-${context.compactDate(-10)}-001`,
-      issuer: 'PT AMA Operations Control Centre'
+      issuer: 'Operator Demo Operations Control Centre'
     },
     {
       ownerType: 'flight',
@@ -425,7 +432,7 @@ function seededDocuments(context: DemoSeedContext) {
       documentType: 'PURCHASE_ORDER_DOCUMENT',
       title: 'Approved Purchase Order',
       documentNumber: `PO-${context.compactDate(-1)}-001`,
-      issuer: 'PT AMA Procurement'
+      issuer: 'Operator Demo Procurement'
     },
     {
       ownerType: 'goods_receipt',
@@ -433,7 +440,7 @@ function seededDocuments(context: DemoSeedContext) {
       documentType: 'GOODS_RECEIPT_DOCUMENT',
       title: 'Warehouse Goods Receipt',
       documentNumber: `GR-${context.compactDate(0)}-001`,
-      issuer: 'PT AMA Inventory Control'
+      issuer: 'Operator Demo Inventory Control'
     }
   ];
   return [

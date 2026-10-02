@@ -1,9 +1,9 @@
 services:
-  ama-sms-app:
+  mantik-sms-app:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: ama-sms-app
+    container_name: mantik-sms-app
     restart: unless-stopped
     ports:
       - '3000:3000'

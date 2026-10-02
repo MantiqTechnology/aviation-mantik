@@ -2,16 +2,16 @@ import type { DemoLoginBody, DemoSessionDto } from '#shared/contracts/auth';
 import type { DemoRole } from '#shared/types/roles';
 
 export function useDemoSession() {
-  const session = useState<DemoSessionDto | null>('ama-demo-session', () => null);
-  const loaded = useState('ama-demo-session-loaded', () => false);
-  const loading = useState('ama-demo-session-loading', () => false);
+  const session = useState<DemoSessionDto | null>('mantik-demo-session', () => null);
+  const loaded = useState('mantik-demo-session-loaded', () => false);
+  const loading = useState('mantik-demo-session-loading', () => false);
   const config = useRuntimeConfig();
   const role = computed<DemoRole>(() => session.value?.role ?? 'Director');
   const demoMode = computed(
     () => session.value?.demoMode ?? String(config.public.demoMode) === 'true'
   );
   const currentPersona = computed(() => ({
-    name: session.value?.displayName ?? 'AMA Demo User',
+    name: session.value?.displayName ?? 'Pengguna Demo Perintis',
     label: session.value?.personaLabel ?? 'Session required',
     stationScope: session.value?.stationScopes ?? []
   }));

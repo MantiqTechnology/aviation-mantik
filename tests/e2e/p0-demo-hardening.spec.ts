@@ -9,20 +9,20 @@ test('uses explicit credentials and shows an honest capability preview', async (
   await expect(page.getByRole('heading', { name: 'Sign in' })).toBeVisible();
 
   await page.getByRole('button', { name: 'Open demo accounts' }).click();
-  const account = page.getByText('station.wmx · AMA-WMX-2026!');
+  const account = page.getByText('station.wmx · PRT-WMX-2026!');
   await expect(account).toBeVisible();
   await account.click();
 
   await expect(page.getByLabel('Username')).toHaveValue('station.wmx');
-  await expect(page.getByRole('textbox', { name: 'Password' })).toHaveValue('AMA-WMX-2026!');
+  await expect(page.getByRole('textbox', { name: 'Password' })).toHaveValue('PRT-WMX-2026!');
   await expect(page).toHaveURL(/\/login/u);
 
-  await page.getByRole('button', { name: 'Sign in to AMA Ops' }).click();
+  await page.getByRole('button', { name: 'Sign in to Mantik Aviation' }).click();
   await expect(page).toHaveURL(/\/dashboard/u);
   await expect(page.getByText('Local Demo · Synthetic Data')).toBeVisible();
 
   const sessionCookie = (await context.cookies()).find(
-    (cookie) => cookie.name === 'ama_demo_session'
+    (cookie) => cookie.name === 'mantik_demo_session'
   );
   expect(sessionCookie?.httpOnly).toBe(true);
   expect(sessionCookie?.sameSite).toBe('Strict');

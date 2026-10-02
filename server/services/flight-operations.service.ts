@@ -227,7 +227,7 @@ function mapFlight(row: SqlRow): FlightOperationRecord {
 
   return {
     id: String(row.id),
-    orderNumber: String(row.order_number || `FO-${String(row.flight_number).replace('AMA-', '')}`),
+    orderNumber: String(row.order_number || `FO-${String(row.flight_number).replace('PRT-', '')}`),
     flightRequestId: str(row.flight_request_id),
     requestNumber: str(row.request_number),
     flightNumber: String(row.flight_number),

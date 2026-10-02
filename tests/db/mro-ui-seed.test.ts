@@ -25,14 +25,14 @@ describe('MRO UI alignment seed', () => {
         .prepare(
           `SELECT registration_number AS registrationNumber, serviceability_status AS status
            FROM aircraft
-           WHERE id IN ('ac-pk-amf', 'ac-pk-amg', 'ac-pk-amh')
+           WHERE id IN ('ac-pk-dmf', 'ac-pk-dmg', 'ac-pk-dmh')
            ORDER BY id`
         )
         .all()
     ).toEqual([
-      { registrationNumber: 'PK-AMF', status: 'SERVICEABLE' },
-      { registrationNumber: 'PK-AMG', status: 'SERVICEABLE' },
-      { registrationNumber: 'PK-AMH', status: 'SERVICEABLE' }
+      { registrationNumber: 'PK-DMF', status: 'SERVICEABLE' },
+      { registrationNumber: 'PK-DMG', status: 'SERVICEABLE' },
+      { registrationNumber: 'PK-DMH', status: 'SERVICEABLE' }
     ]);
 
     expect(
@@ -48,9 +48,9 @@ describe('MRO UI alignment seed', () => {
       {
         packageNumber: 'MWP-MROV1-ACTIVE',
         status: 'IN_PROGRESS',
-        aircraftId: 'ac-pk-amc'
+        aircraftId: 'ac-pk-dmc'
       },
-      { packageNumber: 'MWP-MROV1-HIST', status: 'RELEASED', aircraftId: 'ac-pk-ama' },
+      { packageNumber: 'MWP-MROV1-HIST', status: 'RELEASED', aircraftId: 'ac-pk-dma' },
       {
         packageNumber: 'MWP-MROV1-RTS',
         status: 'READY_FOR_RELEASE',
@@ -111,7 +111,7 @@ describe('MRO UI alignment seed', () => {
     ).toEqual({
       packageNumber: 'MWP-AOG-INT-001',
       status: 'IN_PROGRESS',
-      registrationNumber: 'PK-AMD',
+      registrationNumber: 'PK-DMD',
       materialStatus: 'REQUESTED',
       requiredQuantity: 1,
       issuedQuantity: 0

@@ -80,7 +80,7 @@ type StationEvidence = {
   stationCode: string | null;
   documentType: string;
   evidenceCategory: 'OPERATIONAL' | 'EXTERNAL_REPORT';
-  sourceParty: 'PT_AMA_STATION' | 'AVSEC' | 'AUTHORITY' | 'OTHER' | null;
+  sourceParty: 'OPERATOR_STATION' | 'AVSEC' | 'AUTHORITY' | 'OTHER' | null;
   sourcePartyName: string | null;
   receivedAt: string | null;
   receivedByStationId: string | null;
@@ -552,12 +552,12 @@ function formatDate(value: string | null): string {
 
 function evidenceSourceLabel(item: StationEvidence): string {
   const labels: Record<NonNullable<StationEvidence['sourceParty']>, string> = {
-    PT_AMA_STATION: 'PT AMA Station',
+    OPERATOR_STATION: 'Operator Demo Station',
     AVSEC: 'AVSEC',
     AUTHORITY: 'Authority',
     OTHER: 'Other'
   };
-  const party = item.sourceParty ? labels[item.sourceParty] : 'PT AMA Station';
+  const party = item.sourceParty ? labels[item.sourceParty] : 'Operator Demo Station';
   return item.sourcePartyName ? `${party} - ${item.sourcePartyName}` : party;
 }
 
@@ -566,7 +566,7 @@ function evidenceReceivedLabel(item: StationEvidence): string {
   const receivedAt = item.receivedAt
     ? formatDateTime(item.receivedAt)
     : formatDateTime(item.uploadedAt);
-  return `Received by PT AMA Station ${station} · ${receivedAt}`;
+  return `Received by Operator Demo Station ${station} · ${receivedAt}`;
 }
 
 function money(value: number, currency: string): string {
@@ -631,18 +631,18 @@ const evidenceTask = ref<Task | null>(null);
 const evidenceFile = ref<File | File[] | null>(null);
 const evidenceNotes = ref<string>('');
 const evidenceCategory = ref<'OPERATIONAL' | 'EXTERNAL_REPORT'>('OPERATIONAL');
-const evidenceSourceParty = ref<'PT_AMA_STATION' | 'AVSEC' | 'AUTHORITY' | 'OTHER'>(
-  'PT_AMA_STATION'
+const evidenceSourceParty = ref<'OPERATOR_STATION' | 'AVSEC' | 'AUTHORITY' | 'OTHER'>(
+  'OPERATOR_STATION'
 );
 const evidenceSourcePartyName = ref<string>('');
 const evidenceReceivedAt = ref<string>('');
 
 watch(evidenceCategory, (category) => {
-  if (category === 'EXTERNAL_REPORT' && evidenceSourceParty.value === 'PT_AMA_STATION') {
+  if (category === 'EXTERNAL_REPORT' && evidenceSourceParty.value === 'OPERATOR_STATION') {
     evidenceSourceParty.value = 'AVSEC';
   }
   if (category === 'OPERATIONAL') {
-    evidenceSourceParty.value = 'PT_AMA_STATION';
+    evidenceSourceParty.value = 'OPERATOR_STATION';
     evidenceSourcePartyName.value = '';
     evidenceReceivedAt.value = '';
   }
@@ -653,7 +653,7 @@ function openEvidence(task: Task): void {
   evidenceFile.value = null;
   evidenceNotes.value = '';
   evidenceCategory.value = 'OPERATIONAL';
-  evidenceSourceParty.value = 'PT_AMA_STATION';
+  evidenceSourceParty.value = 'OPERATOR_STATION';
   evidenceSourcePartyName.value = '';
   evidenceReceivedAt.value = '';
   evidenceDialog.value = true;
@@ -1604,7 +1604,7 @@ function handleSnackbarModelValue(value: boolean): void {
                     v-if="evidenceRegisterItems.length === 0"
                     :subtitle="
                       evidenceRegisterTab === 'EXTERNAL_REPORT'
-                        ? 'Record AVSEC or authority reports received by PT AMA Station from the Tasks tab.'
+                        ? 'Record AVSEC or authority reports received by Operator Demo Station from the Tasks tab.'
                         : 'Upload evidence from the Tasks tab when required.'
                     "
                     :title="
@@ -2204,7 +2204,7 @@ function handleSnackbarModelValue(value: boolean): void {
             v-if="evidenceCategory === 'EXTERNAL_REPORT'"
             v-model="evidenceSourceParty"
             :items="[
-              { title: 'PT AMA Station', value: 'PT_AMA_STATION' },
+              { title: 'Operator Demo Station', value: 'OPERATOR_STATION' },
               { title: 'AVSEC', value: 'AVSEC' },
               { title: 'Authority', value: 'AUTHORITY' },
               { title: 'Other', value: 'OTHER' }
@@ -2238,7 +2238,7 @@ function handleSnackbarModelValue(value: boolean): void {
             variant="outlined"
           />
           <div class="mb-3 text-caption text-medium-emphasis">
-            PDF, JPEG, and PNG evidence received and uploaded by PT AMA Station.
+            PDF, JPEG, and PNG evidence received and uploaded by Operator Demo Station.
           </div>
           <VTextarea v-model="evidenceNotes" label="Notes" rows="3" variant="outlined" />
         </VCardText>

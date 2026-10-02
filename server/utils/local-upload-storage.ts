@@ -6,8 +6,8 @@ import { z } from 'zod';
 import { localUploadSchema, type LocalUploadDto } from '../../shared/contracts/uploads';
 import { DomainError, notFound } from './errors';
 
-const DEFAULT_UPLOAD_DIR = join(process.cwd(), 'data', 'uploads', 'local');
-const DEFAULT_MANIFEST_PATH = join(process.cwd(), 'data', 'local-uploads.json');
+const DEFAULT_UPLOAD_DIR = join(process.cwd(), 'data', 'uploads', 'mantik-local');
+const DEFAULT_MANIFEST_PATH = join(process.cwd(), 'data', 'mantik-local-uploads.json');
 const LOCAL_UPLOAD_BASE_PATH = 'local';
 const API_UPLOAD_BASE_PATH = '/api/uploads';
 const DEFAULT_MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
@@ -59,15 +59,15 @@ function resolveWritablePath(path: string) {
 }
 
 function getUploadDir() {
-  return resolveWritablePath(process.env.AMA_UPLOAD_DIR ?? DEFAULT_UPLOAD_DIR);
+  return resolveWritablePath(process.env.MANTIK_UPLOAD_DIR ?? DEFAULT_UPLOAD_DIR);
 }
 
 function getManifestPath() {
-  return resolveWritablePath(process.env.AMA_UPLOAD_MANIFEST ?? DEFAULT_MANIFEST_PATH);
+  return resolveWritablePath(process.env.MANTIK_UPLOAD_MANIFEST ?? DEFAULT_MANIFEST_PATH);
 }
 
 function getMaxUploadBytes() {
-  const configured = Number(process.env.AMA_UPLOAD_MAX_BYTES);
+  const configured = Number(process.env.MANTIK_UPLOAD_MAX_BYTES);
   return Number.isFinite(configured) && configured > 0 ? configured : DEFAULT_MAX_UPLOAD_BYTES;
 }
 
@@ -216,7 +216,7 @@ export async function saveLocalUpload(input: SaveLocalUploadInput) {
     contentType: input.contentType || 'application/octet-stream',
     isImage: Boolean(input.contentType?.startsWith('image/')),
     uploadedAt,
-    uploadedBy: input.uploadedBy ?? 'AMA System Administrator',
+    uploadedBy: input.uploadedBy ?? 'Operator Demo System Administrator',
     status: input.status ?? 'ATTACHED',
     stationScopes: input.stationScopes ?? ['ALL'],
     purpose: input.purpose ?? 'DOCUMENT',

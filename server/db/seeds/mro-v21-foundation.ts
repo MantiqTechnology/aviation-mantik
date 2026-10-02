@@ -61,7 +61,7 @@ export function seedMroV21Foundation(sqlite: Database.Database, context: DemoSee
 
     insertIgnore(sqlite, 'maintenance_amo_organizations', {
       id: 'amo-mantiq-internal',
-      organizationCode: 'AMA-INTERNAL-001',
+      organizationCode: 'PRT-INTERNAL-001',
       organizationName: 'PT Mantiq Aero Maintenance',
       organizationType: 'INTERNAL_AMO',
       approvalReference: 'DGCA-AMO-2024-001',
@@ -489,7 +489,7 @@ export function seedMroV21Foundation(sqlite: Database.Database, context: DemoSee
     // Create expired authorization for technician
     insertIgnore(sqlite, 'maintenance_company_authorizations', {
       id: 'mca-mrov21-expired',
-      authorizationNumber: 'PTAMA-MRO-AUTH-EXPIRED-001',
+      authorizationNumber: 'Operator Demo-MRO-AUTH-EXPIRED-001',
       personnelId: 'crew-maintenance-technician',
       actorUserId: 'USR-MAINTENANCE-TECHNICIAN',
       licenseId: 'plic-crew-maintenance-technician',
@@ -501,7 +501,7 @@ export function seedMroV21Foundation(sqlite: Database.Database, context: DemoSee
       aircraftTypeScopeJson: JSON.stringify(['Cessna Caravan 208B']),
       aircraftRegistrationScopeJson: JSON.stringify([]),
       notes: 'Expired authorization for Scenario D verification.',
-      issuedBy: 'PT AMA Maintenance Control',
+      issuedBy: 'Operator Demo Maintenance Control',
       version: 1,
       createdAt: seedNow,
       updatedAt: seedNow
@@ -701,7 +701,7 @@ export function seedMroV21Foundation(sqlite: Database.Database, context: DemoSee
       .prepare(
         `SELECT id, aircraft_id 
          FROM flight_operations 
-         WHERE aircraft_id IN ('ac-pk-mra', 'ac-pk-mrb', 'ac-pk-amc')
+         WHERE aircraft_id IN ('ac-pk-mra', 'ac-pk-mrb', 'ac-pk-dmc')
          LIMIT 3`
       )
       .all() as Array<{ id: string; aircraft_id: string }>;
@@ -802,7 +802,7 @@ export function seedMroV21Foundation(sqlite: Database.Database, context: DemoSee
       toolId: 'mtool-mrov2-calibrated',
       workPackageId: 'mwp-mrov1-history',
       jobCardId: 'mjc-mrov1-history-001',
-      aircraftId: 'ac-pk-ama',
+      aircraftId: 'ac-pk-dma',
       stationId: 'st-djj',
       status: 'RETURNED',
       allocatedBy: 'USR-MAINTENANCE-MANAGER',

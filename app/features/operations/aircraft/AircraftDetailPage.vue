@@ -159,13 +159,11 @@ const aircraftImage = computed(() => {
   const typeImages: Record<string, string> = {
     'cessna caravan 208b': 'aircraft/Cessna-208-Caravan-PNC-0219-1.jpg',
     'pac 750xl': 'aircraft/pac-p-750-xstol-985cf660-67bb-409a-a3d9-8ee17deff38-resize-750.webp',
-    'pilatus pc-6':
-      'aircraft/pk-rka-associated-mission-aviation-ama-papua-pilatus-pc-6-b2-h4-turbo-porter_PlanespottersNet_1738497_f4e6bb222f_o.webp'
+    'pilatus pc-6': '/branding/aircraft-placeholder.svg'
   };
   const manufacturerImages: Record<string, string> = {
     cessna: 'aircraft/Cessna-208-Caravan-PNC-0219-1.jpg',
-    pilatus:
-      'aircraft/pk-rka-associated-mission-aviation-ama-papua-pilatus-pc-6-b2-h4-turbo-porter_PlanespottersNet_1738497_f4e6bb222f_o.webp',
+    pilatus: '/branding/aircraft-placeholder.svg',
     'pacific aerospace':
       'aircraft/pac-p-750-xstol-985cf660-67bb-409a-a3d9-8ee17deff38-resize-750.webp'
   };
@@ -434,7 +432,7 @@ function readinessItemColor(state: ReadinessState) {
             <VIcon icon="mdi-airplane" size="72" />
           </div>
           <span v-if="aircraftImage && imageAvailable" class="aircraft-profile__image-label">
-            Representative aircraft image · AMA demo R2 bucket
+            Representative aircraft image · data demo penerbangan perintis
           </span>
         </div>
 

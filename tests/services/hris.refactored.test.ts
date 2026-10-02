@@ -133,12 +133,12 @@ describe('Modular Refactored HrisService Suite', () => {
       employeeIds: [emp.id],
       dutyDate: today,
       shiftPatternId: pattern.id,
-      flightNumber: 'AMA-201',
+      flightNumber: 'PRT-201',
       route: 'DJJ-WMX-DJJ'
     });
 
     expect(assigned.length).toBe(1);
-    expect(assigned[0].flightNumber).toBe('AMA-201');
+    expect(assigned[0].flightNumber).toBe('PRT-201');
 
     const roster = service.getFlightRoster(today);
     expect(roster.length).toBe(1);
@@ -166,7 +166,7 @@ describe('Modular Refactored HrisService Suite', () => {
       email: 'rian@email.com',
       phone: '08123456789',
       resumeReference: 'https://cv.link/rian',
-      notes: 'Ingin bergabung tim AMA Papua'
+      notes: 'Ingin bergabung tim MANTIK Papua'
     });
 
     expect(applicant.stage).toBe('APPLIED');

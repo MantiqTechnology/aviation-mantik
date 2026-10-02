@@ -69,9 +69,9 @@ async function handleImport() {
 }
 
 const sampleCsv = `employeeCode,fullName,positionTitle,departmentCode,employmentType,employmentStatus,phone,email
-EMP-0101,Ahmad Yani,Captain Pilot,FLIGHT_OPS,PERMANENT,ACTIVE,081234567890,ahmad@amapapua.com
-EMP-0102,Dewi Lestari,HR Officer,HR_DEPT,PERMANENT,ACTIVE,081298765432,dewi@amapapua.com
-EMP-0103,Rian Hidayat,Station Staff,STATION_OPS,CONTRACT,ACTIVE,081311223344,rian@amapapua.com`;
+EMP-0101,Ahmad Yani,Captain Pilot,FLIGHT_OPS,PERMANENT,ACTIVE,081234567890,ahmad@operator.example
+EMP-0102,Dewi Lestari,HR Officer,HR_DEPT,PERMANENT,ACTIVE,081298765432,dewi@operator.example
+EMP-0103,Rian Hidayat,Station Staff,STATION_OPS,CONTRACT,ACTIVE,081311223344,rian@operator.example`;
 
 function loadSample() {
   csvText.value = sampleCsv;

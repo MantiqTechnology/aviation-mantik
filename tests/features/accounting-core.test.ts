@@ -223,8 +223,8 @@ describe('policy-driven accounting core', () => {
     const before = context.sqlite
       .prepare('SELECT COUNT(*) AS count FROM journal_entries')
       .get() as CountRow;
-    tickets.pay('AMA-TKT-20260718-002', { paymentMethod: 'QRIS' });
-    tickets.pay('AMA-TKT-20260718-002', { paymentMethod: 'QRIS' });
+    tickets.pay('PRT-TKT-20260718-002', { paymentMethod: 'QRIS' });
+    tickets.pay('PRT-TKT-20260718-002', { paymentMethod: 'QRIS' });
 
     const after = context.sqlite
       .prepare('SELECT COUNT(*) AS count FROM journal_entries')
@@ -233,7 +233,7 @@ describe('policy-driven accounting core', () => {
     expect(
       context.services.accounting
         .generalLedger({ limit: 250, offset: 0 })
-        .filter((line) => line.sourceId === 'AMA-TKT-20260718-002')
+        .filter((line) => line.sourceId === 'PRT-TKT-20260718-002')
         .map((line) => line.accountCode)
     ).toEqual(expect.arrayContaining(['1000', '2200']));
   });
@@ -245,7 +245,7 @@ describe('policy-driven accounting core', () => {
         "UPDATE accounting_policies SET is_active = 0 WHERE event_type = 'TICKET_PAYMENT_RECEIVED' AND product_accounting_profile_id = 'pap-passenger-ticket'"
       )
       .run();
-    passengerService(noPolicy).pay('AMA-TKT-20260718-002', { paymentMethod: 'QRIS' });
+    passengerService(noPolicy).pay('PRT-TKT-20260718-002', { paymentMethod: 'QRIS' });
     expect(noPolicy.services.accounting.listExceptions({ limit: 10, offset: 0 })).toContainEqual(
       expect.objectContaining({ reasonCode: 'NO_MATCHING_POLICY' })
     );
@@ -267,7 +267,7 @@ describe('policy-driven accounting core', () => {
         )`
       )
       .run();
-    passengerService(ambiguous).pay('AMA-TKT-20260718-002', { paymentMethod: 'QRIS' });
+    passengerService(ambiguous).pay('PRT-TKT-20260718-002', { paymentMethod: 'QRIS' });
     expect(ambiguous.services.accounting.listExceptions({ limit: 10, offset: 0 })).toContainEqual(
       expect.objectContaining({ reasonCode: 'AMBIGUOUS_POLICY' })
     );
@@ -278,7 +278,7 @@ describe('policy-driven accounting core', () => {
         "UPDATE accounting_policies SET required_dimensions_json = '[\"workOrderReference\"]' WHERE id = 'policy-ticket-payment-deferred-v1'"
       )
       .run();
-    passengerService(missing).pay('AMA-TKT-20260718-002', { paymentMethod: 'QRIS' });
+    passengerService(missing).pay('PRT-TKT-20260718-002', { paymentMethod: 'QRIS' });
     expect(missing.services.accounting.listExceptions({ limit: 10, offset: 0 })).toContainEqual(
       expect.objectContaining({ reasonCode: 'MISSING_CONTEXT' })
     );

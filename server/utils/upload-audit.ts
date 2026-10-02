@@ -12,7 +12,7 @@ export async function recordUploadAudit(input: {
   ownerId?: string;
 }) {
   const auditPath =
-    process.env.AMA_UPLOAD_AUDIT_PATH ?? join(process.cwd(), 'data', 'upload-audit.jsonl');
+    process.env.MANTIK_UPLOAD_AUDIT_PATH ?? join(process.cwd(), 'data', 'upload-audit.jsonl');
   await mkdir(dirname(auditPath), { recursive: true });
   await appendFile(
     auditPath,

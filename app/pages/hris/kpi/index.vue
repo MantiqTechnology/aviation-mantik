@@ -390,7 +390,7 @@ function refreshAll() {
         <h1 class="text-h4 font-weight-bold text-primary">Evaluasi & Manajemen KPI Karyawan</h1>
         <p class="text-subtitle-1 text-secondary">
           Pengaturan master template KPI, assign multi-karyawan per departemen, dan penilaian
-          kinerja berkala PT. AMA
+          kinerja berkala Operator Demo
         </p>
       </div>
 

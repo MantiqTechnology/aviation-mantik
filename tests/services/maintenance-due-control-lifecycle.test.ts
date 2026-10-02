@@ -35,11 +35,11 @@ async function createFixture() {
   seedMroFoundationData(fixture.sqlite, context);
   fixture.sqlite
     .prepare(
-      "DELETE FROM maintenance_aircraft_requirement_statuses WHERE requirement_id = 'mdue-m5-ama-100fh'"
+      "DELETE FROM maintenance_aircraft_requirement_statuses WHERE requirement_id = 'mdue-m5-mantik-100fh'"
     )
     .run();
   fixture.sqlite
-    .prepare("DELETE FROM maintenance_due_requirements WHERE id = 'mdue-m5-ama-100fh'")
+    .prepare("DELETE FROM maintenance_due_requirements WHERE id = 'mdue-m5-mantik-100fh'")
     .run();
   fixture.sqlite
     .prepare(
@@ -47,7 +47,7 @@ async function createFixture() {
         id, scope_code, aircraft_type, aircraft_registration, permitted_actions_json,
         status, valid_from, valid_until, notes, created_at, updated_at
       ) VALUES (
-        'mamo-m5-pc6', 'AMA-M5-AMO-PC6', 'Pilatus PC-6', NULL, '["TECHNICAL_RELEASE"]',
+        'mamo-m5-pc6', 'PRT-M5-AMO-PC6', 'Pilatus PC-6', NULL, '["TECHNICAL_RELEASE"]',
         'ACTIVE', ?, ?, 'M5 test AMO scope. Fictional demo data only.', ?, ?
       )`
     )
@@ -60,7 +60,7 @@ function setAircraftUtilization(sqlite: Database.Database, hours: number, cycles
     .prepare(
       `UPDATE aircraft
        SET airframe_hours = ?, airframe_cycles = ?, updated_at = ?
-       WHERE id = 'ac-pk-ama'`
+       WHERE id = 'ac-pk-dma'`
     )
     .run(hours, cycles, context.now);
 }
@@ -88,7 +88,7 @@ function seedDueRequirement(
         interval_calendar_days, interval_flight_hours, interval_flight_cycles,
         tolerance_calendar_days, tolerance_flight_hours, tolerance_flight_cycles,
         mandatory, recurring, active, fictional_demo, created_at, updated_at
-      ) VALUES (?, ?, ?, 'ac-pk-ama', 'M5 deterministic test applicability', NULL,
+      ) VALUES (?, ?, ?, 'ac-pk-dma', 'M5 deterministic test applicability', NULL,
         ?, ?, ?, 0, 0, 0, 1, 1, ?, 1, ?, ?)`
     )
     .run(
@@ -109,7 +109,7 @@ function seedDueRequirement(
         last_completed_flight_cycles, next_due_at, next_due_flight_hours,
         next_due_flight_cycles, status, calculated_at, source_work_package_id,
         source_job_card_id, planned_work_package_id, last_compliance_record_id
-      ) VALUES (?, ?, 'ac-pk-ama', ?, 1200, 2000, ?, ?, ?, ?, ?, NULL, NULL, NULL, NULL)`
+      ) VALUES (?, ?, 'ac-pk-dma', ?, 1200, 2000, ?, ?, ?, ?, ?, NULL, NULL, NULL, NULL)`
     )
     .run(
       `${options.id}-status`,
@@ -267,7 +267,7 @@ describe('Maintenance M5 due control lifecycle', () => {
       manager
     );
     expect(workPackage).toMatchObject({
-      aircraftId: 'ac-pk-ama',
+      aircraftId: 'ac-pk-dma',
       sourceDueRequirementId: 'mdue-m5-plan',
       sourceDueStatusId: overdue.id
     });

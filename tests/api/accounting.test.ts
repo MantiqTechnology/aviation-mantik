@@ -12,10 +12,10 @@ import { resetDemoDatabase } from '../../server/db/reset-demo';
 
 process.env.DEMO_MODE = 'true';
 const testDbPath = './data/test-accounting-api.sqlite';
-process.env.AMA_DB_PATH = testDbPath;
+process.env.MANTIK_DB_PATH = testDbPath;
 
 beforeAll(async () => {
-  const resolved = resolveDbPath(process.env.AMA_DB_PATH);
+  const resolved = resolveDbPath(process.env.MANTIK_DB_PATH);
   await Promise.all([
     rm(resolved, { force: true }),
     rm(`${resolved}-wal`, { force: true }),
@@ -26,7 +26,7 @@ beforeAll(async () => {
 
 await setup({
   rootDir: fileURLToPath(new URL('../..', import.meta.url)),
-  buildDir: `/tmp/ama-nuxt-test-accounting-${process.pid}`,
+  buildDir: `/tmp/mantik-nuxt-test-accounting-${process.pid}`,
   server: true,
   browser: false,
   setupTimeout: 600_000
@@ -35,7 +35,7 @@ await setup({
 describe('accounting journal detail API', () => {
   it('returns a typed balanced detail read model for an authorized user', async () => {
     const list = await $fetch<ApiResponse<JournalEntryDto[]>>('/api/finance/accounting/journals', {
-      headers: { cookie: 'ama_demo_role=Finance%20Reviewer' }
+      headers: { cookie: 'mantik_demo_role=Finance%20Reviewer' }
     });
     expect(list.ok).toBe(true);
     const posted = list.ok && list.data.find((journal) => journal.status === 'POSTED');
@@ -43,7 +43,7 @@ describe('accounting journal detail API', () => {
 
     const response = await $fetch<ApiResponse<AccountingJournalDetail>>(
       `/api/finance/accounting/journals/${posted && posted.id}`,
-      { headers: { cookie: 'ama_demo_role=Finance%20Reviewer' } }
+      { headers: { cookie: 'mantik_demo_role=Finance%20Reviewer' } }
     );
     expect(response.ok).toBe(true);
     expect(response.ok && response.data.totals.balanced).toBe(true);
@@ -54,7 +54,7 @@ describe('accounting journal detail API', () => {
     const forbidden = await $fetch<ApiResponse<unknown>>(
       '/api/finance/accounting/journals/journal-does-not-matter',
       {
-        headers: { cookie: 'ama_demo_role=OCC' },
+        headers: { cookie: 'mantik_demo_role=OCC' },
         ignoreResponseError: true
       }
     );
@@ -63,7 +63,7 @@ describe('accounting journal detail API', () => {
     const missing = await $fetch<ApiResponse<unknown>>(
       '/api/finance/accounting/journals/journal-missing',
       {
-        headers: { cookie: 'ama_demo_role=Finance%20Reviewer' },
+        headers: { cookie: 'mantik_demo_role=Finance%20Reviewer' },
         ignoreResponseError: true
       }
     );

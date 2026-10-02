@@ -8,15 +8,15 @@ import { dropDemoDatabase, runMigrations } from '../../server/db/migrate';
 import { seedDemoData } from '../../server/db/seed';
 
 process.env.DEMO_MODE = 'true';
-process.env.AMA_DB_PATH = './data/test-master-data-api.sqlite';
+process.env.MANTIK_DB_PATH = './data/test-master-data-api.sqlite';
 
 beforeAll(async () => {
-  const resolved = resolveDbPath(process.env.AMA_DB_PATH);
+  const resolved = resolveDbPath(process.env.MANTIK_DB_PATH);
   await rm(resolved, { force: true });
   await rm(`${resolved}-wal`, { force: true });
   await rm(`${resolved}-shm`, { force: true });
 
-  const { db, sqlite } = createDbClient(process.env.AMA_DB_PATH);
+  const { db, sqlite } = createDbClient(process.env.MANTIK_DB_PATH);
   dropDemoDatabase(sqlite);
   runMigrations(sqlite);
   await seedDemoData(db);
@@ -110,7 +110,7 @@ function payloadFor(key: string): Record<string, PayloadValue> {
         template_code: nextCode('SCH'),
         route_id: 'route-djj-tim',
         service_type_id: 'flight-service-type-scheduled-passenger',
-        default_aircraft_id: 'ac-pk-ama',
+        default_aircraft_id: 'ac-pk-dma',
         operating_days: ['TUE', 'THU'],
         departure_time_local: '08:00',
         arrival_time_local: '09:30',
@@ -122,7 +122,7 @@ function payloadFor(key: string): Record<string, PayloadValue> {
       return {
         profile_code: nextCode('CAP'),
         profile_name: 'API Test Capacity Profile',
-        aircraft_id: 'ac-pk-ama',
+        aircraft_id: 'ac-pk-dma',
         route_id: 'route-djj-tim',
         service_type_id: 'flight-service-type-charter-cargo',
         seat_capacity: 8,

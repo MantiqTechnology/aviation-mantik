@@ -5,7 +5,7 @@ import type {
   TrialBalanceAccountDto
 } from '#shared/features/finance/reporting';
 
-useHead({ title: 'Trial Balance · PT AMA' });
+useHead({ title: 'Trial Balance · Operator Demo' });
 
 type Category = TrialBalanceAccountDto['accountType'];
 

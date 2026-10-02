@@ -16,7 +16,7 @@ function createReadinessDraft(services: TestServices, overrides: Partial<CreateF
       priorityId: 'flight-priority-normal',
       routeId: 'route-djj-wmx',
       customerId: 'cust-papua-logistics',
-      aircraftId: 'ac-pk-ama',
+      aircraftId: 'ac-pk-dma',
       pilotInCommandId: 'crew-pic-valid',
       coPilotId: 'crew-cop-valid',
       scheduledDepartureAt: '2026-07-14T01:00:00.000Z',
@@ -190,7 +190,7 @@ describe('FlightOperationsService', () => {
       flightId,
       {
         changeType: 'AIRCRAFT_ASSIGNMENT',
-        changes: { aircraftId: 'ac-pk-amb' },
+        changes: { aircraftId: 'ac-pk-dmb' },
         expectedVersion: before.version
       },
       { userId: occActor, role: 'OCC', stationCodes: ['ALL'] }
@@ -336,7 +336,7 @@ describe('FlightOperationsService', () => {
     const draft = services.flightOperations.requestDetail('fr-charter-draft');
     expect(draft).toMatchObject({
       status: 'DRAFT',
-      aircraftId: 'ac-pk-ama',
+      aircraftId: 'ac-pk-dma',
       pilotInCommandId: 'crew-pic-valid',
       coPilotId: 'crew-cop-valid'
     });
@@ -408,7 +408,7 @@ describe('FlightOperationsService', () => {
         priorityId: 'flight-priority-normal',
         routeId: 'route-djj-wmx',
         customerId: 'cust-papua-logistics',
-        aircraftId: 'ac-pk-amb',
+        aircraftId: 'ac-pk-dmb',
         pilotInCommandId: 'crew-pic-valid',
         coPilotId: 'crew-cop-valid',
         scheduledDepartureAt: '2026-07-14T01:00:00.000Z',
@@ -526,7 +526,7 @@ describe('FlightOperationsService', () => {
     expect(context.aircraftCandidates).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          id: 'ac-pk-ama',
+          id: 'ac-pk-dma',
           currentStationCode: 'DJJ',
           available: true,
           blockers: []
@@ -551,7 +551,7 @@ describe('FlightOperationsService', () => {
       cargoWeightEstimateKg: 0
     });
     expect(
-      occupiedContext.aircraftCandidates.find((candidate) => candidate.id === 'ac-pk-ama')
+      occupiedContext.aircraftCandidates.find((candidate) => candidate.id === 'ac-pk-dma')
     ).toMatchObject({
       available: false,
       blockers: expect.arrayContaining(['Aircraft is assigned to another overlapping flight.'])
@@ -624,7 +624,7 @@ describe('FlightOperationsService', () => {
         priorityId: 'flight-priority-normal',
         routeId: 'route-djj-wmx',
         customerId: 'cust-papua-logistics',
-        aircraftId: 'ac-pk-ama',
+        aircraftId: 'ac-pk-dma',
         pilotInCommandId: 'crew-pic-expiring',
         coPilotId: 'crew-cop-valid',
         scheduledDepartureAt: '2026-08-20T01:00:00.000Z',
@@ -719,7 +719,7 @@ describe('FlightOperationsService', () => {
         priorityId: 'flight-priority-normal',
         routeId: 'route-djj-wmx',
         customerId: null,
-        aircraftId: 'ac-pk-ama',
+        aircraftId: 'ac-pk-dma',
         pilotInCommandId: 'crew-pic-valid',
         coPilotId: 'crew-cop-valid',
         scheduledDepartureAt: '2026-08-20T03:00:00.000Z',
@@ -760,7 +760,7 @@ describe('FlightOperationsService', () => {
         priorityId: 'flight-priority-normal',
         routeId: 'route-djj-wmx',
         customerId: 'cust-papua-logistics',
-        aircraftId: 'ac-pk-ama',
+        aircraftId: 'ac-pk-dma',
         pilotInCommandId: 'crew-pic-valid',
         coPilotId: 'crew-cop-valid',
         scheduledDepartureAt: '2026-08-20T03:00:00.000Z',
@@ -807,7 +807,7 @@ describe('FlightOperationsService', () => {
         priorityId: 'flight-priority-normal',
         routeId: 'route-djj-wmx',
         customerId: 'cust-papua-logistics',
-        aircraftId: 'ac-pk-ama',
+        aircraftId: 'ac-pk-dma',
         pilotInCommandId: 'crew-pic-valid',
         coPilotId: 'crew-cop-valid',
         scheduledDepartureAt: '2026-07-09T01:00:00.000Z',
@@ -976,7 +976,7 @@ describe('FlightOperationsService', () => {
         serviceTypeId: 'flight-service-type-scheduled-passenger',
         routeId: 'route-djj-wmx',
         customerId: 'cust-papua-logistics',
-        aircraftId: 'ac-pk-ama',
+        aircraftId: 'ac-pk-dma',
         pilotInCommandId: 'crew-pic-valid',
         coPilotId: 'crew-cop-valid',
         scheduledDepartureAt: '2026-07-12T00:30:00.000Z',
@@ -1167,7 +1167,7 @@ describe('FlightOperationsService', () => {
         serviceTypeId: 'flight-service-type-charter-passenger',
         routeId: 'route-djj-wmx',
         customerId: 'cust-government',
-        aircraftId: 'ac-pk-ama',
+        aircraftId: 'ac-pk-dma',
         pilotInCommandId: 'crew-pic-valid',
         coPilotId: 'crew-cop-valid',
         scheduledDepartureAt: '2026-08-10T08:00:00.000+09:00',
@@ -1312,7 +1312,7 @@ describe('FlightOperationsService', () => {
       .prepare(
         `UPDATE aircraft
          SET current_station_id = 'st-wmx', next_maintenance_due_at = '2026-08-15'
-         WHERE id = 'ac-pk-ama'`
+         WHERE id = 'ac-pk-dma'`
       )
       .run();
 
@@ -1333,7 +1333,7 @@ describe('FlightOperationsService', () => {
   it('blocks readiness when aircraft current station is missing', async () => {
     const { services, sqlite } = await createSeededTestServices();
 
-    sqlite.prepare(`UPDATE aircraft SET current_station_id = NULL WHERE id = 'ac-pk-ama'`).run();
+    sqlite.prepare(`UPDATE aircraft SET current_station_id = NULL WHERE id = 'ac-pk-dma'`).run();
 
     const created = createReadinessDraft(services);
     const evaluated = services.flightOperations.evaluate(created.id, occActor);
@@ -1360,7 +1360,7 @@ describe('FlightOperationsService', () => {
       )
       .run(created.id);
     sqlite
-      .prepare(`UPDATE aircraft SET current_station_id = 'st-wmx' WHERE id = 'ac-pk-ama'`)
+      .prepare(`UPDATE aircraft SET current_station_id = 'st-wmx' WHERE id = 'ac-pk-dma'`)
       .run();
 
     const evaluated = services.flightOperations.evaluate(created.id, occActor);
@@ -1409,7 +1409,7 @@ describe('FlightOperationsService', () => {
          SET serviceability_status = 'SERVICEABLE',
              current_station_id = 'st-djj',
              next_maintenance_due_at = '2026-07-13'
-         WHERE id = 'ac-pk-ama'`
+         WHERE id = 'ac-pk-dma'`
       )
       .run();
 
@@ -1430,12 +1430,12 @@ describe('FlightOperationsService', () => {
     const { services, sqlite } = await createSeededTestServices();
 
     const created = createReadinessDraft(services, {
-      aircraftId: 'ac-pk-amd'
+      aircraftId: 'ac-pk-dmd'
     });
     const withHandoff = services.flightOperations.createMaintenance(
       {
         flightId: created.id,
-        aircraftId: 'ac-pk-amd',
+        aircraftId: 'ac-pk-dmd',
         serviceabilityStatusId: 'aircraft-serviceability-status-serviceable',
         workOrderReference: 'WO-M8-LEGACY-HANDOFF',
         maintenanceNote: 'Legacy handoff cannot override canonical MRO blocked status.',
@@ -1474,7 +1474,7 @@ describe('FlightOperationsService', () => {
     const { services, sqlite } = await createSeededTestServices();
 
     const created = createReadinessDraft(services, {
-      aircraftId: 'ac-pk-ame',
+      aircraftId: 'ac-pk-dme',
       flightDate: '2026-07-18',
       scheduledDepartureAt: '2026-07-18T01:00:00.000Z',
       scheduledArrivalAt: '2026-07-18T02:05:00.000Z'
@@ -1508,7 +1508,7 @@ describe('FlightOperationsService', () => {
       services.flightOperations.createMaintenance(
         {
           flightId: 'fop-in-progress',
-          aircraftId: 'ac-pk-ama',
+          aircraftId: 'ac-pk-dma',
           serviceabilityStatusId: 'aircraft-serviceability-status-serviceable',
           workOrderReference: 'WO-WRONG-AIRCRAFT',
           maintenanceNote: null,
@@ -1523,7 +1523,7 @@ describe('FlightOperationsService', () => {
     const standaloneResult = services.flightOperations.createMaintenance(
       {
         flightId: null,
-        aircraftId: 'ac-pk-ama',
+        aircraftId: 'ac-pk-dma',
         serviceabilityStatusId: 'aircraft-serviceability-status-serviceable',
         workOrderReference: 'WO-STANDALONE',
         maintenanceNote: null,
@@ -1545,7 +1545,7 @@ describe('FlightOperationsService', () => {
     });
 
     const pending = services.flightOperations
-      .listMaintenance({ search: 'AMA-20260717-005', status: 'DRAFT', stationId: 'st-wmx' })
+      .listMaintenance({ search: 'PRT-20260717-005', status: 'DRAFT', stationId: 'st-wmx' })
       .at(0);
     expect(pending).toMatchObject({
       id: 'fop-in-progress-maintenance-draft',
@@ -1593,7 +1593,7 @@ describe('FlightOperationsService', () => {
 
     sqlite
       .prepare(
-        "UPDATE aircraft SET serviceability_status = 'SERVICEABLE_WITH_RESTRICTIONS' WHERE id = 'ac-pk-amb'"
+        "UPDATE aircraft SET serviceability_status = 'SERVICEABLE_WITH_RESTRICTIONS' WHERE id = 'ac-pk-dmb'"
       )
       .run();
     expect(
@@ -1890,7 +1890,7 @@ describe('FlightOperationsService', () => {
     sqlite
       .prepare(
         `UPDATE flight_maintenance_handoffs
-         SET aircraft_id = 'ac-pk-amb'
+         SET aircraft_id = 'ac-pk-dmb'
          WHERE flight_id = 'fop-closed-djj-wmx'`
       )
       .run();

@@ -11,72 +11,72 @@ const accountDefinitions: Array<
 > = [
   {
     username: 'director.demo',
-    password: 'AMA-Director-2026!',
+    password: 'PRT-Director-2026!',
     role: 'Director',
-    displayName: 'AMA Operations Director',
+    displayName: 'Operator Perintis Demo Operations Director',
     personaLabel: 'Executive approver'
   },
   {
     username: 'occ.demo',
-    password: 'AMA-OCC-2026!',
+    password: 'PRT-OCC-2026!',
     role: 'OCC',
-    displayName: 'AMA OCC Controller',
+    displayName: 'Operator Perintis Demo OCC Controller',
     personaLabel: 'Operations control'
   },
   {
     username: 'occ.checker',
-    password: 'AMA-Checker-2026!',
+    password: 'PRT-Checker-2026!',
     role: 'OCC Checker',
-    displayName: 'AMA OCC Readiness Checker',
+    displayName: 'Operator Perintis Demo OCC Readiness Checker',
     personaLabel: 'Independent readiness checker'
   },
   {
     username: 'station.wmx',
-    password: 'AMA-WMX-2026!',
+    password: 'PRT-WMX-2026!',
     role: 'Station Admin',
     displayName: 'Wamena Station Admin',
     personaLabel: 'Destination station operations'
   },
   {
     username: 'station.djj',
-    password: 'AMA-DJJ-2026!',
+    password: 'PRT-DJJ-2026!',
     role: 'Station Admin Origin',
     displayName: 'Jayapura Station Admin',
     personaLabel: 'Origin station operations'
   },
   {
     username: 'finance.demo',
-    password: 'AMA-Finance-2026!',
+    password: 'PRT-Finance-2026!',
     role: 'Finance Reviewer',
-    displayName: 'AMA Finance Reviewer',
+    displayName: 'Operator Perintis Demo Finance Reviewer',
     personaLabel: 'Invoice and finance review'
   },
   {
     username: 'mro.manager',
-    password: 'AMA-MRO-Manager-2026!',
+    password: 'PRT-MRO-Manager-2026!',
     role: 'Maintenance Manager',
-    displayName: 'AMA Maintenance Manager',
+    displayName: 'Operator Perintis Demo Maintenance Manager',
     personaLabel: 'Maintenance review'
   },
   {
     username: 'mro.technician',
-    password: 'AMA-MRO-Tech-2026!',
+    password: 'PRT-MRO-Tech-2026!',
     role: 'Maintenance Technician',
-    displayName: 'AMA Maintenance Technician',
+    displayName: 'Operator Perintis Demo Maintenance Technician',
     personaLabel: 'Mechanic sign-off'
   },
   {
     username: 'certifying.demo',
-    password: 'AMA-RTS-2026!',
+    password: 'PRT-RTS-2026!',
     role: 'Certifying Staff',
-    displayName: 'AMA Certifying Staff',
+    displayName: 'Operator Perintis Demo Certifying Staff',
     personaLabel: 'Technical release'
   },
   {
     username: 'inventory.demo',
-    password: 'AMA-Inventory-2026!',
+    password: 'PRT-Inventory-2026!',
     role: 'Inventory Controller',
-    displayName: 'AMA Inventory Controller',
+    displayName: 'Operator Perintis Demo Inventory Controller',
     personaLabel: 'Inventory and procurement control'
   }
 ];
@@ -87,7 +87,7 @@ export const demoAccounts: DemoAccount[] = accountDefinitions.map((account) => (
   stationScopes: [...demoRoleStationScopes[account.role]]
 }));
 
-const PASSWORD_SALT = 'ama-controlled-local-demo-v1';
+const PASSWORD_SALT = 'mantik-controlled-local-demo-v1';
 
 function derivePassword(password: string) {
   return scryptSync(password, PASSWORD_SALT, 32);

@@ -109,7 +109,7 @@ describe('Maintenance Demo-v2 controls', () => {
         expect.objectContaining({
           approvedDataRevisionId: 'mdata-rev-amm-c208-active',
           documentType: 'AMM',
-          documentNumber: 'AMA-MROV2-AMM-001',
+          documentNumber: 'PRT-MROV2-AMM-001',
           revisionStatus: 'ACTIVE',
           demoFileLabel: 'AMM reference extract',
           demoFileUrl: '/mro/reference/amm-c208b-rev-a.txt',

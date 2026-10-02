@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const branding = useBranding();
 //@ts-nocheck
 
 import type { ApexAxisChartSeries, ApexNonAxisChartSeries, ApexOptions } from 'apexcharts';
@@ -13,7 +14,7 @@ import type {
 import type { DashboardDto } from '#shared/contracts/operations-monitoring';
 import type { AircraftDto } from '#shared/features/operations/aircraft';
 import type { StationDto } from '#shared/features/operations/stations';
-import { AMA_THEME_HEX } from '../constants/themeColors';
+import { MANTIK_THEME_HEX } from '../constants/themeColors';
 
 type OperationFilter = 'ALL' | 'SCHEDULED' | 'CHARTER' | 'CARGO' | 'MEDEVAC';
 type DashboardTab = 'operations' | 'management';
@@ -260,7 +261,12 @@ const readinessChartSeries = computed<ApexNonAxisChartSeries>(() => [
 ]);
 const readinessChartOptions = computed<ApexOptions>(() => ({
   chart: { toolbar: { show: false }, fontFamily: 'Inter, sans-serif' },
-  colors: [AMA_THEME_HEX.success, AMA_THEME_HEX.warning, AMA_THEME_HEX.danger, AMA_THEME_HEX.info],
+  colors: [
+    MANTIK_THEME_HEX.success,
+    MANTIK_THEME_HEX.warning,
+    MANTIK_THEME_HEX.danger,
+    MANTIK_THEME_HEX.info
+  ],
   dataLabels: { enabled: true },
   labels: ['Ready', 'Needs review', 'Blocked', 'Completed'],
   legend: { position: 'bottom' },
@@ -345,7 +351,7 @@ const blockerChartSeries = computed<ApexAxisChartSeries>(() => [
 ]);
 const blockerChartOptions = computed<ApexOptions>(() => ({
   chart: { toolbar: { show: false }, fontFamily: 'Inter, sans-serif' },
-  colors: [AMA_THEME_HEX.danger],
+  colors: [MANTIK_THEME_HEX.danger],
   dataLabels: { enabled: true },
   plotOptions: { bar: { borderRadius: 4, horizontal: true, distributed: true } },
   xaxis: { categories: blockerBreakdown.value.map((item) => item.label) }
@@ -399,7 +405,7 @@ const completionTrendSeries = computed<ApexAxisChartSeries>(() => [
 ]);
 const completionTrendOptions = computed<ApexOptions>(() => ({
   chart: { toolbar: { show: false }, fontFamily: 'Inter, sans-serif' },
-  colors: [AMA_THEME_HEX.info, AMA_THEME_HEX.success, AMA_THEME_HEX.danger],
+  colors: [MANTIK_THEME_HEX.info, MANTIK_THEME_HEX.success, MANTIK_THEME_HEX.danger],
   dataLabels: { enabled: false },
   stroke: { curve: 'smooth', width: 3 },
   xaxis: { categories: trendDates.value.map(formatShortDate) }
@@ -421,7 +427,7 @@ const onTimeCounts = computed(() => {
 const onTimeSeries = computed<ApexNonAxisChartSeries>(() => onTimeCounts.value);
 const onTimeOptions: ApexOptions = {
   chart: { toolbar: { show: false }, fontFamily: 'Inter, sans-serif' },
-  colors: [AMA_THEME_HEX.success, AMA_THEME_HEX.warning, AMA_THEME_HEX.danger],
+  colors: [MANTIK_THEME_HEX.success, MANTIK_THEME_HEX.warning, MANTIK_THEME_HEX.danger],
   labels: ['On-time', 'Delayed', 'Cancelled'],
   legend: { position: 'bottom' },
   plotOptions: { pie: { donut: { size: '70%' } } }
@@ -443,11 +449,11 @@ const requestSourceSeries = computed<ApexNonAxisChartSeries>(() =>
 const requestSourceOptions = computed<ApexOptions>(() => ({
   chart: { toolbar: { show: false }, fontFamily: 'Inter, sans-serif' },
   colors: [
-    AMA_THEME_HEX.info,
-    AMA_THEME_HEX.secondary,
-    AMA_THEME_HEX.accent,
-    AMA_THEME_HEX.danger,
-    AMA_THEME_HEX.warning
+    MANTIK_THEME_HEX.info,
+    MANTIK_THEME_HEX.secondary,
+    MANTIK_THEME_HEX.accent,
+    MANTIK_THEME_HEX.danger,
+    MANTIK_THEME_HEX.warning
   ],
   labels: requestSources.value.map((item) => item.label),
   legend: { position: 'bottom' }
@@ -467,7 +473,7 @@ const delayReasonSeries = computed<ApexAxisChartSeries>(() => [
 ]);
 const delayReasonOptions: ApexOptions = {
   chart: { toolbar: { show: false }, fontFamily: 'Inter, sans-serif' },
-  colors: [AMA_THEME_HEX.accent],
+  colors: [MANTIK_THEME_HEX.accent],
   dataLabels: { enabled: false },
   plotOptions: { bar: { borderRadius: 4, horizontal: true } },
   xaxis: { categories: delayCategories }
@@ -486,7 +492,7 @@ const utilizationSeries = computed<ApexAxisChartSeries>(() => [
 ]);
 const utilizationOptions = computed<ApexOptions>(() => ({
   chart: { toolbar: { show: false }, fontFamily: 'Inter, sans-serif' },
-  colors: [AMA_THEME_HEX.secondary],
+  colors: [MANTIK_THEME_HEX.secondary],
   dataLabels: { enabled: false },
   plotOptions: { bar: { borderRadius: 4, columnWidth: '48%' } },
   xaxis: { categories: utilizationRows.value.map((row) => row.registration) }
@@ -509,7 +515,7 @@ const fuelSeries = computed<ApexAxisChartSeries>(() => [
 ]);
 const fuelOptions = computed<ApexOptions>(() => ({
   chart: { toolbar: { show: false }, fontFamily: 'Inter, sans-serif' },
-  colors: [AMA_THEME_HEX.info, AMA_THEME_HEX.success],
+  colors: [MANTIK_THEME_HEX.info, MANTIK_THEME_HEX.success],
   dataLabels: { enabled: false },
   plotOptions: { bar: { borderRadius: 4, columnWidth: '48%' } },
   xaxis: { categories: fuelRows.value.map((row) => row.station) }
@@ -675,7 +681,9 @@ function resetSections() {
         <section class="mb-4">
           <div class="mb-4 d-flex flex-wrap align-start ga-4">
             <div>
-              <h1 class="text-h4 font-weight-bold text-text-primary">PT AMA Aviation Dashboard</h1>
+              <h1 class="text-h4 font-weight-bold text-text-primary">
+                {{ branding.productName }} Dashboard
+              </h1>
               <div class="mt-2 d-flex flex-wrap align-center ga-2 text-body-2 text-text-secondary">
                 <span>{{ selectedDate ? formatDate(selectedDate) : 'All operational dates' }}</span>
                 <VChip color="secondary" size="small" variant="tonal">

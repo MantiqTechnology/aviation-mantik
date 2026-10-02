@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const branding = useBranding();
 import AttendanceCheckin from './AttendanceCheckin.vue';
 import LeaveRequest from './LeaveRequest.vue';
 import OvertimeAttendance from './OvertimeAttendance.vue';
@@ -31,14 +32,14 @@ async function logout() {
       <div class="mx-auto d-flex h-100 max-w-7xl align-center px-4">
         <NuxtLink class="d-flex align-center ga-3 text-decoration-none" to="/hris/portal">
           <VImg
-            alt="AMA logo"
+            :alt="branding.productName"
             class="rounded"
             height="44"
-            src="https://amapapua.com/files/ama-pt-logo-shaded4.png"
+            :src="branding.logoUrl"
             width="64"
           />
           <div>
-            <div class="font-weight-bold text-brand-primary">Associated Mission Aviation</div>
+            <div class="font-weight-bold text-brand-primary">{{ branding.operatorName }}</div>
             <div class="text-xs text-text-secondary">Employee Self-Service Portal</div>
           </div>
         </NuxtLink>

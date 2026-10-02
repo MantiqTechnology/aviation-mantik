@@ -14,9 +14,12 @@ function assertNoSeedMarker(sqlite: Database.Database) {
       .prepare(`PRAGMA table_info('${table.replaceAll("'", "''")}')`)
       .all() as ColumnRow[];
     for (const column of columns.filter(({ type }) => /TEXT|CHAR|CLOB/u.test(type.toUpperCase()))) {
+      // DEMO is an actual fuel-source enum, not a placeholder identifier.
+      if (table === 'aircraft' && column.name === 'fuel_profile_source') continue;
       const match = sqlite
         .prepare(
-          `SELECT ${column.name} AS value FROM ${table} WHERE lower(${column.name}) LIKE '%demo%' LIMIT 1`
+          `SELECT ${column.name} AS value FROM ${table}
+           WHERE lower(replace(${column.name}, 'Operator Demo', 'Operator')) LIKE '%demo%' LIMIT 1`
         )
         .get() as { value: string } | undefined;
       if (match)

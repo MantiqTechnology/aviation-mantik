@@ -29,7 +29,7 @@ export function createPostgresPool(kind: PostgresConnectionKind, overrides: Pool
     idleTimeoutMillis: 10_000,
     connectionTimeoutMillis: 10_000,
     allowExitOnIdle: true,
-    application_name: `ama-interface-${kind}`,
+    application_name: `mantik-aviation-${kind}`,
     ...overrides
   });
 }

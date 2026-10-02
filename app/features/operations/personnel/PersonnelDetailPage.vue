@@ -964,8 +964,8 @@ const summaryRows = computed(() => {
 
           <template v-else-if="activeTab === 'authorizations'">
             <VAlert type="info" variant="tonal" density="compact" class="mb-3">
-              PT AMA company authorization is separate from the personnel licence and is checked
-              again by the MRO backend for every controlled maintenance action.
+              Operator Demo company authorization is separate from the personnel licence and is
+              checked again by the MRO backend for every controlled maintenance action.
             </VAlert>
             <div class="table-scroll">
               <VTable>
@@ -1014,7 +1014,7 @@ const summaryRows = computed(() => {
                     </td>
                   </tr>
                   <tr v-if="authorizations?.length === 0">
-                    <td colspan="7">No PT AMA company authorizations recorded.</td>
+                    <td colspan="7">No Operator Demo company authorizations recorded.</td>
                   </tr>
                 </tbody>
               </VTable>

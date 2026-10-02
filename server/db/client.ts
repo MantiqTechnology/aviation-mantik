@@ -15,15 +15,15 @@ export type DbClient = {
 const clients = new Map<string, DbClient>();
 
 export function getDefaultDbPath() {
-  if (process.env.AMA_DB_PATH) {
-    return process.env.AMA_DB_PATH;
+  if (process.env.MANTIK_DB_PATH) {
+    return process.env.MANTIK_DB_PATH;
   }
 
   if (process.env.VERCEL) {
-    return '/tmp/ama-demo.sqlite';
+    return '/tmp/mantik-demo.sqlite';
   }
 
-  return './data/ama-demo.sqlite';
+  return './data/mantik-demo.sqlite';
 }
 
 export function resolveDbPath(dbPath = getDefaultDbPath()) {

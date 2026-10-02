@@ -1,6 +1,7 @@
 import { fileURLToPath } from 'node:url';
 import Database from 'better-sqlite3';
-import { setup, $fetch } from '@nuxt/test-utils/e2e';
+import { setup } from '@nuxt/test-utils/e2e';
+import { demoApiFetch as $fetch } from '../helpers/demo-api-fetch';
 import { beforeAll, describe, expect, it } from 'vitest';
 import type { ApiResponse } from '../../shared/contracts/api';
 import type { OperationalFlightMonitorDto } from '../../shared/contracts/operations-monitoring';
@@ -18,7 +19,7 @@ import { resetDemoDatabase } from '../../server/db/reset-demo';
 
 process.env.DEMO_MODE = 'true';
 const testDbPath = './data/test-flight-operations-api.sqlite';
-process.env.AMA_DB_PATH = testDbPath;
+process.env.MANTIK_DB_PATH = testDbPath;
 
 beforeAll(async () => {
   await resetDemoDatabase(testDbPath);
@@ -28,6 +29,8 @@ await setup({
   rootDir: fileURLToPath(new URL('../..', import.meta.url)),
   server: true,
   browser: false,
+  // Exercise the API against its own fixture, including the Vercel SPA configuration.
+  nuxtConfig: { ssr: false, runtimeConfig: { dbPath: process.env.MANTIK_DB_PATH } },
   setupTimeout: 300_000
 });
 
@@ -35,7 +38,7 @@ describe('flight request APIs', () => {
   it('returns actor-aware command-center capabilities without exposing an executable forbidden action', async () => {
     const director = await $fetch<ApiResponse<FlightOperationDetailDto>>(
       '/api/flight-operations/flights/fop-ticketing-passenger',
-      { headers: { cookie: 'ama_demo_role=Director' } }
+      { headers: { cookie: 'mantik_demo_role=Director' } }
     );
     expect(director.ok).toBe(true);
     if (!director.ok) throw new Error(director.error.message);
@@ -55,7 +58,7 @@ describe('flight request APIs', () => {
 
   it('enforces station scope on the persistent Station Operations workbench', async () => {
     const denied = await $fetch<ApiResponse<unknown>>('/api/flight-operations/station-operations', {
-      headers: { cookie: 'ama_demo_role=Station%20Admin' },
+      headers: { cookie: 'mantik_demo_role=Station%20Admin' },
       query: { stationCode: 'DJJ', operationalDate: '2026-07-17' },
       ignoreResponseError: true
     });
@@ -72,7 +75,7 @@ describe('flight request APIs', () => {
         }>
       >
     >('/api/flight-operations/station-operations', {
-      headers: { cookie: 'ama_demo_role=Station%20Admin' },
+      headers: { cookie: 'mantik_demo_role=Station%20Admin' },
       query: { stationCode: 'WMX', operationalDate: '2026-07-17' }
     });
     expect(allowed.ok).toBe(true);
@@ -93,7 +96,7 @@ describe('flight request APIs', () => {
   });
 
   it('lets Station create a maintenance request without granting MRO authority', async () => {
-    const stationHeaders = { cookie: 'ama_demo_role=Station%20Admin' };
+    const stationHeaders = { cookie: 'mantik_demo_role=Station%20Admin' };
     const aggregate = await $fetch<
       ApiResponse<Array<{ flightId: string; aircraftVersion: number }>>
     >('/api/flight-operations/station-operations', {
@@ -209,7 +212,7 @@ describe('flight request APIs', () => {
       '/api/flight-operations/flights/fop-ticketing-passenger/maintenance-requests',
       {
         method: 'POST',
-        headers: { cookie: 'ama_demo_role=OCC' },
+        headers: { cookie: 'mantik_demo_role=OCC' },
         body: {},
         ignoreResponseError: true
       }
@@ -229,7 +232,7 @@ describe('flight request APIs', () => {
         }>
       >
     >('/api/flight-operations/station-costs', {
-      headers: { cookie: 'ama_demo_role=Finance%20Reviewer' }
+      headers: { cookie: 'mantik_demo_role=Finance%20Reviewer' }
     });
 
     expect(response.ok).toBe(true);
@@ -250,7 +253,7 @@ describe('flight request APIs', () => {
   it('persists evidence and dual approval for station sign-off through public APIs', async () => {
     const tasks = await $fetch<ApiResponse<Array<Record<string, unknown>>>>(
       '/api/flight-operations/flights/fop-ticketing-passenger/station-tasks',
-      { headers: { cookie: 'ama_demo_role=Station%20Admin' } }
+      { headers: { cookie: 'mantik_demo_role=Station%20Admin' } }
     );
     expect(tasks.ok).toBe(true);
     if (!tasks.ok) throw new Error(tasks.error.message);
@@ -266,14 +269,14 @@ describe('flight request APIs', () => {
         `/api/flight-operations/station-tasks/${dependencyId}/actions/start`,
         {
           method: 'POST',
-          headers: { cookie: 'ama_demo_role=Station%20Admin' },
+          headers: { cookie: 'mantik_demo_role=Station%20Admin' },
           body: { expectedVersion: task.version }
         }
       );
       const startedVersion = started.ok ? started.data.version : task.version;
       await $fetch(`/api/flight-operations/station-tasks/${dependencyId}/evidence`, {
         method: 'POST',
-        headers: { cookie: 'ama_demo_role=Station%20Admin' },
+        headers: { cookie: 'mantik_demo_role=Station%20Admin' },
         body: {
           expectedVersion: startedVersion,
           fileName: `${String(task.task_code).toLowerCase()}.pdf`
@@ -281,7 +284,7 @@ describe('flight request APIs', () => {
       });
       await $fetch(`/api/flight-operations/station-tasks/${dependencyId}/actions/verify`, {
         method: 'POST',
-        headers: { cookie: 'ama_demo_role=Station%20Admin' },
+        headers: { cookie: 'mantik_demo_role=Station%20Admin' },
         body: { expectedVersion: startedVersion }
       });
     }
@@ -291,7 +294,7 @@ describe('flight request APIs', () => {
       `/api/flight-operations/station-tasks/${taskId}/actions/start`,
       {
         method: 'POST',
-        headers: { cookie: 'ama_demo_role=Station%20Admin' },
+        headers: { cookie: 'mantik_demo_role=Station%20Admin' },
         body: { expectedVersion: signoff?.version }
       }
     );
@@ -300,7 +303,7 @@ describe('flight request APIs', () => {
       `/api/flight-operations/station-tasks/${taskId}/evidence`,
       {
         method: 'POST',
-        headers: { cookie: 'ama_demo_role=Station%20Admin' },
+        headers: { cookie: 'mantik_demo_role=Station%20Admin' },
         body: {
           expectedVersion: signoffVersion,
           fileName: 'destination-signoff.pdf',
@@ -315,7 +318,7 @@ describe('flight request APIs', () => {
       `/api/flight-operations/station-tasks/${taskId}/actions/verify`,
       {
         method: 'POST',
-        headers: { cookie: 'ama_demo_role=Station%20Admin' },
+        headers: { cookie: 'mantik_demo_role=Station%20Admin' },
         body: { expectedVersion: signoffVersion, reason: 'Station verification completed.' }
       }
     );
@@ -325,7 +328,7 @@ describe('flight request APIs', () => {
       `/api/flight-operations/station-tasks/${taskId}/actions/approve-occ`,
       {
         method: 'POST',
-        headers: { cookie: 'ama_demo_role=OCC' },
+        headers: { cookie: 'mantik_demo_role=OCC' },
         body: {
           decision: 'APPROVED',
           expectedVersion: verified.ok ? verified.data.version : 0,
@@ -337,7 +340,7 @@ describe('flight request APIs', () => {
 
     const audit = await $fetch<ApiResponse<Array<Record<string, unknown>>>>(
       '/api/flight-operations/flights/fop-ticketing-passenger/operational-audit',
-      { headers: { cookie: 'ama_demo_role=OCC' } }
+      { headers: { cookie: 'mantik_demo_role=OCC' } }
     );
     expect(audit.ok).toBe(true);
     expect(
@@ -353,7 +356,7 @@ describe('flight request APIs', () => {
       '/api/flight-operations/flights/fop-ticketing-passenger/actions/evaluate',
       {
         method: 'POST',
-        headers: { cookie: 'ama_demo_role=OCC' }
+        headers: { cookie: 'mantik_demo_role=OCC' }
       }
     );
 
@@ -372,7 +375,7 @@ describe('flight request APIs', () => {
     const response = await $fetch<ApiResponse<FlightPlanningContextDto>>(
       '/api/flight-operations/planning-context',
       {
-        headers: { cookie: 'ama_demo_role=OCC' },
+        headers: { cookie: 'mantik_demo_role=OCC' },
         query: {
           routeId: 'route-djj-wmx',
           flightDate: '2026-08-20',
@@ -389,7 +392,7 @@ describe('flight request APIs', () => {
     if (!response.ok) throw new Error(response.error.message);
     expect(response.data.routeReadiness.availableForScheduling).toBe(true);
     expect(response.data.aircraftCandidates).toContainEqual(
-      expect.objectContaining({ id: 'ac-pk-ama', available: true })
+      expect.objectContaining({ id: 'ac-pk-dma', available: true })
     );
     expect(response.data.crewCandidates).toContainEqual(
       expect.objectContaining({ id: 'crew-pic-expiring', available: false })
@@ -400,7 +403,7 @@ describe('flight request APIs', () => {
     const denied = await $fetch<ApiResponse<OperationalFlightMonitorDto[]>>(
       '/api/flight-operations/flight-following',
       {
-        headers: { cookie: 'ama_demo_role=Inventory%20Controller' },
+        headers: { cookie: 'mantik_demo_role=Inventory%20Controller' },
         ignoreResponseError: true
       }
     );
@@ -408,7 +411,7 @@ describe('flight request APIs', () => {
 
     const scoped = await $fetch<ApiResponse<OperationalFlightMonitorDto[]>>(
       '/api/flight-operations/flight-following',
-      { headers: { cookie: 'ama_demo_role=Station%20Admin' } }
+      { headers: { cookie: 'mantik_demo_role=Station%20Admin' } }
     );
     expect(scoped.ok).toBe(true);
     if (!scoped.ok) throw new Error(scoped.error.message);
@@ -423,7 +426,7 @@ describe('flight request APIs', () => {
       '/api/flight-operations/flights/fop-checkin-open/actions/depart',
       {
         method: 'POST',
-        headers: { cookie: 'ama_demo_role=Station%20Admin' },
+        headers: { cookie: 'mantik_demo_role=Station%20Admin' },
         body: { actualAt: '2026-07-17T07:05:00.000Z' },
         ignoreResponseError: true
       }
@@ -436,7 +439,7 @@ describe('flight request APIs', () => {
       '/api/flight-operations/flights',
       {
         query: {
-          aircraftId: 'ac-pk-ama',
+          aircraftId: 'ac-pk-dma',
           scheduledFrom: '2026-07-18T00:00:00.000+09:00',
           excludeTerminal: true,
           sortDirection: 'asc',
@@ -461,7 +464,7 @@ describe('flight request APIs', () => {
           serviceTypeId: 'flight-service-type-scheduled-passenger',
           routeId: 'route-djj-wmx',
           customerId: 'cust-papua-logistics',
-          aircraftId: 'ac-pk-ama',
+          aircraftId: 'ac-pk-dma',
           pilotInCommandId: 'crew-pic-valid',
           coPilotId: 'crew-cop-valid',
           scheduledDepartureAt: '2026-07-14T23:30:00.000Z',
@@ -498,7 +501,7 @@ describe('flight request APIs', () => {
       ApiResponse<{ request: FlightRequestRecord; flight: FlightOperationRecord | null }>
     >(`/api/flight-operations/requests/${created.data.id}/actions/decision`, {
       method: 'POST',
-      headers: { cookie: 'ama_demo_role=Director' },
+      headers: { cookie: 'mantik_demo_role=Director' },
       body: { decision: 'APPROVE', reason: 'Approved by integration test.' }
     });
 
@@ -508,7 +511,7 @@ describe('flight request APIs', () => {
     expect(decided.data.flight?.flightRequestId).toBe(created.data.id);
   });
 
-  it('lists, recovers, and approves an idempotent finance handoff', async () => {
+  it('recovers an idempotent finance handoff and enforces approval separation', async () => {
     const emptyQuery = await $fetch<ApiResponse<InvoiceSummaryDto[]>>(
       '/api/invoices?status&customerId&flightId&due&search'
     );
@@ -533,7 +536,7 @@ describe('flight request APIs', () => {
 
     const denied = await $fetch<ApiResponse<InvoiceDetailDto>>('/api/finance/handoffs/process', {
       method: 'POST',
-      headers: { cookie: 'ama_demo_role=OCC' },
+      headers: { cookie: 'mantik_demo_role=OCC' },
       body: { flightId: 'fop-ticketing-cargo' },
       ignoreResponseError: true
     });
@@ -561,23 +564,23 @@ describe('flight request APIs', () => {
       `/api/invoices/${recovered.data.id}/actions/approve`,
       {
         method: 'POST',
-        headers: { cookie: 'ama_demo_role=Director' },
+        headers: { cookie: 'mantik_demo_role=Director' },
         body: {},
         ignoreResponseError: true
       }
     );
     expect(!directorApproval.ok && directorApproval.error.code).toBe('FORBIDDEN');
 
-    const approved = await $fetch<ApiResponse<InvoiceDetailDto>>(
+    const selfApproval = await $fetch<ApiResponse<InvoiceDetailDto>>(
       `/api/invoices/${recovered.data.id}/actions/approve`,
       {
         method: 'POST',
-        headers: { cookie: 'ama_demo_role=Finance%20Reviewer' },
-        body: {}
+        headers: { cookie: 'mantik_demo_role=Finance%20Reviewer' },
+        body: {},
+        ignoreResponseError: true
       }
     );
-    expect(approved.ok && approved.data.status).toBe('issued');
-    expect(approved.ok && approved.data.approvedByUserId).toBe('USR-FINANCE-REVIEWER');
+    expect(!selfApproval.ok && selfApproval.error.code).toBe('INVOICE_SELF_APPROVAL_FORBIDDEN');
   });
 
   it('serves the maintenance handoff workbench with filters and permissioned approval', async () => {
@@ -589,7 +592,7 @@ describe('flight request APIs', () => {
     expect(list.data).toContainEqual(
       expect.objectContaining({
         id: 'fop-in-progress-maintenance-draft',
-        flightNumber: 'AMA-20260717-005',
+        flightNumber: 'PRT-20260717-005',
         routeCode: 'WMX-OKS',
         currentStatus: 'IN_PROGRESS',
         pendingApproval: true,
@@ -607,14 +610,14 @@ describe('flight request APIs', () => {
     );
 
     const deniedList = await $fetch<ApiResponse<unknown>>('/api/flight-operations/maintenance', {
-      headers: { cookie: 'ama_demo_role=OCC' },
+      headers: { cookie: 'mantik_demo_role=OCC' },
       ignoreResponseError: true
     });
     expect(!deniedList.ok && deniedList.error.code).toBe('FORBIDDEN');
 
     const filtered = await $fetch<ApiResponse<FlightMaintenanceHandoffDto[]>>(
       '/api/flight-operations/maintenance',
-      { query: { search: 'PK-AMB', status: 'DRAFT', stationId: 'st-wmx' } }
+      { query: { search: 'PK-DMB', status: 'DRAFT', stationId: 'st-wmx' } }
     );
     expect(filtered.ok && filtered.data.map((item) => item.id)).toEqual([
       'fop-in-progress-maintenance-draft'
@@ -638,7 +641,7 @@ describe('flight request APIs', () => {
       '/api/flight-operations/maintenance/fop-in-progress-maintenance-draft/actions/approve',
       {
         method: 'POST',
-        headers: { cookie: 'ama_demo_role=OCC' },
+        headers: { cookie: 'mantik_demo_role=OCC' },
         ignoreResponseError: true
       }
     );
@@ -648,13 +651,13 @@ describe('flight request APIs', () => {
       '/api/flight-operations/maintenance/fop-in-progress-maintenance-draft/actions/approve',
       {
         method: 'POST',
-        headers: { cookie: 'ama_demo_role=Maintenance%20Manager' }
+        headers: { cookie: 'mantik_demo_role=Maintenance%20Manager' }
       }
     );
     expect(approved.ok).toBe(true);
     const refreshed = await $fetch<ApiResponse<FlightMaintenanceHandoffDto[]>>(
       '/api/flight-operations/maintenance',
-      { query: { search: 'AMA-20260717-005' } }
+      { query: { search: 'PRT-20260717-005' } }
     );
     expect(refreshed.ok && refreshed.data[0]).toMatchObject({
       id: 'fop-in-progress-maintenance-draft',
@@ -665,7 +668,7 @@ describe('flight request APIs', () => {
       '/api/flight-operations/maintenance/fop-in-progress-maintenance-draft/actions/approve',
       {
         method: 'POST',
-        headers: { cookie: 'ama_demo_role=Maintenance%20Manager' },
+        headers: { cookie: 'mantik_demo_role=Maintenance%20Manager' },
         ignoreResponseError: true
       }
     );

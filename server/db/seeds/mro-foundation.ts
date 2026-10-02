@@ -3,7 +3,7 @@ import { createDemoSeedContext, type DemoSeedContext } from './context';
 
 type Row = Record<string, string | number | null>;
 
-const authorizationNotice = 'Licence and PT AMA authorization verified.';
+const authorizationNotice = 'Licence and Operator Demo authorization verified.';
 const cessnaCaravanImageUrl = 'aircraft/Cessna-208-Caravan-PNC-0219-1.jpg';
 
 function list(values: string[]) {
@@ -100,7 +100,7 @@ export function seedMroFoundationData(
       availabilityStatus: 'AVAILABLE',
       employmentStatus: 'PERMANENT',
       isActive: 1,
-      readinessNote: 'MRO mechanic persona for PT AMA maintenance sign-off.',
+      readinessNote: 'MRO mechanic persona for Operator Demo maintenance sign-off.',
       createdAt: seedNow,
       updatedAt: seedNow
     });
@@ -159,12 +159,12 @@ export function seedMroFoundationData(
       {
         id: 'crew-maintenance-manager',
         slug: 'maintenance-manager',
-        notes: 'Aircraft/type scope for PT AMA MRO mechanic authorization.'
+        notes: 'Aircraft/type scope for Operator Demo MRO mechanic authorization.'
       },
       {
         id: 'crew-maintenance-technician',
         slug: 'maintenance-technician',
-        notes: 'Aircraft/type scope for PT AMA MRO technician authorization.'
+        notes: 'Aircraft/type scope for Operator Demo MRO technician authorization.'
       }
     ] as const) {
       for (const scope of ['Cessna Caravan 208B', 'Pilatus PC-6', 'PAC 750XL']) {
@@ -188,7 +188,7 @@ export function seedMroFoundationData(
     for (const authorization of [
       {
         id: 'mca-mrov1-mechanic',
-        authorizationNumber: 'PTAMA-MRO-AUTH-MECH-001',
+        authorizationNumber: 'Operator Demo-MRO-AUTH-MECH-001',
         personnelId: 'crew-maintenance-manager',
         actorUserId: 'USR-MAINTENANCE-MANAGER',
         licenseId: 'plic-crew-maintenance-manager',
@@ -199,15 +199,15 @@ export function seedMroFoundationData(
         permittedActionsJson: JSON.stringify(['MECHANIC_SIGN_OFF', 'REWORK_SIGN_OFF']),
         aircraftTypeScopeJson: JSON.stringify(['Cessna Caravan 208B', 'Pilatus PC-6', 'PAC 750XL']),
         aircraftRegistrationScopeJson: JSON.stringify([]),
-        notes: 'PT AMA authorization for mechanic and corrective-work sign-off only.',
-        issuedBy: 'PT AMA Maintenance Control',
+        notes: 'Operator Demo authorization for mechanic and corrective-work sign-off only.',
+        issuedBy: 'Operator Demo Maintenance Control',
         version: 1,
         createdAt: seedNow,
         updatedAt: seedNow
       },
       {
         id: 'mca-mrov1-technician-mechanic',
-        authorizationNumber: 'PTAMA-MRO-AUTH-TECH-001',
+        authorizationNumber: 'Operator Demo-MRO-AUTH-TECH-001',
         personnelId: 'crew-maintenance-technician',
         actorUserId: 'USR-MAINTENANCE-TECHNICIAN',
         licenseId: 'plic-crew-maintenance-technician',
@@ -218,15 +218,16 @@ export function seedMroFoundationData(
         permittedActionsJson: JSON.stringify(['MECHANIC_SIGN_OFF', 'REWORK_SIGN_OFF']),
         aircraftTypeScopeJson: JSON.stringify(['Cessna Caravan 208B', 'Pilatus PC-6', 'PAC 750XL']),
         aircraftRegistrationScopeJson: JSON.stringify([]),
-        notes: 'PT AMA authorization for technician mechanic and corrective-work sign-off only.',
-        issuedBy: 'PT AMA Maintenance Control',
+        notes:
+          'Operator Demo authorization for technician mechanic and corrective-work sign-off only.',
+        issuedBy: 'Operator Demo Maintenance Control',
         version: 1,
         createdAt: seedNow,
         updatedAt: seedNow
       },
       {
         id: 'mca-mrov1-inspector',
-        authorizationNumber: 'PTAMA-MRO-AUTH-INSP-001',
+        authorizationNumber: 'Operator Demo-MRO-AUTH-INSP-001',
         personnelId: 'crew-certifying-staff',
         actorUserId: 'USR-CERTIFYING-STAFF',
         licenseId: 'plic-crew-certifying-staff',
@@ -240,15 +241,15 @@ export function seedMroFoundationData(
         ]),
         aircraftTypeScopeJson: JSON.stringify(['Cessna Caravan 208B', 'Pilatus PC-6', 'PAC 750XL']),
         aircraftRegistrationScopeJson: JSON.stringify([]),
-        notes: 'PT AMA authorization for independent inspection and re-inspection.',
-        issuedBy: 'PT AMA Maintenance Control',
+        notes: 'Operator Demo authorization for independent inspection and re-inspection.',
+        issuedBy: 'Operator Demo Maintenance Control',
         version: 1,
         createdAt: seedNow,
         updatedAt: seedNow
       },
       {
         id: 'mca-mrov1-release',
-        authorizationNumber: 'PTAMA-MRO-AUTH-REL-001',
+        authorizationNumber: 'Operator Demo-MRO-AUTH-REL-001',
         personnelId: 'crew-certifying-staff',
         actorUserId: 'USR-CERTIFYING-STAFF',
         licenseId: 'plic-crew-certifying-staff',
@@ -259,15 +260,15 @@ export function seedMroFoundationData(
         permittedActionsJson: JSON.stringify(['TECHNICAL_RELEASE']),
         aircraftTypeScopeJson: JSON.stringify(['Cessna Caravan 208B', 'Pilatus PC-6', 'PAC 750XL']),
         aircraftRegistrationScopeJson: JSON.stringify([]),
-        notes: 'PT AMA authorization for technical release only.',
-        issuedBy: 'PT AMA Maintenance Control',
+        notes: 'Operator Demo authorization for technical release only.',
+        issuedBy: 'Operator Demo Maintenance Control',
         version: 1,
         createdAt: seedNow,
         updatedAt: seedNow
       },
       {
         id: 'mca-mrov1-inactive-example',
-        authorizationNumber: 'PTAMA-MRO-AUTH-INACTIVE-001',
+        authorizationNumber: 'Operator Demo-MRO-AUTH-INACTIVE-001',
         personnelId: 'crew-certifying-staff',
         actorUserId: 'USR-CERTIFYING-STAFF',
         licenseId: 'plic-crew-certifying-staff',
@@ -279,7 +280,7 @@ export function seedMroFoundationData(
         aircraftTypeScopeJson: JSON.stringify(['Cessna Caravan 208B']),
         aircraftRegistrationScopeJson: JSON.stringify([]),
         notes: 'Valid licence without active authorization for mechanic sign-off.',
-        issuedBy: 'PT AMA Maintenance Control',
+        issuedBy: 'Operator Demo Maintenance Control',
         version: 1,
         createdAt: seedNow,
         updatedAt: seedNow
@@ -361,7 +362,8 @@ export function seedMroFoundationData(
         holdingFuelBurnLitrePerHour: 180,
         taxiFuelBurnLitrePerHour: 120,
         fuelProfileSource: 'HISTORICAL_ESTIMATE',
-        fuelProfileReference: 'Advisory planning profile; validate against AMA AFM/POH records',
+        fuelProfileReference:
+          'Advisory planning profile; validate against operator AFM/POH records',
         fuelProfileEffectiveFrom: '2026-01-01',
         fuelProfileAdvisoryOnly: 1,
         operationalStatus: 'ACTIVE',
@@ -382,7 +384,7 @@ export function seedMroFoundationData(
          SET airframe_hours = 1301,
              airframe_cycles = 2201,
              updated_at = ?
-         WHERE id = 'ac-pk-amb'`
+         WHERE id = 'ac-pk-dmb'`
       )
       .run(seedNow);
 
@@ -478,8 +480,8 @@ export function seedMroFoundationData(
     for (const assessment of [
       {
         id: 'massess-mrov1-amc-active',
-        defectId: 'adefect-pk-amc-open',
-        aircraftId: 'ac-pk-amc',
+        defectId: 'adefect-pk-dmc-open',
+        aircraftId: 'ac-pk-dmc',
         assessmentDecision: 'GROUND',
         assessmentNote:
           'Ground aircraft until the engine indication anomaly is rectified and independently inspected.'
@@ -520,9 +522,9 @@ export function seedMroFoundationData(
     insertIgnore(sqlite, 'maintenance_work_packages', {
       id: 'mwp-mrov1-active',
       packageNumber: 'MWP-MROV1-ACTIVE',
-      aircraftId: 'ac-pk-amc',
+      aircraftId: 'ac-pk-dmc',
       sourceFlightId: null,
-      primaryDefectId: 'adefect-pk-amc-open',
+      primaryDefectId: 'adefect-pk-dmc-open',
       title: 'Engine indication troubleshooting and rectification',
       priority: 'HIGH',
       executionMode: 'INTERNAL',
@@ -579,7 +581,7 @@ export function seedMroFoundationData(
 
     insertIgnore(sqlite, 'aircraft_maintenance_releases', {
       id: 'arelease-mrov1-history',
-      aircraftId: 'ac-pk-ama',
+      aircraftId: 'ac-pk-dma',
       releaseNumber: 'RTS-MROV1-HIST-001',
       resultingStatus: 'SERVICEABLE',
       workOrderReference: 'MWP-MROV1-HIST',
@@ -589,14 +591,14 @@ export function seedMroFoundationData(
       releasedAt: context.at(-1, '11:40'),
       evidenceReferences: JSON.stringify(['MROV1-HIST-RELEASE-PACK']),
       defectIds: JSON.stringify([]),
-      signerAuthorizationSnapshotJson: snapshot(context, 'ac-pk-ama', 'PK-AMA', 'Pilatus PC-6'),
+      signerAuthorizationSnapshotJson: snapshot(context, 'ac-pk-dma', 'PK-DMA', 'Pilatus PC-6'),
       createdAt: seedNow
     });
 
     insertIgnore(sqlite, 'maintenance_work_packages', {
       id: 'mwp-mrov1-history',
       packageNumber: 'MWP-MROV1-HIST',
-      aircraftId: 'ac-pk-ama',
+      aircraftId: 'ac-pk-dma',
       sourceFlightId: null,
       primaryDefectId: null,
       title: 'Historical technical release package',
@@ -719,7 +721,7 @@ export function seedMroFoundationData(
         cardNumber: 'MWP-MROV1-REWORK-JC-001',
         title: 'Rectify landing light intermittent circuit',
         taskType: 'DEFECT_RECTIFICATION',
-        maintenanceDataRef: 'PTAMA-C208B-ELECT-33-40-MROV1',
+        maintenanceDataRef: 'Operator Demo-C208B-ELECT-33-40-MROV1',
         maintenanceDataRevision: 'REV-MROV1-2026-08',
         ataChapter: '33-40-00',
         aircraftArea: 'Left wing leading edge',
@@ -975,8 +977,8 @@ export function seedMroFoundationData(
       finding:
         'Inspection found landing light operation still intermittent after initial rectification.',
       correctiveActionDescription:
-        'Corrected terminal seating and performed operational check using PT AMA MROV1 approved-data package.',
-      approvedDataRef: 'PTAMA-C208B-ELECT-33-40-MROV1 REV A',
+        'Corrected terminal seating and performed operational check using Operator Demo MROV1 approved-data package.',
+      approvedDataRef: 'Operator Demo-C208B-ELECT-33-40-MROV1 REV A',
       assignedMechanicUserId: 'USR-MAINTENANCE-MANAGER',
       status: 'REINSPECTION_PASSED',
       mechanicSignoffStatement:
@@ -1157,7 +1159,7 @@ export function seedMroFoundationData(
         metadataJson: JSON.stringify({
           seed: 'MRO_REWORK_V1',
           packageNumber: 'MWP-MROV1-REWORK',
-          approvedDataRef: 'PTAMA-C208B-ELECT-33-40-MROV1 REV A'
+          approvedDataRef: 'Operator Demo-C208B-ELECT-33-40-MROV1 REV A'
         })
       },
       {
@@ -1259,27 +1261,27 @@ export function seedMroFoundationData(
       {
         id: 'mdata-doc-amm-c208-mrov2',
         documentType: 'AMM',
-        documentNumber: 'AMA-MROV2-AMM-001',
+        documentNumber: 'PRT-MROV2-AMM-001',
         title: 'C208B Sample Aircraft Maintenance Manual Reference',
-        sourceIssuer: 'PT AMA Sample Library',
+        sourceIssuer: 'Operator Demo Sample Library',
         applicability: 'Cessna Caravan 208B sample fleet',
         status: 'ACTIVE'
       },
       {
         id: 'mdata-doc-srm-c208-mrov2',
         documentType: 'SRM',
-        documentNumber: 'AMA-MROV2-SRM-001',
+        documentNumber: 'PRT-MROV2-SRM-001',
         title: 'C208B Sample Structural Repair Reference',
-        sourceIssuer: 'PT AMA Sample Library',
+        sourceIssuer: 'Operator Demo Sample Library',
         applicability: 'Cessna Caravan 208B sample fleet',
         status: 'ACTIVE'
       },
       {
         id: 'mdata-doc-ipc-c208-mrov2',
         documentType: 'IPC',
-        documentNumber: 'AMA-MROV2-IPC-001',
+        documentNumber: 'PRT-MROV2-IPC-001',
         title: 'C208B Sample Illustrated Parts Reference',
-        sourceIssuer: 'PT AMA Sample Library',
+        sourceIssuer: 'Operator Demo Sample Library',
         applicability: 'Cessna Caravan 208B sample fleet',
         status: 'ACTIVE'
       }
@@ -1382,10 +1384,10 @@ export function seedMroFoundationData(
 
     for (const due of [
       {
-        id: 'mdue-m5-ama-100fh',
+        id: 'mdue-m5-mantik-100fh',
         code: 'M5-100FH',
         title: '100 FH Inspection',
-        aircraftId: 'ac-pk-amb',
+        aircraftId: 'ac-pk-dmb',
         nextDueAt: null,
         nextDueFlightHours: 1300,
         nextDueFlightCycles: null,
@@ -1415,7 +1417,7 @@ export function seedMroFoundationData(
         id: 'mdue-mrov2-amc-overdue',
         code: 'MROV2-PAC-DUE-002',
         title: 'Fictional mandatory due item for resource-blocked sample',
-        aircraftId: 'ac-pk-amc',
+        aircraftId: 'ac-pk-dmc',
         nextDueAt: context.date(-2),
         nextDueFlightHours: 3980,
         nextDueFlightCycles: 1900,
@@ -1482,7 +1484,7 @@ export function seedMroFoundationData(
     for (const tool of [
       {
         id: 'mtool-mrov2-calibrated',
-        toolCode: 'AMA-TOOL-MROV2-01',
+        toolCode: 'PRT-TOOL-MROV2-01',
         name: 'Sample calibrated electrical test set',
         status: 'AVAILABLE',
         expiresAt: context.date(90),
@@ -1490,7 +1492,7 @@ export function seedMroFoundationData(
       },
       {
         id: 'mtool-mrov2-expired',
-        toolCode: 'AMA-TOOL-MROV2-02',
+        toolCode: 'PRT-TOOL-MROV2-02',
         name: 'Sample expired calibration test set',
         status: 'CALIBRATION_EXPIRED',
         expiresAt: context.date(-1),
@@ -1565,7 +1567,7 @@ export function seedMroFoundationData(
 
     insertIgnore(sqlite, 'maintenance_demo_amo_capability_scopes', {
       id: 'mamo-mrov2-c208',
-      scopeCode: 'AMA-MROV2-AMO-C208',
+      scopeCode: 'PRT-MROV2-AMO-C208',
       aircraftType: 'Cessna Caravan 208B',
       aircraftRegistration: null,
       permittedActionsJson: JSON.stringify(['TECHNICAL_RELEASE']),
@@ -1578,7 +1580,7 @@ export function seedMroFoundationData(
     });
     insertIgnore(sqlite, 'maintenance_demo_amo_capability_scopes', {
       id: 'mamo-m5-pc6',
-      scopeCode: 'AMA-M5-AMO-PC6',
+      scopeCode: 'PRT-M5-AMO-PC6',
       aircraftType: 'Pilatus PC-6',
       aircraftRegistration: null,
       permittedActionsJson: JSON.stringify(['TECHNICAL_RELEASE']),

@@ -108,7 +108,7 @@ describe('flight operation request contracts', () => {
     expect(stationCost.amount).toBe(250000);
   });
 
-  it('accepts PT AMA station evidence received from AVSEC as an external report', () => {
+  it('accepts Operator Demo station evidence received from AVSEC as an external report', () => {
     const evidence = addStationTaskEvidenceBodySchema.parse({
       expectedVersion: '2',
       uploadId: 'upload-1',
@@ -135,7 +135,7 @@ describe('flight operation request contracts', () => {
       serviceTypeId: 'flight-service-type-charter-cargo',
       routeId: 'route-djj-wmx',
       customerId: 'cust-papua-logistics',
-      aircraftId: 'ac-pk-ama',
+      aircraftId: 'ac-pk-dma',
       pilotInCommandId: 'crew-pic-valid',
       coPilotId: '',
       scheduledDepartureAt: '2026-07-10T08:30',

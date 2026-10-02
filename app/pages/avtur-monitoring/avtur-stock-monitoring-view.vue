@@ -5,90 +5,91 @@
 /* TypeScript Interfaces & Types                                             */
 /* ========================================================================== */
 
-export type StockStatus = 'Normal' | 'Ready for Transit' | 'In Use' | 'In-Transit' | 'Low Stock' | 'Quarantined'
-export type SyncStatus = 'Synced' | 'Pending Sync' | 'Failed'
-export type ContainerType = 'Tangki DPPU' | 'Drum 200L'
-export type TransferStatus = 'Preparing' | 'In-Transit' | 'Completed' | 'Cancelled'
-export type HandoverStatus = 'Signed & Verified' | 'Awaiting Receipt' | 'Rejected'
+export type StockStatus =
+  'Normal' | 'Ready for Transit' | 'In Use' | 'In-Transit' | 'Low Stock' | 'Quarantined';
+export type SyncStatus = 'Synced' | 'Pending Sync' | 'Failed';
+export type ContainerType = 'Tangki DPPU' | 'Drum 200L';
+export type TransferStatus = 'Preparing' | 'In-Transit' | 'Completed' | 'Cancelled';
+export type HandoverStatus = 'Signed & Verified' | 'Awaiting Receipt' | 'Rejected';
 
 export interface BreadcrumbItem {
-  title: string
-  disabled: boolean
-  href: string
+  title: string;
+  disabled: boolean;
+  href: string;
 }
 
 export interface MetricCard {
-  title: string
-  count: string
-  unit: string
-  sub: string
-  icon: string
-  color: string
-  subColor: string
+  title: string;
+  count: string;
+  unit: string;
+  sub: string;
+  icon: string;
+  color: string;
+  subColor: string;
 }
 
 export interface StockFlowStep {
-  step: number
-  title: string
-  desc: string
-  icon: string
-  color: string
+  step: number;
+  title: string;
+  desc: string;
+  icon: string;
+  color: string;
 }
 
 export interface StockItem {
-  id: string
-  name: string
-  type: ContainerType
-  station: string
-  qty: string
-  capacity: string
-  percentage: number
-  status: StockStatus
-  statusColor: string
-  lastUpdate: string
-  syncStatus: SyncStatus
-  batchNumber?: string
-  sealNumber?: string
-  notes?: string
+  id: string;
+  name: string;
+  type: ContainerType;
+  station: string;
+  qty: string;
+  capacity: string;
+  percentage: number;
+  status: StockStatus;
+  statusColor: string;
+  lastUpdate: string;
+  syncStatus: SyncStatus;
+  batchNumber?: string;
+  sealNumber?: string;
+  notes?: string;
 }
 
 export interface MutasiTransferItem {
-  manifestNo: string
-  origin: string
-  destination: string
-  qty: string
-  drumCount: number
-  volumeLiter: number
-  carrier: string
-  driverOrPilot: string
-  date: string
-  status: TransferStatus
-  color: string
-  sealNumbers: string[]
-  notes?: string
+  manifestNo: string;
+  origin: string;
+  destination: string;
+  qty: string;
+  drumCount: number;
+  volumeLiter: number;
+  carrier: string;
+  driverOrPilot: string;
+  date: string;
+  status: TransferStatus;
+  color: string;
+  sealNumbers: string[];
+  notes?: string;
 }
 
 export interface SerahTerimaItem {
-  baNo: string
-  manifestRef: string
-  location: string
-  receiver: string
-  sealCheck: string
-  date: string
-  status: HandoverStatus
-  color: string
-  inspectorNotes?: string
+  baNo: string;
+  manifestRef: string;
+  location: string;
+  receiver: string;
+  sealCheck: string;
+  date: string;
+  status: HandoverStatus;
+  color: string;
+  inspectorNotes?: string;
 }
 
 export interface RekonsiliasiErpItem {
-  syncId: string
-  type: string
-  station: string
-  erpRef: string
-  volume: string
-  status: SyncStatus
-  color: string
-  timestamp: string
+  syncId: string;
+  type: string;
+  station: string;
+  erpRef: string;
+  volume: string;
+  status: SyncStatus;
+  color: string;
+  timestamp: string;
 }
 
 /* ========================================================================== */
@@ -99,16 +100,16 @@ const breadcrumbs: BreadcrumbItem[] = [
   {
     title: 'Avtur Fuel Management',
     disabled: false,
-    href: '/avtur-monitoring/dashboard',
+    href: '/avtur-monitoring/dashboard'
   },
   {
     title: 'Stock Monitoring & Transfer',
     disabled: true,
-    href: '#',
-  },
-]
+    href: '#'
+  }
+];
 
-const activeTab = ref<number>(0)
+const activeTab = ref<number>(0);
 
 const tabs = [
   { title: 'Ringkasan Stok', icon: 'mdi-chart-pie-outline', badge: null },
@@ -116,8 +117,8 @@ const tabs = [
   { title: 'Inventaris Drum', icon: 'mdi-barrel', badge: '312' },
   { title: 'Mutasi & Transfer', icon: 'mdi-swap-horizontal-bold', badge: 'Live' },
   { title: 'Serah-Terima', icon: 'mdi-handshake-outline', badge: null },
-  { title: 'Rekonsiliasi ERP', icon: 'mdi-database-sync-outline', badge: 'Sync' },
-]
+  { title: 'Rekonsiliasi ERP', icon: 'mdi-database-sync-outline', badge: 'Sync' }
+];
 
 /* ========================================================================== */
 /* Dashboard Summary Metrics                                                  */
@@ -131,7 +132,7 @@ const metrics = reactive<MetricCard[]>([
     sub: '98.5% tersinkron ERP',
     icon: 'mdi-water-percent',
     color: 'primary',
-    subColor: 'success',
+    subColor: 'success'
   },
   {
     title: 'Stok Tangki Hub',
@@ -140,7 +141,7 @@ const metrics = reactive<MetricCard[]>([
     sub: '75% kapasitas terpakai',
     icon: 'mdi-fuel',
     color: 'teal',
-    subColor: 'success',
+    subColor: 'success'
   },
   {
     title: 'Stok Drum Airstrip',
@@ -149,7 +150,7 @@ const metrics = reactive<MetricCard[]>([
     sub: '8 airstrip perintis',
     icon: 'mdi-barrel-outline',
     color: 'success',
-    subColor: 'success',
+    subColor: 'success'
   },
   {
     title: 'Drum Dalam Transit',
@@ -158,7 +159,7 @@ const metrics = reactive<MetricCard[]>([
     sub: 'Penerbangan / cargo',
     icon: 'mdi-truck-cargo-container',
     color: 'warning',
-    subColor: 'warning',
+    subColor: 'warning'
   },
   {
     title: 'Alert Low Stock',
@@ -167,7 +168,7 @@ const metrics = reactive<MetricCard[]>([
     sub: '< 5 drum tersisa',
     icon: 'mdi-alert-decagram-outline',
     color: 'error',
-    subColor: 'error',
+    subColor: 'error'
   },
   {
     title: 'Pending Sync',
@@ -176,9 +177,9 @@ const metrics = reactive<MetricCard[]>([
     sub: 'Menunggu koneksi',
     icon: 'mdi-cloud-upload-outline',
     color: 'purple',
-    subColor: 'warning',
-  },
-])
+    subColor: 'warning'
+  }
+]);
 
 /* ========================================================================== */
 /* Stock Lifecycle Flow Steps                                                 */
@@ -190,37 +191,37 @@ const stockFlowSteps: StockFlowStep[] = [
     title: 'Inflow Tanker',
     desc: 'Penerimaan Avtur dari supplier ke tangki utama Hub / DPPU.',
     icon: 'mdi-truck-delivery-outline',
-    color: 'teal',
+    color: 'teal'
   },
   {
     step: 2,
     title: 'Drum Filling',
     desc: 'Pengisian drum 200L, verifikasi batch dan pemasangan seal.',
     icon: 'mdi-barrel',
-    color: 'primary',
+    color: 'primary'
   },
   {
     step: 3,
     title: 'Dispatch',
     desc: 'Pengiriman drum menggunakan manifest menuju airstrip tujuan.',
     icon: 'mdi-airplane-takeoff',
-    color: 'warning',
+    color: 'warning'
   },
   {
     step: 4,
     title: 'Handover',
     desc: 'Konfirmasi penerimaan, pemeriksaan fisik dan scan seal.',
     icon: 'mdi-handshake',
-    color: 'success',
+    color: 'success'
   },
   {
     step: 5,
     title: 'Refuel & Reconcile',
     desc: 'Pemakaian dicatat dan saldo direkonsiliasi ke ERP.',
     icon: 'mdi-database-check-outline',
-    color: 'purple',
-  },
-]
+    color: 'purple'
+  }
+];
 
 /* ========================================================================== */
 /* Filter Options & Master Data                                               */
@@ -234,23 +235,19 @@ const stationOptions = [
   'Airstrip Okbibab',
   'Airstrip Boven Digoel',
   'Airstrip Dekai',
-  'Airstrip Oksibil',
-]
+  'Airstrip Oksibil'
+];
 
 const carrierOptions = [
-  'PK-AMA (Cessna Caravan 208B)',
-  'PK-AMB (Short Skyvan SC.7)',
-  'PK-AMC (Helicopter Bell 412)',
-  'PK-AMD (Cessna Caravan 208B)',
+  'PK-DMA (Cessna Caravan 208B)',
+  'PK-DMB (Short Skyvan SC.7)',
+  'PK-DMC (Helicopter Bell 412)',
+  'PK-DMD (Cessna Caravan 208B)',
   'Truck Land Cruiser Hardtop',
-  'Truk Tangki Hub Pertamina',
-]
+  'Truk Tangki Hub Pertamina'
+];
 
-const typeOptions = [
-  'Semua Tipe Wadah',
-  'Tangki DPPU',
-  'Drum 200L',
-]
+const typeOptions = ['Semua Tipe Wadah', 'Tangki DPPU', 'Drum 200L'];
 
 const statusOptions = [
   'Semua Status',
@@ -259,17 +256,17 @@ const statusOptions = [
   'In Use',
   'In-Transit',
   'Low Stock',
-  'Quarantined',
-]
+  'Quarantined'
+];
 
 /* ========================================================================== */
 /* Inventory Main Reactive State                                             */
 /* ========================================================================== */
 
-const selectedStation = ref<string>('Semua Station / Hub')
-const selectedType = ref<string>('Semua Tipe Wadah')
-const selectedStatus = ref<string>('Semua Status')
-const searchQuery = ref<string>('')
+const selectedStation = ref<string>('Semua Station / Hub');
+const selectedType = ref<string>('Semua Tipe Wadah');
+const selectedStatus = ref<string>('Semua Status');
+const searchQuery = ref<string>('');
 
 const stockItems = ref<StockItem[]>([
   {
@@ -285,7 +282,7 @@ const stockItems = ref<StockItem[]>([
     lastUpdate: '22 Aug 2026 09:10',
     syncStatus: 'Synced',
     batchNumber: 'B-2026-HUB-01',
-    notes: 'Kondisi tangki baik, telah melalui inspeksi berkala.',
+    notes: 'Kondisi tangki baik, telah melalui inspeksi berkala.'
   },
   {
     id: 'HUB-DJJ-TK02',
@@ -300,7 +297,7 @@ const stockItems = ref<StockItem[]>([
     lastUpdate: '22 Aug 2026 08:45',
     syncStatus: 'Synced',
     batchNumber: 'B-2026-HUB-02',
-    notes: 'Suplai penerimaan tanker kapal tanggal 19 Aug.',
+    notes: 'Suplai penerimaan tanker kapal tanggal 19 Aug.'
   },
   {
     id: 'DRUM-00087',
@@ -314,7 +311,7 @@ const stockItems = ref<StockItem[]>([
     statusColor: 'info',
     lastUpdate: '22 Aug 2026 08:15',
     syncStatus: 'Synced',
-    sealNumber: 'SEAL-DJJ-9921',
+    sealNumber: 'SEAL-DJJ-9921'
   },
   {
     id: 'DRUM-00086',
@@ -328,7 +325,7 @@ const stockItems = ref<StockItem[]>([
     statusColor: 'primary',
     lastUpdate: '21 Aug 2026 14:05',
     syncStatus: 'Synced',
-    sealNumber: 'SEAL-TIM-4420',
+    sealNumber: 'SEAL-TIM-4420'
   },
   {
     id: 'DRUM-00092',
@@ -343,7 +340,7 @@ const stockItems = ref<StockItem[]>([
     lastUpdate: '21 Aug 2026 16:30',
     syncStatus: 'Synced',
     sealNumber: 'SEAL-OKB-1102',
-    notes: 'Terindikasi kontaminasi air pada sampling awal.',
+    notes: 'Terindikasi kontaminasi air pada sampling awal.'
   },
   {
     id: 'DRUM-00078',
@@ -357,7 +354,7 @@ const stockItems = ref<StockItem[]>([
     statusColor: 'warning',
     lastUpdate: '21 Aug 2026 11:20',
     syncStatus: 'Pending Sync',
-    sealNumber: 'SEAL-WMX-8831',
+    sealNumber: 'SEAL-WMX-8831'
   },
   {
     id: 'DRUM-00065',
@@ -371,16 +368,16 @@ const stockItems = ref<StockItem[]>([
     statusColor: 'error',
     lastUpdate: '20 Aug 2026 18:00',
     syncStatus: 'Synced',
-    sealNumber: 'SEAL-BVK-0021',
-  },
-])
+    sealNumber: 'SEAL-BVK-0021'
+  }
+]);
 
 /* ========================================================================== */
 /* Mutasi & Transfer Data & State                                            */
 /* ========================================================================== */
 
-const transferSearchQuery = ref<string>('')
-const transferStatusFilter = ref<string>('Semua Status')
+const transferSearchQuery = ref<string>('');
+const transferStatusFilter = ref<string>('Semua Status');
 
 const mutasiTransferItems = ref<MutasiTransferItem[]>([
   {
@@ -390,13 +387,24 @@ const mutasiTransferItems = ref<MutasiTransferItem[]>([
     qty: '10 Drum (2,000 L)',
     drumCount: 10,
     volumeLiter: 2000,
-    carrier: 'PK-AMA (Cessna Caravan 208B)',
+    carrier: 'PK-DMA (Cessna Caravan 208B)',
     driverOrPilot: 'Capt. Herman / FO Danang',
     date: '22 Aug 2026 07:30',
     status: 'In-Transit',
     color: 'warning',
-    sealNumbers: ['SL-8801', 'SL-8802', 'SL-8803', 'SL-8804', 'SL-8805', 'SL-8806', 'SL-8807', 'SL-8808', 'SL-8809', 'SL-8810'],
-    notes: 'Pengiriman darurat persediaan helikopter perintis.',
+    sealNumbers: [
+      'SL-8801',
+      'SL-8802',
+      'SL-8803',
+      'SL-8804',
+      'SL-8805',
+      'SL-8806',
+      'SL-8807',
+      'SL-8808',
+      'SL-8809',
+      'SL-8810'
+    ],
+    notes: 'Pengiriman darurat persediaan helikopter perintis.'
   },
   {
     manifestNo: 'MNF-2026-0800',
@@ -405,20 +413,20 @@ const mutasiTransferItems = ref<MutasiTransferItem[]>([
     qty: '20 Drum (4,000 L)',
     drumCount: 20,
     volumeLiter: 4000,
-    carrier: 'PK-AMB (Short Skyvan SC.7)',
+    carrier: 'PK-DMB (Short Skyvan SC.7)',
     driverOrPilot: 'Capt. Budi Utomo',
     date: '21 Aug 2026 13:10',
     status: 'Completed',
     color: 'success',
     sealNumbers: ['SL-7701', 'SL-7702', 'SL-7703', 'SL-7704'],
-    notes: 'Serah terima ramp disaksikan oleh Team Lead Timika.',
+    notes: 'Serah terima ramp disaksikan oleh Team Lead Timika.'
   },
   {
     manifestNo: 'MNF-2026-0798',
     origin: 'Wamena Hub (WMX)',
     destination: 'Airstrip Boven Digoel',
     qty: '5 Drum (1,000 L)',
-    carrier: 'PK-AMC (Helicopter Bell 412)',
+    carrier: 'PK-DMC (Helicopter Bell 412)',
     driverOrPilot: 'Capt. Richard',
     date: '20 Aug 2026 09:45',
     drumCount: 5,
@@ -426,7 +434,7 @@ const mutasiTransferItems = ref<MutasiTransferItem[]>([
     status: 'Completed',
     color: 'success',
     sealNumbers: ['SL-6601', 'SL-6602', 'SL-6603', 'SL-6604', 'SL-6605'],
-    notes: 'Kondisi drum rapat, seal utuh.',
+    notes: 'Kondisi drum rapat, seal utuh.'
   },
   {
     manifestNo: 'MNF-2026-0802',
@@ -435,15 +443,15 @@ const mutasiTransferItems = ref<MutasiTransferItem[]>([
     qty: '12 Drum (2,400 L)',
     drumCount: 12,
     volumeLiter: 2400,
-    carrier: 'PK-AMD (Cessna Caravan 208B)',
+    carrier: 'PK-DMD (Cessna Caravan 208B)',
     driverOrPilot: 'Capt. Erick',
     date: '22 Aug 2026 10:00',
     status: 'Preparing',
     color: 'info',
     sealNumbers: ['SL-9901', 'SL-9902', 'SL-9903'],
-    notes: 'Sedang tahap staging dan penimbangan weight & balance.',
-  },
-])
+    notes: 'Sedang tahap staging dan penimbangan weight & balance.'
+  }
+]);
 
 /* ========================================================================== */
 /* Serah-Terima Data                                                         */
@@ -459,7 +467,7 @@ const serahTerimaItems = ref<SerahTerimaItem[]>([
     date: '21 Aug 2026 15:30',
     status: 'Signed & Verified',
     color: 'success',
-    inspectorNotes: 'Pemeriksaan density 0.801 kg/L. Tidak ditemukan air.',
+    inspectorNotes: 'Pemeriksaan density 0.801 kg/L. Tidak ditemukan air.'
   },
   {
     baNo: 'BA-ST-2026/08/011',
@@ -470,7 +478,7 @@ const serahTerimaItems = ref<SerahTerimaItem[]>([
     date: '20 Aug 2026 11:20',
     status: 'Signed & Verified',
     color: 'success',
-    inspectorNotes: 'Penerimaan utuh tanpa kebocoran.',
+    inspectorNotes: 'Penerimaan utuh tanpa kebocoran.'
   },
   {
     baNo: 'BA-ST-2026/08/013',
@@ -481,9 +489,9 @@ const serahTerimaItems = ref<SerahTerimaItem[]>([
     date: '22 Aug 2026 --:--',
     status: 'Awaiting Receipt',
     color: 'warning',
-    inspectorNotes: 'Menunggu pesawat mendarat di Okbibab.',
-  },
-])
+    inspectorNotes: 'Menunggu pesawat mendarat di Okbibab.'
+  }
+]);
 
 /* ========================================================================== */
 /* Rekonsiliasi ERP Data                                                      */
@@ -498,7 +506,7 @@ const rekonsiliasiErpItems = ref<RekonsiliasiErpItem[]>([
     volume: '450 L',
     status: 'Synced',
     color: 'success',
-    timestamp: '22 Aug 2026 09:00',
+    timestamp: '22 Aug 2026 09:00'
   },
   {
     syncId: 'SYNC-8802',
@@ -508,7 +516,7 @@ const rekonsiliasiErpItems = ref<RekonsiliasiErpItem[]>([
     volume: '15,000 L',
     status: 'Synced',
     color: 'success',
-    timestamp: '22 Aug 2026 08:30',
+    timestamp: '22 Aug 2026 08:30'
   },
   {
     syncId: 'SYNC-8803',
@@ -518,7 +526,7 @@ const rekonsiliasiErpItems = ref<RekonsiliasiErpItem[]>([
     volume: '200 L',
     status: 'Pending Sync',
     color: 'warning',
-    timestamp: '21 Aug 2026 17:40',
+    timestamp: '21 Aug 2026 17:40'
   },
   {
     syncId: 'SYNC-8804',
@@ -528,16 +536,16 @@ const rekonsiliasiErpItems = ref<RekonsiliasiErpItem[]>([
     volume: '-15 L',
     status: 'Synced',
     color: 'success',
-    timestamp: '20 Aug 2026 16:15',
-  },
-])
+    timestamp: '20 Aug 2026 16:15'
+  }
+]);
 
 /* ========================================================================== */
 /* Dialog Controls & Form States                                             */
 /* ========================================================================== */
 
 // 1. Modal Tambah Stok
-const isDialogOpen = ref<boolean>(false)
+const isDialogOpen = ref<boolean>(false);
 const form = ref({
   id: '',
   name: '',
@@ -546,73 +554,73 @@ const form = ref({
   qtyNumber: 200,
   capacityNumber: 200,
   status: 'Ready for Transit' as StockStatus,
-  syncStatus: 'Synced' as SyncStatus,
-})
+  syncStatus: 'Synced' as SyncStatus
+});
 
 // 2. Modal Manifest Transfer (THE REQUESTED FUNCTIONALITY)
-const isManifestDialogOpen = ref<boolean>(false)
+const isManifestDialogOpen = ref<boolean>(false);
 const manifestForm = reactive({
   manifestNo: '',
   origin: 'Wamena Hub (WMX)',
   destination: 'Airstrip Okbibab',
   drumCount: 10,
   literPerDrum: 200,
-  carrier: 'PK-AMA (Cessna Caravan 208B)',
+  carrier: 'PK-DMA (Cessna Caravan 208B)',
   driverOrPilot: '',
   date: new Date().toISOString().substring(0, 10),
   time: '08:00',
   sealPrefix: 'SL-2026-',
-  notes: '',
-})
+  notes: ''
+});
 
 // 3. Modal Detail Manifest View
-const isDetailManifestOpen = ref<boolean>(false)
-const selectedManifestDetail = ref<MutasiTransferItem | null>(null)
+const isDetailManifestOpen = ref<boolean>(false);
+const selectedManifestDetail = ref<MutasiTransferItem | null>(null);
 
 // 4. Global Snackbar / Notification
 const snackbar = reactive({
   show: false,
   text: '',
-  color: 'success',
-})
+  color: 'success'
+});
 
 const showToast = (message: string, color = 'success') => {
-  snackbar.text = message
-  snackbar.color = color
-  snackbar.show = true
-}
+  snackbar.text = message;
+  snackbar.color = color;
+  snackbar.show = true;
+};
 
 /* ========================================================================== */
 /* Handlers & Action Functions                                               */
 /* ========================================================================== */
 
 const openManifestDialog = () => {
-  const randomNum = Math.floor(1000 + Math.random() * 9000)
-  manifestForm.manifestNo = `MNF-2026-${randomNum}`
-  manifestForm.driverOrPilot = 'Capt. Aviator'
-  manifestForm.notes = ''
-  isManifestDialogOpen.value = true
-}
+  const randomNum = Math.floor(1000 + Math.random() * 9000);
+  manifestForm.manifestNo = `MNF-2026-${randomNum}`;
+  manifestForm.driverOrPilot = 'Capt. Aviator';
+  manifestForm.notes = '';
+  isManifestDialogOpen.value = true;
+};
 
 const submitManifest = () => {
   if (!manifestForm.origin || !manifestForm.destination) {
-    showToast('Silakan pilih lokasi asal dan tujuan transfer!', 'error')
-    return
+    showToast('Silakan pilih lokasi asal dan tujuan transfer!', 'error');
+    return;
   }
 
   if (manifestForm.origin === manifestForm.destination) {
-    showToast('Lokasi asal dan tujuan tidak boleh sama!', 'warning')
-    return
+    showToast('Lokasi asal dan tujuan tidak boleh sama!', 'warning');
+    return;
   }
 
-  const totalLiter = manifestForm.drumCount * manifestForm.literPerDrum
-  const formattedQty = `${manifestForm.drumCount} Drum (${totalLiter.toLocaleString()} L)`
+  const totalLiter = manifestForm.drumCount * manifestForm.literPerDrum;
+  const formattedQty = `${manifestForm.drumCount} Drum (${totalLiter.toLocaleString()} L)`;
 
   // Generate Dummy Seal Barcode Numbers
-  const generatedSeals: string[] = []
+  const generatedSeals: string[] = [];
   for (let i = 1; i <= manifestForm.drumCount; i++) {
-    const padIndex = String(i).padStart(3, '0')
-    generatedSeals.push(`${manifestForm.sealPrefix}${padIndex}`)
+    const padIndex = String(i).padStart(3, '0');
+    generatedSeals.push(`${manifestForm.sealPrefix}${padIndex}`);
   }
 
   const newManifest: MutasiTransferItem = {
@@ -628,11 +636,11 @@ const submitManifest = () => {
     status: 'Preparing',
     color: 'info',
     sealNumbers: generatedSeals,
-    notes: manifestForm.notes || 'Manifest transfer dibuat melalui sistem web.',
-  }
+    notes: manifestForm.notes || 'Manifest transfer dibuat melalui sistem web.'
+  };
 
   // Tambahkan ke bagian paling atas list
-  mutasiTransferItems.value.unshift(newManifest)
+  mutasiTransferItems.value.unshift(newManifest);
 
   // Buat entri otomatis ke Serah-Terima (Awaiting Receipt)
   const newBA: SerahTerimaItem = {
@@ -644,50 +652,54 @@ const submitManifest = () => {
     date: `${newManifest.date}`,
     status: 'Awaiting Receipt',
     color: 'warning',
-    inspectorNotes: 'Menunggu konfirmasi kedatangan armada.',
-  }
-  serahTerimaItems.value.unshift(newBA)
+    inspectorNotes: 'Menunggu konfirmasi kedatangan armada.'
+  };
+  serahTerimaItems.value.unshift(newBA);
 
-  isManifestDialogOpen.value = false
-  showToast(`Manifest ${newManifest.manifestNo} berhasil diterbitkan dan masuk ke antrean transfer.`, 'success')
+  isManifestDialogOpen.value = false;
+  showToast(
+    `Manifest ${newManifest.manifestNo} berhasil diterbitkan dan masuk ke antrean transfer.`,
+    'success'
+  );
 
   // Otomatis pindah ke Tab 3 (Mutasi & Transfer) agar user melihat hasilnya
-  activeTab.value = 3
-}
+  activeTab.value = 3;
+};
 
 const openDetailManifest = (item: MutasiTransferItem) => {
-  selectedManifestDetail.value = item
-  isDetailManifestOpen.value = true
-}
+  selectedManifestDetail.value = item;
+  isDetailManifestOpen.value = true;
+};
 
 const updateTransferStatus = (item: MutasiTransferItem, newStatus: TransferStatus) => {
-  item.status = newStatus
+  item.status = newStatus;
   if (newStatus === 'Completed') {
-    item.color = 'success'
+    item.color = 'success';
   } else if (newStatus === 'In-Transit') {
-    item.color = 'warning'
+    item.color = 'warning';
   } else if (newStatus === 'Cancelled') {
-    item.color = 'error'
+    item.color = 'error';
   }
-  showToast(`Status manifest ${item.manifestNo} diubah menjadi ${newStatus}.`, 'info')
-}
+  showToast(`Status manifest ${item.manifestNo} diubah menjadi ${newStatus}.`, 'info');
+};
 
 const submitStock = () => {
-  const qtyVal = Number(form.value.qtyNumber) || 0
-  const capacityVal = Number(form.value.capacityNumber) || 200
-  const percentage = Math.min(100, Math.round((qtyVal / capacityVal) * 100))
+  const qtyVal = Number(form.value.qtyNumber) || 0;
+  const capacityVal = Number(form.value.capacityNumber) || 200;
+  const percentage = Math.min(100, Math.round((qtyVal / capacityVal) * 100));
 
   const statusColorMap: Record<string, string> = {
-    'Normal': 'success',
+    Normal: 'success',
     'Ready for Transit': 'info',
     'In Use': 'primary',
     'In-Transit': 'warning',
     'Low Stock': 'error',
-    'Quarantined': 'error',
-  }
+    Quarantined: 'error'
+  };
 
-  const generatedId = form.value.id.trim() || `DRUM-${Math.floor(10000 + Math.random() * 90000)}`
-  const generatedName = form.value.name.trim() || `Batch-${new Date().getDate()}${new Date().getMonth() + 1}26 / Auto`
+  const generatedId = form.value.id.trim() || `DRUM-${Math.floor(10000 + Math.random() * 90000)}`;
+  const generatedName =
+    form.value.name.trim() || `Batch-${new Date().getDate()}${new Date().getMonth() + 1}26 / Auto`;
 
   const newItem: StockItem = {
     id: generatedId,
@@ -700,14 +712,14 @@ const submitStock = () => {
     status: form.value.status,
     statusColor: statusColorMap[form.value.status] || 'primary',
     lastUpdate: 'Barusan',
-    syncStatus: form.value.syncStatus,
-  }
+    syncStatus: form.value.syncStatus
+  };
 
-  stockItems.value.unshift(newItem)
-  selectedStockId.value = newItem.id
+  stockItems.value.unshift(newItem);
+  selectedStockId.value = newItem.id;
 
-  isDialogOpen.value = false
-  showToast(`Inventaris ${newItem.id} berhasil ditambahkan!`, 'success')
+  isDialogOpen.value = false;
+  showToast(`Inventaris ${newItem.id} berhasil ditambahkan!`, 'success');
 
   form.value = {
     id: '',
@@ -717,39 +729,36 @@ const submitStock = () => {
     qtyNumber: 200,
     capacityNumber: 200,
     status: 'Ready for Transit',
-    syncStatus: 'Synced',
-  }
-}
+    syncStatus: 'Synced'
+  };
+};
 
 /* ========================================================================== */
 /* Selected Inventory Logic & Computeds                                      */
 /* ========================================================================== */
 
-const selectedStockId = ref<string>('DRUM-00086')
+const selectedStockId = ref<string>('DRUM-00086');
 
 const selectedStock = computed(() => {
-  return stockItems.value.find(item => item.id === selectedStockId.value) ?? stockItems.value[0]
-})
+  return stockItems.value.find((item) => item.id === selectedStockId.value) ?? stockItems.value[0];
+});
 
 const selectStock = (item: StockItem) => {
-  selectedStockId.value = item.id
-}
+  selectedStockId.value = item.id;
+};
 
 const filteredStockItems = computed(() => {
-  const query = searchQuery.value.trim().toLowerCase()
+  const query = searchQuery.value.trim().toLowerCase();
 
-  return stockItems.value.filter(item => {
+  return stockItems.value.filter((item) => {
     const matchStation =
       selectedStation.value === 'Semua Station / Hub' ||
-      item.station.includes(selectedStation.value.replace('Airstrip ', ''))
+      item.station.includes(selectedStation.value.replace('Airstrip ', ''));
 
-    const matchType =
-      selectedType.value === 'Semua Tipe Wadah' ||
-      item.type === selectedType.value
+    const matchType = selectedType.value === 'Semua Tipe Wadah' || item.type === selectedType.value;
 
     const matchStatus =
-      selectedStatus.value === 'Semua Status' ||
-      item.status === selectedStatus.value
+      selectedStatus.value === 'Semua Status' || item.status === selectedStatus.value;
 
     const searchableText = [
       item.id,
@@ -757,72 +766,72 @@ const filteredStockItems = computed(() => {
       item.type,
       item.station,
       item.status,
-      item.syncStatus,
+      item.syncStatus
     ]
       .join(' ')
-      .toLowerCase()
+      .toLowerCase();
 
-    const matchSearch = !query || searchableText.includes(query)
+    const matchSearch = !query || searchableText.includes(query);
 
-    return matchStation && matchType && matchStatus && matchSearch
-  })
-})
+    return matchStation && matchType && matchStatus && matchSearch;
+  });
+});
 
 const filteredTransferItems = computed(() => {
-  const q = transferSearchQuery.value.trim().toLowerCase()
-  return mutasiTransferItems.value.filter(item => {
-    const matchStatus = transferStatusFilter.value === 'Semua Status' || item.status === transferStatusFilter.value
-    const matchQuery = !q || item.manifestNo.toLowerCase().includes(q) || item.origin.toLowerCase().includes(q) || item.destination.toLowerCase().includes(q) || item.carrier.toLowerCase().includes(q)
-    return matchStatus && matchQuery
-  })
-})
+  const q = transferSearchQuery.value.trim().toLowerCase();
+  return mutasiTransferItems.value.filter((item) => {
+    const matchStatus =
+      transferStatusFilter.value === 'Semua Status' || item.status === transferStatusFilter.value;
+    const matchQuery =
+      !q ||
+      item.manifestNo.toLowerCase().includes(q) ||
+      item.origin.toLowerCase().includes(q) ||
+      item.destination.toLowerCase().includes(q) ||
+      item.carrier.toLowerCase().includes(q);
+    return matchStatus && matchQuery;
+  });
+});
 
-const hubTanks = computed(() => stockItems.value.filter(item => item.type === 'Tangki DPPU'))
-const drumInventory = computed(() => stockItems.value.filter(item => item.type === 'Drum 200L'))
+const hubTanks = computed(() => stockItems.value.filter((item) => item.type === 'Tangki DPPU'));
+const drumInventory = computed(() => stockItems.value.filter((item) => item.type === 'Drum 200L'));
 
 /* ========================================================================== */
 /* Pagination & Helper Methods                                                */
 /* ========================================================================== */
 
-const page = ref<number>(1)
-const itemsPerPage = ref<number>(10)
-const totalInventory = computed(() => stockItems.value.length + 305)
+const page = ref<number>(1);
+const itemsPerPage = ref<number>(10);
+const totalInventory = computed(() => stockItems.value.length + 305);
 
 const paginationLength = computed(() =>
-  Math.max(1, Math.ceil(totalInventory.value / itemsPerPage.value)),
-)
+  Math.max(1, Math.ceil(totalInventory.value / itemsPerPage.value))
+);
 
 const resetFilters = () => {
-  selectedStation.value = 'Semua Station / Hub'
-  selectedType.value = 'Semua Tipe Wadah'
-  selectedStatus.value = 'Semua Status'
-  searchQuery.value = ''
-  page.value = 1
-}
+  selectedStation.value = 'Semua Station / Hub';
+  selectedType.value = 'Semua Tipe Wadah';
+  selectedStatus.value = 'Semua Status';
+  searchQuery.value = '';
+  page.value = 1;
+};
 
 const getProgressColor = (percentage: number) => {
-  if (percentage < 20) return 'error'
-  if (percentage < 50) return 'warning'
-  return 'teal'
-}
+  if (percentage < 20) return 'error';
+  if (percentage < 50) return 'warning';
+  return 'teal';
+};
 
 const printManifestDoc = () => {
-  showToast('Mencetak dokumen Manifest Transfer...', 'info')
-}
+  showToast('Mencetak dokumen Manifest Transfer...', 'info');
+};
 </script>
 
 <template>
   <div class="avtur-stock-monitoring-view">
     <!-- Breadcrumb -->
-    <v-breadcrumbs
-      :items="breadcrumbs"
-      class="px-0 pt-0 pb-3"
-    >
+    <v-breadcrumbs :items="breadcrumbs" class="px-0 pt-0 pb-3">
       <template #divider>
-        <v-icon
-          icon="mdi-chevron-right"
-          size="16"
-        />
+        <v-icon icon="mdi-chevron-right" size="16" />
       </template>
     </v-breadcrumbs>
 
@@ -837,7 +846,7 @@ const printManifestDoc = () => {
           Real-time inventory, drum lifecycle, transfer tracking, dan rekonsiliasi stok.
         </p>
       </div>
-      <AvturTopNav/>
+      <AvturTopNav />
       <div class="d-flex ga-2">
         <v-btn
           variant="outlined"
@@ -862,26 +871,15 @@ const printManifestDoc = () => {
     </div>
 
     <!-- Internal Stock Monitoring Tabs -->
-    <v-card
-      variant="flat"
-      class="border rounded-lg bg-white mb-6 overflow-hidden"
-    >
-      <v-tabs
-        v-model="activeTab"
-        color="primary"
-        show-arrows
-      >
+    <v-card variant="flat" class="border rounded-lg bg-white mb-6 overflow-hidden">
+      <v-tabs v-model="activeTab" color="primary" show-arrows>
         <v-tab
           v-for="(tab, index) in tabs"
           :key="index"
           :value="index"
           class="text-none font-weight-medium"
         >
-          <v-icon
-            :icon="tab.icon"
-            size="18"
-            class="mr-2"
-          />
+          <v-icon :icon="tab.icon" size="18" class="mr-2" />
           {{ tab.title }}
           <v-chip
             v-if="tab.badge"
@@ -913,15 +911,8 @@ const printManifestDoc = () => {
                 {{ metric.title }}
               </span>
 
-              <v-avatar
-                :color="metric.color"
-                variant="tonal"
-                size="34"
-              >
-                <v-icon
-                  :icon="metric.icon"
-                  size="18"
-                />
+              <v-avatar :color="metric.color" variant="tonal" size="34">
+                <v-icon :icon="metric.icon" size="18" />
               </v-avatar>
             </div>
 
@@ -933,20 +924,14 @@ const printManifestDoc = () => {
               {{ metric.unit }}
             </div>
 
-            <div
-              class="text-caption font-weight-medium mt-2"
-              :class="`text-${metric.subColor}`"
-            >
+            <div class="text-caption font-weight-medium mt-2" :class="`text-${metric.subColor}`">
               {{ metric.sub }}
             </div>
           </v-card>
         </div>
 
         <!-- Stock Lifecycle -->
-        <v-card
-          variant="flat"
-          class="border rounded-lg bg-white pa-5 mb-6"
-        >
+        <v-card variant="flat" class="border rounded-lg bg-white pa-5 mb-6">
           <div class="d-flex align-center justify-space-between flex-wrap ga-3 mb-5">
             <div>
               <div class="text-subtitle-1 font-weight-bold text-grey-darken-3">
@@ -969,21 +954,11 @@ const printManifestDoc = () => {
           </div>
 
           <div class="flow-grid">
-            <template
-              v-for="step in stockFlowSteps"
-              :key="step.step"
-            >
+            <template v-for="step in stockFlowSteps" :key="step.step">
               <div class="flow-item">
                 <div class="flow-icon-wrapper">
-                  <v-avatar
-                    :color="step.color"
-                    variant="tonal"
-                    size="42"
-                  >
-                    <v-icon
-                      :icon="step.icon"
-                      size="21"
-                    />
+                  <v-avatar :color="step.color" variant="tonal" size="42">
+                    <v-icon :icon="step.icon" size="21" />
                   </v-avatar>
 
                   <span class="flow-number">
@@ -1013,15 +988,8 @@ const printManifestDoc = () => {
 
         <!-- Main Inventory Area -->
         <v-row class="mb-6">
-          <v-col
-            cols="12"
-            xl="8"
-            lg="7"
-          >
-            <v-card
-              variant="flat"
-              class="border rounded-lg bg-white h-100"
-            >
+          <v-col cols="12" xl="8" lg="7">
+            <v-card variant="flat" class="border rounded-lg bg-white h-100">
               <div class="pa-5 pb-3">
                 <div class="d-flex align-center justify-space-between flex-wrap ga-3">
                   <div>
@@ -1045,11 +1013,7 @@ const printManifestDoc = () => {
                     >
                       Tambah Drum
                     </v-btn>
-                    <v-chip
-                      size="small"
-                      variant="tonal"
-                      color="primary"
-                    >
+                    <v-chip size="small" variant="tonal" color="primary">
                       {{ stockItems.length }} Unit Terdaftar
                     </v-chip>
                   </div>
@@ -1061,11 +1025,7 @@ const printManifestDoc = () => {
               <!-- Filters -->
               <div class="pa-5 pb-4">
                 <v-row density="compact">
-                  <v-col
-                    cols="12"
-                    sm="6"
-                    md="4"
-                  >
+                  <v-col cols="12" sm="6" md="4">
                     <v-select
                       v-model="selectedStation"
                       :items="stationOptions"
@@ -1076,11 +1036,7 @@ const printManifestDoc = () => {
                     />
                   </v-col>
 
-                  <v-col
-                    cols="6"
-                    sm="3"
-                    md="3"
-                  >
+                  <v-col cols="6" sm="3" md="3">
                     <v-select
                       v-model="selectedType"
                       :items="typeOptions"
@@ -1091,11 +1047,7 @@ const printManifestDoc = () => {
                     />
                   </v-col>
 
-                  <v-col
-                    cols="6"
-                    sm="3"
-                    md="3"
-                  >
+                  <v-col cols="6" sm="3" md="3">
                     <v-select
                       v-model="selectedStatus"
                       :items="statusOptions"
@@ -1106,11 +1058,7 @@ const printManifestDoc = () => {
                     />
                   </v-col>
 
-                  <v-col
-                    cols="12"
-                    md="2"
-                    class="d-flex"
-                  >
+                  <v-col cols="12" md="2" class="d-flex">
                     <v-btn
                       variant="text"
                       color="primary"
@@ -1139,34 +1087,17 @@ const printManifestDoc = () => {
 
               <!-- Table -->
               <div class="inventory-table-wrapper">
-                <v-table
-                  density="comfortable"
-                  class="inventory-table"
-                >
+                <v-table density="comfortable" class="inventory-table">
                   <thead>
                     <tr class="bg-grey-lighten-4">
-                      <th class="font-weight-bold text-caption">
-                        ID Wadah / Nama
-                      </th>
-                      <th class="font-weight-bold text-caption">
-                        Tipe & Lokasi
-                      </th>
-                      <th
-                        class="font-weight-bold text-caption"
-                        style="min-width: 170px;"
-                      >
+                      <th class="font-weight-bold text-caption">ID Wadah / Nama</th>
+                      <th class="font-weight-bold text-caption">Tipe & Lokasi</th>
+                      <th class="font-weight-bold text-caption" style="min-width: 170px">
                         Saldo / Kapasitas
                       </th>
-                      <th class="font-weight-bold text-caption">
-                        Status
-                      </th>
-                      <th class="font-weight-bold text-caption">
-                        Update
-                      </th>
-                      <th
-                        class="font-weight-bold text-caption text-center"
-                        style="width: 90px;"
-                      >
+                      <th class="font-weight-bold text-caption">Status</th>
+                      <th class="font-weight-bold text-caption">Update</th>
+                      <th class="font-weight-bold text-caption text-center" style="width: 90px">
                         Aksi
                       </th>
                     </tr>
@@ -1178,7 +1109,7 @@ const printManifestDoc = () => {
                       :key="item.id"
                       class="inventory-row"
                       :class="{
-                        'selected-row': selectedStock?.id === item.id,
+                        'selected-row': selectedStock?.id === item.id
                       }"
                       @click="selectStock(item)"
                     >
@@ -1195,12 +1126,7 @@ const printManifestDoc = () => {
                         <div class="text-body-2 font-weight-medium">
                           {{ item.station }}
                         </div>
-                        <v-chip
-                          size="x-small"
-                          color="grey"
-                          variant="tonal"
-                          class="mt-1"
-                        >
+                        <v-chip size="x-small" color="grey" variant="tonal" class="mt-1">
                           {{ item.type }}
                         </v-chip>
                       </td>
@@ -1245,7 +1171,11 @@ const printManifestDoc = () => {
                           :class="item.syncStatus === 'Synced' ? 'text-success' : 'text-warning'"
                         >
                           <v-icon
-                            :icon="item.syncStatus === 'Synced' ? 'mdi-check-circle-outline' : 'mdi-cloud-upload-outline'"
+                            :icon="
+                              item.syncStatus === 'Synced'
+                                ? 'mdi-check-circle-outline'
+                                : 'mdi-cloud-upload-outline'
+                            "
                             size="13"
                             class="mr-1"
                           />
@@ -1277,7 +1207,8 @@ const printManifestDoc = () => {
               <!-- Pagination -->
               <div class="d-flex align-center justify-space-between flex-wrap ga-3 pa-4">
                 <span class="text-caption text-medium-emphasis">
-                  Menampilkan <strong>{{ filteredStockItems.length }}</strong> data dari <strong>{{ totalInventory }}</strong> unit inventaris
+                  Menampilkan <strong>{{ filteredStockItems.length }}</strong> data dari
+                  <strong>{{ totalInventory }}</strong> unit inventaris
                 </span>
 
                 <div class="d-flex align-center ga-3">
@@ -1293,7 +1224,7 @@ const printManifestDoc = () => {
                     variant="outlined"
                     density="compact"
                     hide-details
-                    style="width: 105px;"
+                    style="width: 105px"
                   />
                 </div>
               </div>
@@ -1301,15 +1232,8 @@ const printManifestDoc = () => {
           </v-col>
 
           <!-- Detail Panel Section -->
-          <v-col
-            cols="12"
-            xl="4"
-            lg="5"
-          >
-            <v-card
-              variant="flat"
-              class="border rounded-lg bg-white h-100"
-            >
+          <v-col cols="12" xl="4" lg="5">
+            <v-card variant="flat" class="border rounded-lg bg-white h-100">
               <div class="pa-5">
                 <div class="d-flex align-center justify-space-between mb-1">
                   <div class="text-subtitle-1 font-weight-bold text-grey-darken-3">
@@ -1325,20 +1249,14 @@ const printManifestDoc = () => {
                     {{ selectedStock.status }}
                   </v-chip>
                 </div>
-                <div
-                  v-if="selectedStock"
-                  class="text-caption text-medium-emphasis"
-                >
+                <div v-if="selectedStock" class="text-caption text-medium-emphasis">
                   {{ selectedStock.id }}
                 </div>
               </div>
 
               <v-divider />
 
-              <div
-                v-if="selectedStock"
-                class="pa-5"
-              >
+              <div v-if="selectedStock" class="pa-5">
                 <!-- Balance -->
                 <div class="detail-balance pa-4 rounded-lg border mb-5">
                   <div class="d-flex align-center justify-space-between mb-2">
@@ -1358,17 +1276,13 @@ const printManifestDoc = () => {
                   />
                   <div class="d-flex justify-space-between">
                     <div>
-                      <div class="text-caption text-medium-emphasis">
-                        Saldo
-                      </div>
+                      <div class="text-caption text-medium-emphasis">Saldo</div>
                       <div class="text-body-2 font-weight-bold">
                         {{ selectedStock.qty }}
                       </div>
                     </div>
                     <div class="text-right">
-                      <div class="text-caption text-medium-emphasis">
-                        Kapasitas
-                      </div>
+                      <div class="text-caption text-medium-emphasis">Kapasitas</div>
                       <div class="text-body-2 font-weight-bold">
                         {{ selectedStock.capacity }}
                       </div>
@@ -1379,11 +1293,7 @@ const printManifestDoc = () => {
                 <!-- Identity -->
                 <div class="detail-section">
                   <div class="detail-section-title">
-                    <v-icon
-                      icon="mdi-map-marker-outline"
-                      color="primary"
-                      size="18"
-                    />
+                    <v-icon icon="mdi-map-marker-outline" color="primary" size="18" />
                     Lokasi & Identitas
                   </div>
                   <div class="detail-list">
@@ -1415,24 +1325,13 @@ const printManifestDoc = () => {
                 <!-- Operational Status -->
                 <div class="detail-section">
                   <div class="detail-section-title">
-                    <v-icon
-                      icon="mdi-shield-check-outline"
-                      color="teal"
-                      size="18"
-                    />
+                    <v-icon icon="mdi-shield-check-outline" color="teal" size="18" />
                     Status Operasional
                   </div>
                   <div class="detail-status-card">
                     <div class="d-flex align-center ga-3">
-                      <v-avatar
-                        :color="selectedStock.statusColor"
-                        variant="tonal"
-                        size="38"
-                      >
-                        <v-icon
-                          icon="mdi-fuel"
-                          size="19"
-                        />
+                      <v-avatar :color="selectedStock.statusColor" variant="tonal" size="38">
+                        <v-icon icon="mdi-fuel" size="19" />
                       </v-avatar>
                       <div>
                         <div class="text-body-2 font-weight-bold">
@@ -1443,11 +1342,7 @@ const printManifestDoc = () => {
                         </div>
                       </div>
                     </div>
-                    <v-chip
-                      size="x-small"
-                      :color="selectedStock.statusColor"
-                      variant="tonal"
-                    >
+                    <v-chip size="x-small" :color="selectedStock.statusColor" variant="tonal">
                       Active
                     </v-chip>
                   </div>
@@ -1458,24 +1353,28 @@ const printManifestDoc = () => {
                 <!-- Sync -->
                 <div class="detail-section">
                   <div class="detail-section-title">
-                    <v-icon
-                      icon="mdi-database-sync-outline"
-                      color="purple"
-                      size="18"
-                    />
+                    <v-icon icon="mdi-database-sync-outline" color="purple" size="18" />
                     ERP & Synchronization
                   </div>
                   <div class="detail-list">
                     <div>
                       <span>Sync Status</span>
-                      <strong :class="selectedStock.syncStatus === 'Synced' ? 'text-success' : 'text-warning'">
+                      <strong
+                        :class="
+                          selectedStock.syncStatus === 'Synced' ? 'text-success' : 'text-warning'
+                        "
+                      >
                         {{ selectedStock.syncStatus }}
                       </strong>
                     </div>
                     <div>
                       <span>Mode</span>
                       <strong>
-                        {{ selectedStock.syncStatus === 'Synced' ? 'Online / Auto Sync' : 'Offline Queue' }}
+                        {{
+                          selectedStock.syncStatus === 'Synced'
+                            ? 'Online / Auto Sync'
+                            : 'Offline Queue'
+                        }}
                       </strong>
                     </div>
                   </div>
@@ -1510,10 +1409,7 @@ const printManifestDoc = () => {
 
       <!-- TAB 1: Tangki Hub / DPPU -->
       <v-window-item :value="1">
-        <v-card
-          variant="flat"
-          class="border rounded-lg bg-white pa-5 mb-6"
-        >
+        <v-card variant="flat" class="border rounded-lg bg-white pa-5 mb-6">
           <div class="text-subtitle-1 font-weight-bold text-grey-darken-3 mb-2">
             Status Tangki Utama DPPU / Hub
           </div>
@@ -1522,16 +1418,8 @@ const printManifestDoc = () => {
           </div>
 
           <v-row>
-            <v-col
-              v-for="tank in hubTanks"
-              :key="tank.id"
-              cols="12"
-              md="6"
-            >
-              <v-card
-                variant="outlined"
-                class="pa-4 rounded-lg"
-              >
+            <v-col v-for="tank in hubTanks" :key="tank.id" cols="12" md="6">
+              <v-card variant="outlined" class="pa-4 rounded-lg">
                 <div class="d-flex justify-space-between align-center mb-3">
                   <div>
                     <div class="font-weight-bold text-subtitle-2">
@@ -1541,11 +1429,7 @@ const printManifestDoc = () => {
                       {{ tank.id }} — {{ tank.station }}
                     </div>
                   </div>
-                  <v-chip
-                    size="small"
-                    color="teal"
-                    variant="tonal"
-                  >
+                  <v-chip size="small" color="teal" variant="tonal">
                     {{ tank.status }}
                   </v-chip>
                 </div>
@@ -1567,10 +1451,7 @@ const printManifestDoc = () => {
 
       <!-- TAB 2: Inventaris Drum -->
       <v-window-item :value="2">
-        <v-card
-          variant="flat"
-          class="border rounded-lg bg-white pa-5 mb-6"
-        >
+        <v-card variant="flat" class="border rounded-lg bg-white pa-5 mb-6">
           <div class="text-subtitle-1 font-weight-bold text-grey-darken-3 mb-2">
             Inventaris Drum 200 Litres
           </div>
@@ -1589,10 +1470,7 @@ const printManifestDoc = () => {
               </tr>
             </thead>
             <tbody>
-              <tr
-                v-for="drum in drumInventory"
-                :key="drum.id"
-              >
+              <tr v-for="drum in drumInventory" :key="drum.id">
                 <td class="font-weight-bold">
                   {{ drum.id }}
                 </td>
@@ -1600,11 +1478,7 @@ const printManifestDoc = () => {
                 <td>{{ drum.station }}</td>
                 <td>{{ drum.qty }}</td>
                 <td>
-                  <v-chip
-                    size="x-small"
-                    :color="drum.statusColor"
-                    variant="tonal"
-                  >
+                  <v-chip size="x-small" :color="drum.statusColor" variant="tonal">
                     {{ drum.status }}
                   </v-chip>
                 </td>
@@ -1616,10 +1490,7 @@ const printManifestDoc = () => {
 
       <!-- TAB 3: Mutasi & Transfer (Primary Focus) -->
       <v-window-item :value="3">
-        <v-card
-          variant="flat"
-          class="border rounded-lg bg-white pa-5 mb-6"
-        >
+        <v-card variant="flat" class="border rounded-lg bg-white pa-5 mb-6">
           <div class="d-flex align-center justify-space-between flex-wrap ga-3 mb-4">
             <div>
               <div class="text-subtitle-1 font-weight-bold text-grey-darken-3">
@@ -1643,15 +1514,8 @@ const printManifestDoc = () => {
           </div>
 
           <!-- Transfer Filters -->
-          <v-row
-            density="compact"
-            class="mb-4"
-          >
-            <v-col
-              cols="12"
-              sm="6"
-              md="4"
-            >
+          <v-row density="compact" class="mb-4">
+            <v-col cols="12" sm="6" md="4">
               <v-text-field
                 v-model="transferSearchQuery"
                 placeholder="Cari No. Manifest, asal, tujuan, pesawat..."
@@ -1662,11 +1526,7 @@ const printManifestDoc = () => {
                 clearable
               />
             </v-col>
-            <v-col
-              cols="12"
-              sm="6"
-              md="3"
-            >
+            <v-col cols="12" sm="6" md="3">
               <v-select
                 v-model="transferStatusFilter"
                 :items="['Semua Status', 'Preparing', 'In-Transit', 'Completed', 'Cancelled']"
@@ -1688,16 +1548,11 @@ const printManifestDoc = () => {
                 <th>Armada / Carrier</th>
                 <th>Waktu Transfer</th>
                 <th>Status</th>
-                <th class="text-center">
-                  Aksi
-                </th>
+                <th class="text-center">Aksi</th>
               </tr>
             </thead>
             <tbody>
-              <tr
-                v-for="item in filteredTransferItems"
-                :key="item.manifestNo"
-              >
+              <tr v-for="item in filteredTransferItems" :key="item.manifestNo">
                 <td class="font-weight-bold text-primary">
                   {{ item.manifestNo }}
                 </td>
@@ -1759,10 +1614,7 @@ const printManifestDoc = () => {
                 </td>
               </tr>
               <tr v-if="filteredTransferItems.length === 0">
-                <td
-                  colspan="8"
-                  class="text-center text-medium-emphasis pa-4"
-                >
+                <td colspan="8" class="text-center text-medium-emphasis pa-4">
                   Tidak ada data manifest transfer ditemukan.
                 </td>
               </tr>
@@ -1773,10 +1625,7 @@ const printManifestDoc = () => {
 
       <!-- TAB 4: Serah-Terima -->
       <v-window-item :value="4">
-        <v-card
-          variant="flat"
-          class="border rounded-lg bg-white pa-5 mb-6"
-        >
+        <v-card variant="flat" class="border rounded-lg bg-white pa-5 mb-6">
           <div class="text-subtitle-1 font-weight-bold text-grey-darken-3 mb-1">
             Dokumen Serah-Terima Handover
           </div>
@@ -1797,10 +1646,7 @@ const printManifestDoc = () => {
               </tr>
             </thead>
             <tbody>
-              <tr
-                v-for="item in serahTerimaItems"
-                :key="item.baNo"
-              >
+              <tr v-for="item in serahTerimaItems" :key="item.baNo">
                 <td class="font-weight-bold">
                   {{ item.baNo }}
                 </td>
@@ -1810,11 +1656,7 @@ const printManifestDoc = () => {
                 <td>{{ item.location }}</td>
                 <td>{{ item.receiver }}</td>
                 <td class="text-caption font-weight-bold text-teal">
-                  <v-icon
-                    icon="mdi-shield-check-outline"
-                    size="14"
-                    class="mr-1"
-                  />
+                  <v-icon icon="mdi-shield-check-outline" size="14" class="mr-1" />
                   {{ item.sealCheck }}
                 </td>
                 <td class="text-caption text-medium-emphasis">
@@ -1838,10 +1680,7 @@ const printManifestDoc = () => {
 
       <!-- TAB 5: Rekonsiliasi ERP -->
       <v-window-item :value="5">
-        <v-card
-          variant="flat"
-          class="border rounded-lg bg-white pa-5 mb-6"
-        >
+        <v-card variant="flat" class="border rounded-lg bg-white pa-5 mb-6">
           <div class="text-subtitle-1 font-weight-bold text-grey-darken-3 mb-1">
             Rekonsiliasi Jurnal ERP
           </div>
@@ -1862,10 +1701,7 @@ const printManifestDoc = () => {
               </tr>
             </thead>
             <tbody>
-              <tr
-                v-for="item in rekonsiliasiErpItems"
-                :key="item.syncId"
-              >
+              <tr v-for="item in rekonsiliasiErpItems" :key="item.syncId">
                 <td class="font-weight-bold">
                   {{ item.syncId }}
                 </td>
@@ -1888,7 +1724,11 @@ const printManifestDoc = () => {
                     class="font-weight-bold"
                   >
                     <v-icon
-                      :icon="item.status === 'Synced' ? 'mdi-check-circle-outline' : 'mdi-cloud-upload-outline'"
+                      :icon="
+                        item.status === 'Synced'
+                          ? 'mdi-check-circle-outline'
+                          : 'mdi-cloud-upload-outline'
+                      "
                       size="12"
                       class="mr-1"
                     />
@@ -1905,11 +1745,7 @@ const printManifestDoc = () => {
     <!-- ==================================================================== -->
     <!-- DIALOG 1: MODAL BUAT MANIFEST TRANSFER (FEATURE IMPLEMENTATION)      -->
     <!-- ==================================================================== -->
-    <v-dialog
-      v-model="isManifestDialogOpen"
-      max-width="700"
-      persistent
-    >
+    <v-dialog v-model="isManifestDialogOpen" max-width="700" persistent>
       <v-card class="rounded-lg">
         <v-card-title class="d-flex align-center justify-space-between pa-4 bg-primary text-white">
           <div class="d-flex align-center ga-2">
@@ -1930,10 +1766,7 @@ const printManifestDoc = () => {
         <v-card-text class="pa-5">
           <v-form @submit.prevent="submitManifest">
             <v-row density="compact">
-              <v-col
-                cols="12"
-                sm="6"
-              >
+              <v-col cols="12" sm="6">
                 <v-text-field
                   v-model="manifestForm.manifestNo"
                   label="No. Manifest"
@@ -1945,10 +1778,7 @@ const printManifestDoc = () => {
                 />
               </v-col>
 
-              <v-col
-                cols="12"
-                sm="6"
-              >
+              <v-col cols="12" sm="6">
                 <v-select
                   v-model="manifestForm.carrier"
                   :items="carrierOptions"
@@ -1959,10 +1789,7 @@ const printManifestDoc = () => {
                 />
               </v-col>
 
-              <v-col
-                cols="12"
-                sm="6"
-              >
+              <v-col cols="12" sm="6">
                 <v-select
                   v-model="manifestForm.origin"
                   :items="stationOptions.filter((s: string) => s !== 'Semua Station / Hub')"
@@ -1973,10 +1800,7 @@ const printManifestDoc = () => {
                 />
               </v-col>
 
-              <v-col
-                cols="12"
-                sm="6"
-              >
+              <v-col cols="12" sm="6">
                 <v-select
                   v-model="manifestForm.destination"
                   :items="stationOptions.filter((s: string) => s !== 'Semua Station / Hub')"
@@ -1987,10 +1811,7 @@ const printManifestDoc = () => {
                 />
               </v-col>
 
-              <v-col
-                cols="12"
-                sm="4"
-              >
+              <v-col cols="12" sm="4">
                 <v-text-field
                   v-model.number="manifestForm.drumCount"
                   label="Jumlah Drum"
@@ -2002,10 +1823,7 @@ const printManifestDoc = () => {
                 />
               </v-col>
 
-              <v-col
-                cols="12"
-                sm="4"
-              >
+              <v-col cols="12" sm="4">
                 <v-text-field
                   v-model.number="manifestForm.literPerDrum"
                   label="Volume per Drum (Liter)"
@@ -2016,10 +1834,7 @@ const printManifestDoc = () => {
                 />
               </v-col>
 
-              <v-col
-                cols="12"
-                sm="4"
-              >
+              <v-col cols="12" sm="4">
                 <v-text-field
                   :model-value="manifestForm.drumCount * manifestForm.literPerDrum + ' Liter'"
                   label="Total Volume Liter"
@@ -2030,10 +1845,7 @@ const printManifestDoc = () => {
                 />
               </v-col>
 
-              <v-col
-                cols="12"
-                sm="6"
-              >
+              <v-col cols="12" sm="6">
                 <v-text-field
                   v-model="manifestForm.driverOrPilot"
                   label="Nama Pilot / Driver Pengangkut"
@@ -2043,10 +1855,7 @@ const printManifestDoc = () => {
                 />
               </v-col>
 
-              <v-col
-                cols="12"
-                sm="3"
-              >
+              <v-col cols="12" sm="3">
                 <v-text-field
                   v-model="manifestForm.date"
                   label="Tanggal Kirim"
@@ -2056,10 +1865,7 @@ const printManifestDoc = () => {
                 />
               </v-col>
 
-              <v-col
-                cols="12"
-                sm="3"
-              >
+              <v-col cols="12" sm="3">
                 <v-text-field
                   v-model="manifestForm.time"
                   label="Jam Kirim"
@@ -2121,14 +1927,8 @@ const printManifestDoc = () => {
     <!-- ==================================================================== -->
     <!-- DIALOG 2: MODAL DETAIL MANIFEST TRANSFER                             -->
     <!-- ==================================================================== -->
-    <v-dialog
-      v-model="isDetailManifestOpen"
-      max-width="650"
-    >
-      <v-card
-        v-if="selectedManifestDetail"
-        class="rounded-lg"
-      >
+    <v-dialog v-model="isDetailManifestOpen" max-width="650">
+      <v-card v-if="selectedManifestDetail" class="rounded-lg">
         <v-card-title class="d-flex align-center justify-space-between pa-4 bg-grey-lighten-4">
           <div>
             <span class="text-h6 font-weight-bold">Detail Manifest Transfer</span>
@@ -2148,11 +1948,7 @@ const printManifestDoc = () => {
 
         <v-card-text class="pa-5">
           <div class="d-flex align-center justify-space-between mb-4">
-            <v-chip
-              :color="selectedManifestDetail.color"
-              variant="tonal"
-              class="font-weight-bold"
-            >
+            <v-chip :color="selectedManifestDetail.color" variant="tonal" class="font-weight-bold">
               Status: {{ selectedManifestDetail.status }}
             </v-chip>
             <span class="text-caption text-medium-emphasis">
@@ -2161,21 +1957,14 @@ const printManifestDoc = () => {
           </div>
 
           <v-row density="compact">
-            <v-col
-              cols="6"
-              class="border-right"
-            >
-              <div class="text-caption text-medium-emphasis">
-                Station Asal
-              </div>
+            <v-col cols="6" class="border-right">
+              <div class="text-caption text-medium-emphasis">Station Asal</div>
               <div class="text-body-2 font-weight-bold">
                 {{ selectedManifestDetail.origin }}
               </div>
             </v-col>
             <v-col cols="6">
-              <div class="text-caption text-medium-emphasis">
-                Station Tujuan
-              </div>
+              <div class="text-caption text-medium-emphasis">Station Tujuan</div>
               <div class="text-body-2 font-weight-bold">
                 {{ selectedManifestDetail.destination }}
               </div>
@@ -2185,9 +1974,7 @@ const printManifestDoc = () => {
           <v-divider class="my-3" />
 
           <div class="mb-3">
-            <div class="text-caption text-medium-emphasis">
-              Armada & Pilot / Pengangkut
-            </div>
+            <div class="text-caption text-medium-emphasis">Armada & Pilot / Pengangkut</div>
             <div class="text-body-2 font-weight-medium">
               {{ selectedManifestDetail.carrier }}
             </div>
@@ -2197,9 +1984,7 @@ const printManifestDoc = () => {
           </div>
 
           <div class="mb-3 pa-3 rounded bg-grey-lighten-4 border">
-            <div class="text-caption text-medium-emphasis">
-              Rincian Kargo
-            </div>
+            <div class="text-caption text-medium-emphasis">Rincian Kargo</div>
             <div class="text-body-1 font-weight-bold text-primary">
               {{ selectedManifestDetail.qty }}
             </div>
@@ -2223,9 +2008,7 @@ const printManifestDoc = () => {
           </div>
 
           <div>
-            <div class="text-caption text-medium-emphasis">
-              Catatan
-            </div>
+            <div class="text-caption text-medium-emphasis">Catatan</div>
             <div class="text-caption">
               {{ selectedManifestDetail.notes || '-' }}
             </div>
@@ -2244,11 +2027,7 @@ const printManifestDoc = () => {
             Cetak Dokumen
           </v-btn>
           <v-spacer />
-          <v-btn
-            color="primary"
-            class="text-none"
-            @click="isDetailManifestOpen = false"
-          >
+          <v-btn color="primary" class="text-none" @click="isDetailManifestOpen = false">
             Tutup
           </v-btn>
         </v-card-actions>
@@ -2258,20 +2037,11 @@ const printManifestDoc = () => {
     <!-- ==================================================================== -->
     <!-- DIALOG 3: MODAL INPUT STOK BIASA                                     -->
     <!-- ==================================================================== -->
-    <v-dialog
-      v-model="isDialogOpen"
-      max-width="600"
-      persistent
-    >
+    <v-dialog v-model="isDialogOpen" max-width="600" persistent>
       <v-card class="rounded-lg">
         <v-card-title class="d-flex align-center justify-space-between pa-4 bg-grey-lighten-4">
           <span class="text-h6 font-weight-bold">Tambah / Catat Stok Avtur</span>
-          <v-btn
-            icon="mdi-close"
-            variant="text"
-            density="compact"
-            @click="isDialogOpen = false"
-          />
+          <v-btn icon="mdi-close" variant="text" density="compact" @click="isDialogOpen = false" />
         </v-card-title>
 
         <v-divider />
@@ -2279,10 +2049,7 @@ const printManifestDoc = () => {
         <v-card-text class="pa-4">
           <v-form @submit.prevent="submitStock">
             <v-row density="compact">
-              <v-col
-                cols="12"
-                sm="6"
-              >
+              <v-col cols="12" sm="6">
                 <v-text-field
                   v-model="form.id"
                   label="ID Wadah / Batch"
@@ -2294,10 +2061,7 @@ const printManifestDoc = () => {
                 />
               </v-col>
 
-              <v-col
-                cols="12"
-                sm="6"
-              >
+              <v-col cols="12" sm="6">
                 <v-text-field
                   v-model="form.name"
                   label="Nama / Deskripsi Batch"
@@ -2307,10 +2071,7 @@ const printManifestDoc = () => {
                 />
               </v-col>
 
-              <v-col
-                cols="12"
-                sm="6"
-              >
+              <v-col cols="12" sm="6">
                 <v-select
                   v-model="form.type"
                   :items="['Tangki DPPU', 'Drum 200L']"
@@ -2320,10 +2081,7 @@ const printManifestDoc = () => {
                 />
               </v-col>
 
-              <v-col
-                cols="12"
-                sm="6"
-              >
+              <v-col cols="12" sm="6">
                 <v-select
                   v-model="form.station"
                   :items="stationOptions.filter((s: string) => s !== 'Semua Station / Hub')"
@@ -2333,10 +2091,7 @@ const printManifestDoc = () => {
                 />
               </v-col>
 
-              <v-col
-                cols="12"
-                sm="6"
-              >
+              <v-col cols="12" sm="6">
                 <v-text-field
                   v-model.number="form.qtyNumber"
                   label="Jumlah Saldo (Liter)"
@@ -2346,10 +2101,7 @@ const printManifestDoc = () => {
                 />
               </v-col>
 
-              <v-col
-                cols="12"
-                sm="6"
-              >
+              <v-col cols="12" sm="6">
                 <v-text-field
                   v-model.number="form.capacityNumber"
                   label="Kapasitas Maksimal (Liter)"
@@ -2359,10 +2111,7 @@ const printManifestDoc = () => {
                 />
               </v-col>
 
-              <v-col
-                cols="12"
-                sm="6"
-              >
+              <v-col cols="12" sm="6">
                 <v-select
                   v-model="form.status"
                   :items="statusOptions.filter((s: string) => s !== 'Semua Status')"
@@ -2372,10 +2121,7 @@ const printManifestDoc = () => {
                 />
               </v-col>
 
-              <v-col
-                cols="12"
-                sm="6"
-              >
+              <v-col cols="12" sm="6">
                 <v-select
                   v-model="form.syncStatus"
                   :items="['Synced', 'Pending Sync']"
@@ -2400,11 +2146,7 @@ const printManifestDoc = () => {
           >
             Batal
           </v-btn>
-          <v-btn
-            color="primary"
-            class="text-none px-4"
-            @click="submitStock"
-          >
+          <v-btn color="primary" class="text-none px-4" @click="submitStock">
             Simpan ke Tabel
           </v-btn>
         </v-card-actions>
@@ -2412,21 +2154,10 @@ const printManifestDoc = () => {
     </v-dialog>
 
     <!-- Global Toast Notification -->
-    <v-snackbar
-      v-model="snackbar.show"
-      :color="snackbar.color"
-      timeout="3500"
-      location="top right"
-    >
+    <v-snackbar v-model="snackbar.show" :color="snackbar.color" timeout="3500" location="top right">
       {{ snackbar.text }}
       <template #actions>
-        <v-btn
-          color="white"
-          variant="text"
-          @click="snackbar.show = false"
-        >
-          Tutup
-        </v-btn>
+        <v-btn color="white" variant="text" @click="snackbar.show = false"> Tutup </v-btn>
       </template>
     </v-snackbar>
 
@@ -2445,8 +2176,9 @@ const printManifestDoc = () => {
       </template>
 
       <span class="text-caption">
-        Sistem mengintegrasikan pembuatan manifest transfer penerbangan perintis dengan pencatatan seal drum,
-        penerimaan berita acara (handover), dan otomatisasi pembuatan queue transaksi offline jika terputus jaringan.
+        Sistem mengintegrasikan pembuatan manifest transfer penerbangan perintis dengan pencatatan
+        seal drum, penerimaan berita acara (handover), dan otomatisasi pembuatan queue transaksi
+        offline jika terputus jaringan.
       </span>
     </v-alert>
   </div>
@@ -2587,7 +2319,7 @@ const printManifestDoc = () => {
 .detail-status-card {
   display: flex;
   align-items: center;
-  justify-content:space-between;
+  justify-content: space-between;
   gap: 12px;
   padding: 12px;
   border: 1px solid rgba(var(--v-theme-on-surface), 0.08);

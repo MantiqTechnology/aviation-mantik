@@ -1,0 +1,35 @@
+# Peta sumber backend saat ini ke Go
+
+Peta ini sengaja membatasi P0. `server/services/flight-operations.service.ts` memuat mayoritas aturan; `shared/contracts/flight-operations.ts` berisi DTO dan schema Zod; `server/db/migrate.ts` serta `server/db/schema/flight-operations.ts` menjadi referensi tabel. Pemetaan DTO final dilakukan saat task kontrak, dengan hanya field yang dipakai layar P0.
+
+| Area Go               | Handler sumber                                                                                                           | Sumber aturan / DTO                                                                                     | Consumer dan status                                     |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| `auth`                | `server/api/auth/{login.post,session.get,logout.post}.ts`                                                                | `server/utils/auth.ts`, `server/utils/demo-accounts.ts`, `shared/contracts/auth.ts`                     | `app/composables/useDemoSession.ts`; P0                 |
+| `flight` baca         | `server/api/flight-operations/flights/{index.get,[id].get}.ts`                                                           | `FlightOperationsService.list/detailForActor`, `FlightOperationOverviewDto`, `FlightOperationDetailDto` | `app/pages/flights/index.vue` dan workspace flight; P0  |
+| `flight` lookup       | `server/api/flight-operations/lookups/index.get.ts`                                                                      | `FlightOperationsService.lookups`, `FlightOperationLookupsDto`                                          | `app/pages/flights/index.vue`; P0 subset                |
+| `flight` planning     | `flights/[id]/actions/{submit,evaluate,accept-readiness,approve,schedule}.post.ts`                                       | readiness/approval/transition pada service; approval dan lifecycle body di shared contract              | workspace flight; P0                                    |
+| `flight` movement     | `flights/[id]/actions/{open-check-in,close-check-in,mark-ready-for-departure,depart,land,pending-closure,close}.post.ts` | departure critical revalidation, closure readiness, invoice finalization                                | workspace flight; P0                                    |
+| `support` manifest    | `flights/[id]/manifest.get.ts`, `manifests/[manifestId]/actions/{submit,approve}.post.ts`                                | manifest control/version di service                                                                     | workspace manifest; P0 non-DG                           |
+| `support` fuel        | `fuel/index.{get,post}.ts`, `fuel/[id]/actions/[action].post.ts`                                                         | fuel workflow di service; `fuelActionBodySchema`                                                        | flight fuel view; P0 subset `approve/uplift/post`       |
+| `support` station     | `station-services`, `station-costs`, `station-tasks` handlers                                                            | station workflow, finance handoff creation, station scope                                               | flight station view; P0 hanya aksi yang dibutuhkan seed |
+| `support` maintenance | `maintenance/index.{get,post}.ts`, `maintenance/[id]/actions/approve.post.ts`                                            | maintenance handoff dan aircraft match di service                                                       | flight maintenance coordination; P0                     |
+| `invoice`             | `server/api/invoices/{index.get,[id].get}.ts`                                                                            | `server/features/finance/invoices/service.ts`                                                           | finance invoice list/detail; P0 read-only               |
+| `dashboard`           | `server/api/flight-operations/dashboard.get.ts`                                                                          | `server/services/operational-dashboards.service.ts`                                                     | flight control dashboard; P0                            |
+| `audit`               | `flights/[id]/operational-audit.get.ts`                                                                                  | status/audit history pada flight service                                                                | flight history; P0                                      |
+
+Path di tabel disingkat relatif terhadap `server/api/flight-operations/` kecuali auth dan invoices. Endpoint `GET /api/dashboard` yang muncul di dokumen lama tidak ada sebagai file route pada inspeksi ini. `GET /api/dashboard/operations` juga ada, tetapi P0 memakai dashboard flight control supaya tidak menduplikasi read model.
+
+## Aturan lintas domain yang harus ditelusuri
+
+- `FlightOperationsService.closureReadiness` memeriksa actual departure/arrival, manifest final, actual fuel uplift, station service, station cost + finance handoff, approved maintenance handoff, serta customer/revenue.
+- `FlightOperationsService.closeFlight` dan transisi `CLOSED` memanggil `InvoiceService.finalizeClosedFlight`; service lama juga memanggil accounting fulfillment. Implementasi P0 mem-port invoice saja sesuai keputusan scope.
+- `FlightOperationsService.acceptReadiness` melarang creator menerima readiness sendiri. Approval memeriksa revisi dan hash snapshot; perubahan penting dapat membuat approval basi.
+- `depart.post.ts` memeriksa permission dan origin station, lalu menjalankan revalidasi kritis dalam service.
+- `FlightOperationsService.transition` memakai versi dan idempotency key untuk sejumlah lifecycle command. Kunci dipakai hanya untuk command yang sama; konflik payload/actor/action menghasilkan 409.
+- Route list/detail memfilter data berdasarkan station/actor. Jangan hanya mengandalkan pembatasan di frontend.
+
+## Data sumber dan port
+
+`server/db/client.ts` memakai SQLite; file PostgreSQL di `server/db/postgres/migrations/` merupakan baseline repository, bukan alasan untuk membawa seluruh skema ke Go. Salin hanya entitas P0 dari migrasi SQLite/kontrak aktif, lalu desain migration PostgreSQL baru. Pertahankan ID string seed lama supaya relasi dan skenario bisa dibandingkan. `server/db/seed-flight-operations.ts` menyediakan referensi scenario; seed Go baru harus menyatakan secara eksplisit flight dan prerequisite mana yang dibawa.
+
+Consumer UI final harus didata saat backlog tahap A: route yang dipanggil, field yang dibaca, action yang bisa diklik, dan role yang menampilkannya. Komponen `app/pages/flights/index.vue` sudah terbukti memakai lookup dan flight list; halaman workspace lainnya perlu audit consumer sebelum dianggap parity.

@@ -2,11 +2,11 @@ import { fileURLToPath } from 'node:url';
 import tailwindcss from '@tailwindcss/vite';
 
 // Vercel functions mount the deployment at /var/task, which is read-only.
-// This check intentionally precedes AMA_DB_PATH because Nuxt loads .env at
+// This check intentionally precedes MANTIK_DB_PATH because Nuxt loads .env at
 // build time and its local SQLite path must not be embedded in a Vercel build.
 const defaultDbPath = process.env.VERCEL
-  ? '/tmp/ama-demo.sqlite'
-  : (process.env.AMA_DB_PATH ?? './data/ama-demo.sqlite');
+  ? '/tmp/mantik-demo.sqlite'
+  : (process.env.MANTIK_DB_PATH ?? './data/mantik-demo.sqlite');
 
 function patchVuetifySwitchCss() {
   return {
@@ -121,7 +121,7 @@ export default defineNuxtConfig({
       endpoint: process.env.S3_UPLOAD_ENDPOINT ?? '',
       region: process.env.S3_UPLOAD_REGION ?? process.env.AWS_REGION ?? 'auto',
       publicBaseUrl: process.env.S3_UPLOAD_PUBLIC_BASE_URL ?? '',
-      manifestKey: process.env.S3_UPLOAD_MANIFEST_KEY ?? '_manifests/ama-uploads.json',
+      manifestKey: process.env.S3_UPLOAD_MANIFEST_KEY ?? '_manifests/mantik-uploads.json',
       isConfigured: Boolean(
         process.env.S3_UPLOAD_BUCKET &&
         (process.env.S3_UPLOAD_ACCESS_KEY_ID || process.env.AWS_ACCESS_KEY_ID) &&
@@ -163,9 +163,9 @@ export default defineNuxtConfig({
   vuetify: {
     vuetifyOptions: {
       theme: {
-        defaultTheme: 'amaLight',
+        defaultTheme: 'mantikLight',
         themes: {
-          amaLight: {
+          mantikLight: {
             dark: false,
             colors: {
               primary: '#082B49',
@@ -186,7 +186,7 @@ export default defineNuxtConfig({
               'border-default': '#D8E0E1'
             }
           },
-          amaDark: {
+          mantikDark: {
             dark: true,
             colors: {
               primary: '#0E8C8A',

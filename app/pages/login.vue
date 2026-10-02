@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const branding = useBranding();
 import type { DemoAccountHelperDto } from '#shared/contracts/auth';
 
 definePageMeta({ layout: false });
@@ -69,8 +70,10 @@ async function submit() {
             >
               <VIcon icon="mdi-airplane-cog" size="34" />
               <div>
-                <div class="text-xl font-bold">PT AMA</div>
-                <div class="text-xs uppercase tracking-widest text-white/70">Ops Interface</div>
+                <div class="text-xl font-bold">{{ branding.productName }}</div>
+                <div class="text-xs uppercase tracking-widest text-white/70">
+                  {{ branding.tagline }}
+                </div>
               </div>
             </div>
             <div class="max-w-xl">
@@ -82,7 +85,7 @@ async function submit() {
               </h1>
               <p class="mt-5 max-w-lg text-lg text-white/75">
                 Role-controlled flight operations, maintenance, inventory, finance, safety and
-                quality workflows for PT AMA.
+                quality workflows for {{ branding.operatorName }}.
               </p>
             </div>
           </div>
@@ -96,7 +99,7 @@ async function submit() {
         <VCard border class="w-full max-w-110" elevation="0">
           <VCardText class="p-8">
             <VChip class="mb-4" color="accent-cenderawasih" variant="tonal">
-              AMA controlled access
+              {{ branding.productName }} controlled access
             </VChip>
             <h1 class="text-3xl font-bold text-brand-primary">Sign in</h1>
             <p class="mt-2 text-text-secondary">
@@ -133,7 +136,7 @@ async function submit() {
                 @click:append-inner="showPassword = !showPassword"
               />
               <VBtn block color="accent-cenderawasih" :loading="loading" size="large" type="submit">
-                Sign in to AMA Ops
+                Sign in to {{ branding.productName }}
               </VBtn>
             </VForm>
             <VDivider class="my-6" />

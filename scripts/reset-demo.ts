@@ -5,10 +5,10 @@ import { resetDemoDatabase } from '../server/db/reset-demo';
 
 loadLocalEnv();
 
-const dbPath = process.env.AMA_DB_PATH ?? './data/ama-demo.sqlite';
+const dbPath = process.env.MANTIK_DB_PATH ?? './data/mantik-demo.sqlite';
 
 await resetDemoDatabase(dbPath, { resetDocuments: true });
 
 await rm(join(process.cwd(), 'public', 'uploads', 'mock-receipts', '.DS_Store'), { force: true });
 
-console.log(`Reset and reseeded AMA operational scenarios at ${dbPath}`);
+console.log(`Reset and reseeded MANTIK operational scenarios at ${dbPath}`);

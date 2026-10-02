@@ -67,7 +67,7 @@ const artifactDir = path.join('artifacts', 'mro-demo-v3-m9');
 async function setRole(context: BrowserContext, baseURL: string | undefined, role: string) {
   const cookieUrl = new URL('/', baseURL ?? 'http://localhost:3100').toString();
   await context.clearCookies();
-  await context.addCookies([{ name: 'ama_demo_role', value: role, url: cookieUrl }]);
+  await context.addCookies([{ name: 'mantik_demo_role', value: role, url: cookieUrl }]);
 }
 
 async function unwrap<T>(response: APIResponse): Promise<T> {
@@ -191,7 +191,7 @@ test('M9 final Demo-v3 acceptance evidence covers MRO, facility, and Flight inte
         priorityId: 'flight-priority-normal',
         routeId: 'route-djj-wmx',
         customerId: 'cust-papua-logistics',
-        aircraftId: 'ac-pk-ame',
+        aircraftId: 'ac-pk-dme',
         pilotInCommandId: 'crew-pic-valid',
         coPilotId: 'crew-cop-valid-2',
         scheduledDepartureAt: '2026-08-11T01:00:00.000Z',

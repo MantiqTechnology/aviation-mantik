@@ -5,7 +5,7 @@ defineProps<{
   file: File | File[] | null;
   notes: string;
   category: 'OPERATIONAL' | 'EXTERNAL_REPORT';
-  sourceParty: 'PT_AMA_STATION' | 'AVSEC' | 'AUTHORITY' | 'OTHER';
+  sourceParty: 'OPERATOR_STATION' | 'AVSEC' | 'AUTHORITY' | 'OTHER';
   sourcePartyName: string;
   receivedAt: string;
 }>();
@@ -15,7 +15,7 @@ const emit = defineEmits<{
   'update:file': [value: File | File[] | null];
   'update:notes': [value: string];
   'update:category': [value: 'OPERATIONAL' | 'EXTERNAL_REPORT'];
-  'update:sourceParty': [value: 'PT_AMA_STATION' | 'AVSEC' | 'AUTHORITY' | 'OTHER'];
+  'update:sourceParty': [value: 'OPERATOR_STATION' | 'AVSEC' | 'AUTHORITY' | 'OTHER'];
   'update:sourcePartyName': [value: string];
   'update:receivedAt': [value: string];
   submit: [];
@@ -27,7 +27,7 @@ const categoryOptions = [
 ] as const;
 
 const sourcePartyOptions = [
-  { title: 'PT AMA Station', value: 'PT_AMA_STATION' },
+  { title: 'Operator Demo Station', value: 'OPERATOR_STATION' },
   { title: 'AVSEC', value: 'AVSEC' },
   { title: 'Authority', value: 'AUTHORITY' },
   { title: 'Other', value: 'OTHER' }
@@ -45,7 +45,7 @@ function updateCategory(value: unknown) {
 
 function updateSourceParty(value: unknown) {
   if (
-    value === 'PT_AMA_STATION' ||
+    value === 'OPERATOR_STATION' ||
     value === 'AVSEC' ||
     value === 'AUTHORITY' ||
     value === 'OTHER'
@@ -118,7 +118,7 @@ function updateReceivedAt(value: string | null) {
         />
 
         <div class="text-caption text-medium-emphasis">
-          PDF, JPEG, and PNG evidence received and uploaded by PT AMA Station.
+          PDF, JPEG, and PNG evidence received and uploaded by Operator Demo Station.
         </div>
 
         <VTextarea

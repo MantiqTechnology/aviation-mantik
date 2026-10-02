@@ -230,12 +230,12 @@ test.describe('feature-owned master data pages', () => {
     await expect(page.getByText('Available', { exact: true }).first()).toBeVisible();
     await expect(page.getByText('SCH_DJJ_NBX_MON_THU')).toHaveCount(0);
     await expect(page.getByText('MON, THU', { exact: true })).toBeVisible();
-    await expect(page.getByText('PK-AMB', { exact: true }).first()).toBeVisible();
+    await expect(page.getByText('PK-DMB', { exact: true }).first()).toBeVisible();
     await expect(page.getByRole('main').getByText('Cargo', { exact: true })).toBeVisible();
     await expect(
       page.getByRole('main').getByText('Scheduled Passenger', { exact: true }).first()
     ).toBeVisible();
-    await expect(page.getByText('AMA-20260720-009', { exact: true })).toBeVisible();
+    await expect(page.getByText('PRT-20260720-009', { exact: true })).toBeVisible();
     await expect(page.getByText('Advisory', { exact: true })).toBeVisible();
     await expect(page.getByRole('button', { name: 'Edit route' })).toBeVisible();
 
@@ -246,7 +246,7 @@ test.describe('feature-owned master data pages', () => {
   test('route profile is permission-aware and remains usable on mobile', async ({ page }) => {
     await page
       .context()
-      .addCookies([{ name: 'ama_demo_role', value: 'OCC', url: 'http://localhost:3100' }]);
+      .addCookies([{ name: 'mantik_demo_role', value: 'OCC', url: 'http://localhost:3100' }]);
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto('/master-data/routes/route-djj-nbx', { waitUntil: 'networkidle' });
     await waitForNuxtReady(page);
@@ -278,12 +278,12 @@ test.describe('feature-owned master data pages', () => {
     await page.clock.setFixedTime(new Date('2026-07-16T00:00:00.000Z'));
     await page
       .getByRole('row')
-      .filter({ hasText: 'PK-AMA' })
+      .filter({ hasText: 'PK-DMA' })
       .getByRole('link', { name: 'Open details' })
       .click();
 
     await expect(
-      page.getByRole('heading', { level: 1, name: 'PK-AMA', exact: true })
+      page.getByRole('heading', { level: 1, name: 'PK-DMA', exact: true })
     ).toBeVisible();
     await expect(page.getByText('Aircraft Operational Profile', { exact: true })).toBeVisible();
     await expect(page.getByText(/Representative aircraft image/)).toBeVisible();
@@ -292,7 +292,7 @@ test.describe('feature-owned master data pages', () => {
     await expect(page.getByText('Operationally ready', { exact: true })).toBeVisible();
     await expect(page.getByText(/^3 configured/)).toBeVisible();
     await expect(page.getByText('Upcoming flight assignment', { exact: true })).toBeVisible();
-    await expect(page.getByRole('link', { name: 'AMA-20260717-010' })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'PRT-20260717-010' })).toBeVisible();
     await expect(page.getByText('Maintenance snapshot', { exact: true })).toBeVisible();
     const maintenanceLink = page.getByRole('link', { name: 'Open Maintenance Handoff' });
     await expect(maintenanceLink).toBeVisible();
@@ -300,7 +300,7 @@ test.describe('feature-owned master data pages', () => {
 
     await maintenanceLink.click();
     await expect(page.getByLabel('Search flight or aircraft', { exact: true })).toHaveValue(
-      'PK-AMA'
+      'PK-DMA'
     );
   });
 
@@ -308,7 +308,7 @@ test.describe('feature-owned master data pages', () => {
     page
   }) => {
     await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto('/master-data/aircraft/ac-pk-amc', { waitUntil: 'networkidle' });
+    await page.goto('/master-data/aircraft/ac-pk-dmc', { waitUntil: 'networkidle' });
     await waitForNuxtReady(page);
 
     await expect(page.getByRole('img', { name: 'PAC 750XL' })).toBeVisible();

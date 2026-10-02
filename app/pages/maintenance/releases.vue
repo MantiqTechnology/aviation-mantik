@@ -159,7 +159,7 @@ function linkedDefectDisposition(release: TechnicalRelease) {
 
 function snapshotValue(release: TechnicalRelease, key: string) {
   if (!release.signerAuthorizationSnapshot && key === 'companyAuthorizationNumber') {
-    return 'Catatan lama - snapshot wewenang PT AMA tidak tersedia.';
+    return 'Catatan lama - snapshot wewenang Operator Demo tidak tersedia.';
   }
   const value = release.signerAuthorizationSnapshot?.[key];
   if (value === null || value === undefined) return '-';
@@ -180,7 +180,7 @@ function openRelease(release: TechnicalRelease) {
         <div class="release-header__eyebrow">Technical Release Control</div>
         <h1>Rilis Teknis Pesawat</h1>
         <p>
-          Catatan Technical Release dengan snapshot lisensi dan Wewenang PT AMA.
+          Catatan Technical Release dengan snapshot lisensi dan Wewenang Operator Demo.
           <span class="text-caption">Technical Releases</span>
         </p>
       </div>
@@ -385,7 +385,7 @@ function openRelease(release: TechnicalRelease) {
                   </td>
                   <td>
                     <span v-if="release.signerAuthorizationSnapshot">Snapshot tersimpan</span>
-                    <span v-else>Catatan lama - snapshot wewenang PT AMA tidak tersedia.</span>
+                    <span v-else>Catatan lama - snapshot wewenang Operator Demo tidak tersedia.</span>
                     <div class="text-caption text-medium-emphasis">
                       {{ format.dateTime(release.releasedAt) }}
                     </div>
@@ -422,7 +422,7 @@ function openRelease(release: TechnicalRelease) {
             <VBtn icon="mdi-close" variant="text" @click="releaseDrawer = false" />
           </div>
           <VAlert type="info" variant="tonal" class="mb-4">
-            Lisensi dan Wewenang PT AMA dicatat sebagai snapshot saat rilis diterbitkan.
+            Lisensi dan Wewenang Operator Demo dicatat sebagai snapshot saat rilis diterbitkan.
           </VAlert>
           <VList density="compact" border rounded class="mb-4">
             <VListItem
@@ -449,7 +449,7 @@ function openRelease(release: TechnicalRelease) {
             variant="tonal"
             class="mb-4"
           >
-            Catatan lama - snapshot wewenang PT AMA tidak tersedia.
+            Catatan lama - snapshot wewenang Operator Demo tidak tersedia.
           </VAlert>
           <VList v-else density="compact" border rounded class="mb-4">
             <VListSubheader>Snapshot wewenang</VListSubheader>
@@ -466,7 +466,7 @@ function openRelease(release: TechnicalRelease) {
               :subtitle="snapshotValue(selectedRelease, 'aircraftScope')"
             />
             <VListItem
-              title="Wewenang PT AMA"
+              title="Wewenang Operator Demo"
               :subtitle="snapshotValue(selectedRelease, 'companyAuthorizationNumber')"
             />
             <VListItem title="Verifikasi" :subtitle="snapshotValue(selectedRelease, 'basis')" />

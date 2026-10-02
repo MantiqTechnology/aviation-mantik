@@ -33,7 +33,7 @@ test('Director can cancel and then approve a submitted purchase order', async ({
 }) => {
   await context.addCookies([
     {
-      name: 'ama_demo_role',
+      name: 'mantik_demo_role',
       value: 'Inventory Controller',
       url: 'http://localhost:3100'
     }
@@ -78,7 +78,7 @@ test('Director can cancel and then approve a submitted purchase order', async ({
   await context.request.post(`/api/inventory/purchase-orders/${orderBody.data.id}/submit`);
 
   await context.addCookies([
-    { name: 'ama_demo_role', value: 'Director', url: 'http://localhost:3100' }
+    { name: 'mantik_demo_role', value: 'Director', url: 'http://localhost:3100' }
   ]);
   await page.goto('/inventory/purchase-orders', { waitUntil: 'networkidle' });
   const row = page.getByRole('row').filter({ hasText: orderBody.data.orderNumber });
@@ -117,7 +117,7 @@ test('repairable custom modal and inventory pages remain usable on mobile', asyn
 
 test('Inventory Controller can open the MRO material demand queue', async ({ context, page }) => {
   await context.addCookies([
-    { name: 'ama_demo_role', value: 'Inventory Controller', url: 'http://localhost:3100' }
+    { name: 'mantik_demo_role', value: 'Inventory Controller', url: 'http://localhost:3100' }
   ]);
   await page.goto('/inventory/maintenance-demand', { waitUntil: 'networkidle' });
   await expect(

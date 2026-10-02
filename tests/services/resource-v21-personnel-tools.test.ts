@@ -54,7 +54,7 @@ async function createFixture() {
 }
 
 async function createFileFixture() {
-  const dir = mkdtempSync(join(tmpdir(), 'ama-m6-race-'));
+  const dir = mkdtempSync(join(tmpdir(), 'mantik-m6-race-'));
   const dbPath = join(dir, 'race.sqlite');
   const client = createDbClient(dbPath);
   dropDemoDatabase(client.sqlite);

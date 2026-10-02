@@ -1,8 +1,8 @@
 export function useTenantContext() {
   return {
     activeTenant: {
-      id: 'TENANT-AMA-DEMO',
-      code: 'AMA',
+      id: 'TENANT-PRT-DEMO',
+      code: 'PRT',
       mode: 'SINGLE_TENANT' as const
     }
   };

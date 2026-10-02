@@ -1,3 +1,5 @@
+import { PRODUCT_BRANDING } from '../branding';
+
 export const supportedLocales = ['en', 'id'] as const;
 export type AppLocale = (typeof supportedLocales)[number];
 
@@ -11,7 +13,7 @@ export function normalizeLocale(value: string | null | undefined): AppLocale {
 export const messages = {
   en: {
     common: {
-      appName: 'AMA Ops Interface',
+      appName: PRODUCT_BRANDING.productName,
       demo: 'Demo',
       language: 'Language',
       english: 'English',
@@ -375,7 +377,7 @@ export const messages = {
         authorizationMissing:
           'Select a valid personnel license. The system will re-check license and authorization when the action is submitted.',
         authorizationSummary:
-          'PT AMA license and authorization verified. Action: {action}. Scope: {scope}',
+          'Operator Demo license and authorization verified. Action: {action}. Scope: {scope}',
         workSignoffPlaceholder:
           'Example: {cardNumber} completed in accordance with {maintenanceDataRef}; work result and technician evidence have been checked.',
         independentInspectionPassed:
@@ -491,7 +493,7 @@ export const messages = {
         recordInspection: 'Open Work Package and record Inspection result.',
         releaseReady: 'Backend checklist says the package is awaiting Technical Release.',
         issueRelease:
-          'Open Technical Release confirmation and check license and PT AMA authorization.',
+          'Open Technical Release confirmation and check license and Operator Demo authorization.',
         releaseBlockerFallback: 'Technical Release prerequisites are incomplete.',
         resolveBlocker: 'Open Work Package and resolve the blocker.',
         releaseBlockerTitle: 'Technical Release blocker',
@@ -502,10 +504,11 @@ export const messages = {
         openDefectsAssessment: 'Open Defects page and complete assessment.'
       },
       errors: {
-        companyAuthorizationRequired: 'PT AMA authorization is not sufficient',
-        companyAuthorizationInactive: 'PT AMA authorization is inactive',
-        companyAuthorizationExpired: 'PT AMA authorization has expired',
-        companyAuthorizationActionNotPermitted: 'This action is outside PT AMA authorization',
+        companyAuthorizationRequired: 'Operator Demo authorization is not sufficient',
+        companyAuthorizationInactive: 'Operator Demo authorization is inactive',
+        companyAuthorizationExpired: 'Operator Demo authorization has expired',
+        companyAuthorizationActionNotPermitted:
+          'This action is outside Operator Demo authorization',
         companyAuthorizationAircraftScopeMismatch: 'Aircraft scope does not match authorization',
         companyAuthorizationLicenceMismatch: 'Personnel license does not match authorization',
         systemDidNotApplyAction: 'The system did not apply the action.',
@@ -570,7 +573,7 @@ export const messages = {
   },
   id: {
     common: {
-      appName: 'AMA Ops Interface',
+      appName: PRODUCT_BRANDING.productName,
       demo: 'Demo',
       language: 'Bahasa',
       english: 'Inggris',
@@ -934,7 +937,7 @@ export const messages = {
         authorizationMissing:
           'Pilih lisensi personel yang valid. Sistem akan memeriksa ulang lisensi dan wewenang saat tindakan dikirim.',
         authorizationSummary:
-          'Lisensi dan wewenang PT AMA terverifikasi. Tindakan: {action}. Scope: {scope}',
+          'Lisensi dan wewenang Operator Demo terverifikasi. Tindakan: {action}. Scope: {scope}',
         workSignoffPlaceholder:
           'Contoh: {cardNumber} selesai sesuai {maintenanceDataRef}; hasil kerja dan bukti teknisi sudah diperiksa.',
         independentInspectionPassed:
@@ -1052,7 +1055,7 @@ export const messages = {
         recordInspection: 'Buka Work Package dan catat hasil Inspection.',
         releaseReady: 'Checklist backend menyatakan package siap menunggu Technical Release.',
         issueRelease:
-          'Buka konfirmasi Technical Release dan periksa lisensi serta wewenang PT AMA.',
+          'Buka konfirmasi Technical Release dan periksa lisensi serta wewenang Operator Demo.',
         releaseBlockerFallback: 'Ada prasyarat Technical Release yang belum lengkap.',
         resolveBlocker: 'Buka Work Package dan selesaikan blocker.',
         releaseBlockerTitle: 'Blocker Technical Release',
@@ -1063,10 +1066,11 @@ export const messages = {
         openDefectsAssessment: 'Buka halaman Defects dan lakukan penilaian.'
       },
       errors: {
-        companyAuthorizationRequired: 'Wewenang PT AMA belum sesuai',
-        companyAuthorizationInactive: 'Wewenang PT AMA tidak aktif',
-        companyAuthorizationExpired: 'Wewenang PT AMA sudah kedaluwarsa',
-        companyAuthorizationActionNotPermitted: 'Tindakan ini tidak termasuk wewenang PT AMA',
+        companyAuthorizationRequired: 'Wewenang Operator Demo belum sesuai',
+        companyAuthorizationInactive: 'Wewenang Operator Demo tidak aktif',
+        companyAuthorizationExpired: 'Wewenang Operator Demo sudah kedaluwarsa',
+        companyAuthorizationActionNotPermitted:
+          'Tindakan ini tidak termasuk wewenang Operator Demo',
         companyAuthorizationAircraftScopeMismatch: 'Scope aircraft tidak sesuai wewenang',
         companyAuthorizationLicenceMismatch: 'Lisensi personel tidak sesuai wewenang',
         systemDidNotApplyAction: 'Tindakan tidak diterapkan oleh sistem.',

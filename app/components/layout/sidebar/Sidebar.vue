@@ -1,8 +1,9 @@
 <script setup lang="ts">
+const branding = useBranding();
 import { useDisplay } from 'vuetify';
 
-const rail = useState('ama-sidebar-rail', () => false);
-const mobileDrawer = useState('ama-sidebar-mobile-open', () => false);
+const rail = useState('mantik-sidebar-rail', () => false);
+const mobileDrawer = useState('mantik-sidebar-mobile-open', () => false);
 const { can } = useAuthorization();
 const route = useRoute();
 const { mdAndUp } = useDisplay();
@@ -56,7 +57,7 @@ interface FlightRadarTelemetry {
 const activeFlights = ref<FlightRadarTelemetry[]>([
   {
     id: 'FL-001',
-    callsign: 'AMA1264',
+    callsign: 'PRT1264',
     registration: 'PK-RCW',
     lastLat: -3.8042,
     lastLng: 138.8351,
@@ -66,7 +67,7 @@ const activeFlights = ref<FlightRadarTelemetry[]>([
   },
   {
     id: 'FL-002',
-    callsign: 'AMA1280',
+    callsign: 'PRT1280',
     registration: 'PK-RBA',
     lastLat: -2.5337,
     lastLng: 140.7181,
@@ -1158,10 +1159,12 @@ function closeMobileOnNavigate() {
           @click="closeMobileOnNavigate"
         >
           <div class="rounded-lg overflow-hidden">
-            <VImg :width="68" cover src="https://amapapua.com/files/ama-pt-logo-shaded4.png" />
+            <VImg :width="68" cover :src="branding.logoUrl" />
           </div>
           <div v-if="!rail" class="min-w-0">
-            <div class="text-lg font-bold leading-5 text-brand-primary">AMA</div>
+            <div class="text-lg font-bold leading-5 text-brand-primary">
+              {{ branding.productName }}
+            </div>
             <div class="text-xs font-semibold uppercase tracking-normal text-text-secondary">
               Ops Interface
             </div>

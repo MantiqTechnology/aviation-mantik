@@ -155,10 +155,10 @@ function generateReference(type: 'RFQ' | 'Tender') {
   const mm = String(today.getMonth() + 1).padStart(2, '0');
   const dd = String(today.getDate()).padStart(2, '0');
   const sameDayCount = rows.value.filter((r) =>
-    r.reference.startsWith(`${prefix}-AMA-${yy}${mm}${dd}`)
+    r.reference.startsWith(`${prefix}-PRT-${yy}${mm}${dd}`)
   ).length;
   const seq = String(sameDayCount + 1).padStart(3, '0');
-  return `${prefix}-AMA-${yy}${mm}${dd}-${seq}`;
+  return `${prefix}-PRT-${yy}${mm}${dd}-${seq}`;
 }
 
 async function submitCreate() {

@@ -9,7 +9,7 @@ type CashAccount = {
   glAccountCode: string;
   balanceMinor: number;
 };
-useHead({ title: 'Cash and Bank - PT AMA' });
+useHead({ title: 'Cash and Bank - Operator Demo' });
 const selectedAccount = ref<string>();
 const {
   data: accounts,

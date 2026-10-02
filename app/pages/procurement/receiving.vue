@@ -152,10 +152,10 @@ function generateClaimNumber() {
   const mm = String(today.getMonth() + 1).padStart(2, '0');
   const dd = String(today.getDate()).padStart(2, '0');
   const sameDayCount = claimRows.value.filter((c) =>
-    c.claimNumber.startsWith(`CLM-AMA-${yy}${mm}${dd}`)
+    c.claimNumber.startsWith(`CLM-PRT-${yy}${mm}${dd}`)
   ).length;
   const seq = String(sameDayCount + 1).padStart(3, '0');
-  return `CLM-AMA-${yy}${mm}${dd}-${seq}`;
+  return `CLM-PRT-${yy}${mm}${dd}-${seq}`;
 }
 
 async function submitReject() {

@@ -6,7 +6,7 @@ describe('AircraftTrackingService', () => {
     const { services, sqlite } = await createSeededTestServices();
     const before = sqlite
       .prepare(
-        "SELECT COUNT(*) AS count FROM aircraft_position_reports WHERE aircraft_id = 'ac-pk-amb'"
+        "SELECT COUNT(*) AS count FROM aircraft_position_reports WHERE aircraft_id = 'ac-pk-dmb'"
       )
       .get() as { count: number };
 
@@ -14,12 +14,12 @@ describe('AircraftTrackingService', () => {
     const second = services.aircraftTracking.advanceDemoPosition('fop-in-progress', 'USR-001');
     const currentCount = sqlite
       .prepare(
-        "SELECT COUNT(*) AS count FROM aircraft_current_positions WHERE aircraft_id = 'ac-pk-amb'"
+        "SELECT COUNT(*) AS count FROM aircraft_current_positions WHERE aircraft_id = 'ac-pk-dmb'"
       )
       .get() as { count: number };
     const after = sqlite
       .prepare(
-        "SELECT COUNT(*) AS count FROM aircraft_position_reports WHERE aircraft_id = 'ac-pk-amb'"
+        "SELECT COUNT(*) AS count FROM aircraft_position_reports WHERE aircraft_id = 'ac-pk-dmb'"
       )
       .get() as { count: number };
 
@@ -84,7 +84,7 @@ describe('AircraftTrackingService', () => {
       .find((item) => item.id === 'fop-in-progress');
 
     expect(flight).toMatchObject({
-      aircraftId: 'ac-pk-amb',
+      aircraftId: 'ac-pk-dmb',
       originCode: 'WMX',
       destinationCode: 'OKS',
       position: {

@@ -120,7 +120,7 @@ Chromium membuka Station Operations secara online, kemudian context diputus dan 
 }
 ```
 
-Hasil konsisten dengan disclosure roadmap bahwa offline mode belum tersedia di `docs/roadmap-enterprise-mvp.md:23` dan arsitekturnya baru didefinisikan di `:1027-1069`.
+Hasil ini konsisten dengan roadmap historis yang saat audit menyatakan offline mode belum tersedia. Dokumen roadmap tersebut telah dihapus dari repo demo umum.
 
 ## Visual evidence
 

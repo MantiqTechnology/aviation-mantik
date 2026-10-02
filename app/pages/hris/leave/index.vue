@@ -48,7 +48,7 @@ function statusColor(s: string) {
       <div>
         <h1 class="text-h4 font-weight-bold text-primary">Manajemen Cuti & Izin</h1>
         <p class="text-subtitle-1 text-secondary">
-          Persetujuan dan pencatatan cuti karyawan PT. AMA
+          Persetujuan dan pencatatan cuti karyawan Operator Demo
         </p>
       </div>
       <VBtn prepend-icon="mdi-refresh" variant="outlined" @click="refresh()">Refresh</VBtn>

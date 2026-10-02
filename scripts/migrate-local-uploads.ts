@@ -10,9 +10,10 @@ type LocalUploadManifest = {
 };
 
 const manifestPath =
-  process.env.AMA_UPLOAD_MANIFEST ?? join(process.cwd(), 'data', 'local-uploads.json');
-const oldUploadDir = join(process.cwd(), 'public', 'uploads', 'local');
-const newUploadDir = process.env.AMA_UPLOAD_DIR ?? join(process.cwd(), 'data', 'uploads', 'local');
+  process.env.MANTIK_UPLOAD_MANIFEST ?? join(process.cwd(), 'data', 'mantik-local-uploads.json');
+const oldUploadDir = join(process.cwd(), 'public', 'uploads', 'mantik-local');
+const newUploadDir =
+  process.env.MANTIK_UPLOAD_DIR ?? join(process.cwd(), 'data', 'uploads', 'mantik-local');
 
 async function exists(path: string) {
   try {

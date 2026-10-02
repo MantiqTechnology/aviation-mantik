@@ -259,7 +259,7 @@ export const topVendorSpend: VendorSpend[] = [
 // ----------------------------------------------------------------------------
 export const recentActivity: RecentActivity[] = [
   {
-    reference: 'PR-AMA-260822-018',
+    reference: 'PR-PRT-260822-018',
     type: 'Purchase Requisition',
     counterparty: 'MRO',
     amount: 185_000_000,
@@ -267,7 +267,7 @@ export const recentActivity: RecentActivity[] = [
     status: 'Pending Approval'
   },
   {
-    reference: 'PO-AMA-260821-014',
+    reference: 'PO-PRT-260821-014',
     type: 'Purchase Order',
     counterparty: 'PT Aero Parts Indonesia',
     amount: 425_000_000,
@@ -275,7 +275,7 @@ export const recentActivity: RecentActivity[] = [
     status: 'Pending Finance Approval'
   },
   {
-    reference: 'RFQ-AMA-260819-006',
+    reference: 'RFQ-PRT-260819-006',
     type: 'RFQ',
     counterparty: 'Aircraft Components',
     amount: 680_000_000,
@@ -283,7 +283,7 @@ export const recentActivity: RecentActivity[] = [
     status: 'Evaluation'
   },
   {
-    reference: 'GR-AMA-260818-022',
+    reference: 'GR-PRT-260818-022',
     type: 'Goods Receipt',
     counterparty: 'PT Aviation Supply',
     amount: 95_000_000,
@@ -296,7 +296,7 @@ export const attentionQueue: AttentionItem[] = [
   {
     id: 'att-1',
     category: 'Approval Bottleneck',
-    reference: 'PO-AMA-260821-014',
+    reference: 'PO-PRT-260821-014',
     description: 'Waiting Finance Approval',
     meta: '3 days',
     severity: 'high'
@@ -304,7 +304,7 @@ export const attentionQueue: AttentionItem[] = [
   {
     id: 'att-2',
     category: 'Delivery Overdue',
-    reference: 'PO-AMA-260816-007',
+    reference: 'PO-PRT-260816-007',
     description: 'Aircraft Spare Parts',
     meta: '5 days overdue',
     severity: 'high'
@@ -320,7 +320,7 @@ export const attentionQueue: AttentionItem[] = [
   {
     id: 'att-4',
     category: 'Three-Way Match Exception',
-    reference: 'PO-AMA-260815-003',
+    reference: 'PO-PRT-260815-003',
     description: 'Invoice amount mismatch',
     meta: 'Needs review',
     severity: 'medium'
@@ -328,7 +328,7 @@ export const attentionQueue: AttentionItem[] = [
   {
     id: 'att-5',
     category: 'Budget Review',
-    reference: 'PR-AMA-260814-011',
+    reference: 'PR-PRT-260814-011',
     description: 'General Affairs budget line near limit',
     meta: 'Pending review',
     severity: 'low'
@@ -336,7 +336,7 @@ export const attentionQueue: AttentionItem[] = [
   {
     id: 'att-6',
     category: 'Vendor Claim',
-    reference: 'CLM-AMA-260812-004',
+    reference: 'CLM-PRT-260812-004',
     description: 'PT Nusantara Ground Services — short quantity',
     meta: 'Open',
     severity: 'low'
@@ -515,7 +515,7 @@ export const suppliers: Supplier[] = [
 export const purchaseRequisitions: PurchaseRequisition[] = [
   {
     id: 'pr-001',
-    prNumber: 'PR-AMA-260822-018',
+    prNumber: 'PR-PRT-260822-018',
     date: '22 Aug 2026',
     requester: 'Bayu Saputra',
     department: 'MRO',
@@ -532,7 +532,7 @@ export const purchaseRequisitions: PurchaseRequisition[] = [
   },
   {
     id: 'pr-002',
-    prNumber: 'PR-AMA-260821-017',
+    prNumber: 'PR-PRT-260821-017',
     date: '21 Aug 2026',
     requester: 'Deni Herlambang',
     department: 'Ground Handling',
@@ -549,7 +549,7 @@ export const purchaseRequisitions: PurchaseRequisition[] = [
   },
   {
     id: 'pr-003',
-    prNumber: 'PR-AMA-260820-016',
+    prNumber: 'PR-PRT-260820-016',
     date: '20 Aug 2026',
     requester: 'Rangga Wibowo',
     department: 'IT',
@@ -566,7 +566,7 @@ export const purchaseRequisitions: PurchaseRequisition[] = [
   },
   {
     id: 'pr-004',
-    prNumber: 'PR-AMA-260819-015',
+    prNumber: 'PR-PRT-260819-015',
     date: '19 Aug 2026',
     requester: 'Wahyu Nugroho',
     department: 'Finance',
@@ -584,11 +584,11 @@ export const purchaseRequisitions: PurchaseRequisition[] = [
     priority: 'Low',
     status: 'Converted',
     budgetCheck: 'Available',
-    nextAction: 'Converted to PO-AMA-260820-011'
+    nextAction: 'Converted to PO-PRT-260820-011'
   },
   {
     id: 'pr-005',
-    prNumber: 'PR-AMA-260818-014',
+    prNumber: 'PR-PRT-260818-014',
     date: '18 Aug 2026',
     requester: 'Andi Kurniawan',
     department: 'MRO',
@@ -610,7 +610,7 @@ export const purchaseRequisitions: PurchaseRequisition[] = [
   },
   {
     id: 'pr-006',
-    prNumber: 'PR-AMA-260817-013',
+    prNumber: 'PR-PRT-260817-013',
     date: '17 Aug 2026',
     requester: 'Dewi Lestari',
     department: 'General Affairs',
@@ -638,8 +638,8 @@ export const purchaseRequisitions: PurchaseRequisition[] = [
 export const sourcingEvents: SourcingEvent[] = [
   {
     id: 'src-001',
-    reference: 'RFQ-AMA-260819-006',
-    sourcePr: 'PR-AMA-260810-009',
+    reference: 'RFQ-PRT-260819-006',
+    sourcePr: 'PR-PRT-260810-009',
     type: 'RFQ',
     itemService: 'Aircraft Components - Brake Assembly',
     invitedVendors: 4,
@@ -688,8 +688,8 @@ export const sourcingEvents: SourcingEvent[] = [
   },
   {
     id: 'src-002',
-    reference: 'TND-AMA-260812-002',
-    sourcePr: 'PR-AMA-260805-004',
+    reference: 'TND-PRT-260812-002',
+    sourcePr: 'PR-PRT-260805-004',
     type: 'Tender',
     itemService: 'Annual Ground Handling Equipment Maintenance Contract',
     invitedVendors: 6,
@@ -719,8 +719,8 @@ export const sourcingEvents: SourcingEvent[] = [
   },
   {
     id: 'src-003',
-    reference: 'RFQ-AMA-260815-005',
-    sourcePr: 'PR-AMA-260808-007',
+    reference: 'RFQ-PRT-260815-005',
+    sourcePr: 'PR-PRT-260808-007',
     type: 'Direct Purchase',
     itemService: 'Office consumables Q3',
     invitedVendors: 1,
@@ -742,8 +742,8 @@ export const sourcingEvents: SourcingEvent[] = [
   },
   {
     id: 'src-004',
-    reference: 'EMG-AMA-260821-001',
-    sourcePr: 'PR-AMA-260821-017',
+    reference: 'EMG-PRT-260821-001',
+    sourcePr: 'PR-PRT-260821-017',
     type: 'Emergency Procurement',
     itemService: 'AOG spare - hydraulic pump unit',
     invitedVendors: 2,
@@ -764,8 +764,8 @@ export const sourcingEvents: SourcingEvent[] = [
   },
   {
     id: 'src-005',
-    reference: 'RFQ-AMA-260806-003',
-    sourcePr: 'PR-AMA-260801-002',
+    reference: 'RFQ-PRT-260806-003',
+    sourcePr: 'PR-PRT-260801-002',
     type: 'RFQ',
     itemService: 'Network switch upgrade - Ops Center',
     invitedVendors: 3,
@@ -776,8 +776,8 @@ export const sourcingEvents: SourcingEvent[] = [
   },
   {
     id: 'src-006',
-    reference: 'TND-AMA-260728-001',
-    sourcePr: 'PR-AMA-260720-011',
+    reference: 'TND-PRT-260728-001',
+    sourcePr: 'PR-PRT-260720-011',
     type: 'Tender',
     itemService: 'Fuel supply contract - 2027 renewal',
     invitedVendors: 5,
@@ -814,9 +814,9 @@ export const sourcingEvents: SourcingEvent[] = [
 export const purchaseOrders: PurchaseOrder[] = [
   {
     id: 'po-001',
-    poNumber: 'PO-AMA-260821-014',
+    poNumber: 'PO-PRT-260821-014',
     supplier: 'PT Aero Parts Indonesia',
-    sourcePr: 'PR-AMA-260810-009',
+    sourcePr: 'PR-PRT-260810-009',
     category: 'Aircraft Spare Parts',
     poDate: '21 Aug 2026',
     totalAmount: 425_000_000,
@@ -827,9 +827,9 @@ export const purchaseOrders: PurchaseOrder[] = [
   },
   {
     id: 'po-002',
-    poNumber: 'PO-AMA-260820-011',
+    poNumber: 'PO-PRT-260820-011',
     supplier: 'PT Aviation Supply Nusantara',
-    sourcePr: 'PR-AMA-260819-015',
+    sourcePr: 'PR-PRT-260819-015',
     category: 'General Goods & Services',
     poDate: '20 Aug 2026',
     totalAmount: 21_500_000,
@@ -840,9 +840,9 @@ export const purchaseOrders: PurchaseOrder[] = [
   },
   {
     id: 'po-003',
-    poNumber: 'PO-AMA-260819-010',
+    poNumber: 'PO-PRT-260819-010',
     supplier: 'PT Global Aero Supply',
-    sourcePr: 'PR-AMA-260805-004',
+    sourcePr: 'PR-PRT-260805-004',
     category: 'Rotables',
     poDate: '19 Aug 2026',
     totalAmount: 710_000_000,
@@ -853,9 +853,9 @@ export const purchaseOrders: PurchaseOrder[] = [
   },
   {
     id: 'po-004',
-    poNumber: 'PO-AMA-260818-009',
+    poNumber: 'PO-PRT-260818-009',
     supplier: 'PT Nusantara Fuel',
-    sourcePr: 'PR-AMA-260720-011',
+    sourcePr: 'PR-PRT-260720-011',
     category: 'Fuel',
     poDate: '18 Aug 2026',
     totalAmount: 12_800_000_000,
@@ -866,9 +866,9 @@ export const purchaseOrders: PurchaseOrder[] = [
   },
   {
     id: 'po-005',
-    poNumber: 'PO-AMA-260816-007',
+    poNumber: 'PO-PRT-260816-007',
     supplier: 'PT Garuda Engineering Supply',
-    sourcePr: 'PR-AMA-260806-006',
+    sourcePr: 'PR-PRT-260806-006',
     category: 'Rotables',
     poDate: '16 Aug 2026',
     totalAmount: 725_000_000,
@@ -879,9 +879,9 @@ export const purchaseOrders: PurchaseOrder[] = [
   },
   {
     id: 'po-006',
-    poNumber: 'PO-AMA-260815-006',
+    poNumber: 'PO-PRT-260815-006',
     supplier: 'PT Tech Aviasi',
-    sourcePr: 'PR-AMA-260808-008',
+    sourcePr: 'PR-PRT-260808-008',
     category: 'Maintenance Services',
     poDate: '15 Aug 2026',
     totalAmount: 320_000_000,
@@ -892,9 +892,9 @@ export const purchaseOrders: PurchaseOrder[] = [
   },
   {
     id: 'po-007',
-    poNumber: 'PO-AMA-260812-004',
+    poNumber: 'PO-PRT-260812-004',
     supplier: 'PT Nusantara Ground Services',
-    sourcePr: 'PR-AMA-260802-003',
+    sourcePr: 'PR-PRT-260802-003',
     category: 'Ground Handling',
     poDate: '12 Aug 2026',
     totalAmount: 1_450_000_000,
@@ -905,9 +905,9 @@ export const purchaseOrders: PurchaseOrder[] = [
   },
   {
     id: 'po-008',
-    poNumber: 'PO-AMA-260805-002',
+    poNumber: 'PO-PRT-260805-002',
     supplier: 'PT Pacific Aviation Components',
-    sourcePr: 'PR-AMA-260728-005',
+    sourcePr: 'PR-PRT-260728-005',
     category: 'Aircraft Spare Parts',
     poDate: '05 Aug 2026',
     totalAmount: 96_000_000,
@@ -924,8 +924,8 @@ export const purchaseOrders: PurchaseOrder[] = [
 export const goodsReceipts: GoodsReceipt[] = [
   {
     id: 'gr-001',
-    grNumber: 'GR-AMA-260818-022',
-    poNumber: 'PO-AMA-260812-004',
+    grNumber: 'GR-PRT-260818-022',
+    poNumber: 'PO-PRT-260812-004',
     supplier: 'PT Aviation Supply Nusantara',
     receivedDate: '18 Aug 2026',
     item: 'Printer toner & stationery bundle',
@@ -936,8 +936,8 @@ export const goodsReceipts: GoodsReceipt[] = [
   },
   {
     id: 'gr-002',
-    grNumber: 'GR-AMA-260819-023',
-    poNumber: 'PO-AMA-260819-010',
+    grNumber: 'GR-PRT-260819-023',
+    poNumber: 'PO-PRT-260819-010',
     supplier: 'PT Global Aero Supply',
     receivedDate: '19 Aug 2026',
     item: 'Brake assembly',
@@ -948,8 +948,8 @@ export const goodsReceipts: GoodsReceipt[] = [
   },
   {
     id: 'gr-003',
-    grNumber: 'GR-AMA-260816-020',
-    poNumber: 'PO-AMA-260816-007',
+    grNumber: 'GR-PRT-260816-020',
+    poNumber: 'PO-PRT-260816-007',
     supplier: 'PT Garuda Engineering Supply',
     receivedDate: '16 Aug 2026',
     item: 'Landing gear bushing set',
@@ -960,8 +960,8 @@ export const goodsReceipts: GoodsReceipt[] = [
   },
   {
     id: 'gr-004',
-    grNumber: 'GR-AMA-260814-019',
-    poNumber: 'PO-AMA-260805-002',
+    grNumber: 'GR-PRT-260814-019',
+    poNumber: 'PO-PRT-260805-002',
     supplier: 'PT Pacific Aviation Components',
     receivedDate: '14 Aug 2026',
     item: 'Hydraulic pump unit',
@@ -972,8 +972,8 @@ export const goodsReceipts: GoodsReceipt[] = [
   },
   {
     id: 'gr-005',
-    grNumber: 'GR-AMA-260822-024',
-    poNumber: 'PO-AMA-260818-009',
+    grNumber: 'GR-PRT-260822-024',
+    poNumber: 'PO-PRT-260818-009',
     supplier: 'PT Nusantara Fuel',
     receivedDate: '22 Aug 2026',
     item: 'Fuel handling nozzle set',
@@ -987,8 +987,8 @@ export const goodsReceipts: GoodsReceipt[] = [
 export const vendorClaims: VendorClaim[] = [
   {
     id: 'clm-001',
-    claimNumber: 'CLM-AMA-260812-004',
-    poNumber: 'PO-AMA-260812-004',
+    claimNumber: 'CLM-PRT-260812-004',
+    poNumber: 'PO-PRT-260812-004',
     supplier: 'PT Nusantara Ground Services',
     item: 'Ground power unit connector',
     reason: 'Short Quantity',
@@ -1000,8 +1000,8 @@ export const vendorClaims: VendorClaim[] = [
   },
   {
     id: 'clm-002',
-    claimNumber: 'CLM-AMA-260805-002',
-    poNumber: 'PO-AMA-260805-002',
+    claimNumber: 'CLM-PRT-260805-002',
+    poNumber: 'PO-PRT-260805-002',
     supplier: 'PT Pacific Aviation Components',
     item: 'Hydraulic pump unit',
     reason: 'Document Non-Conformance',
@@ -1013,8 +1013,8 @@ export const vendorClaims: VendorClaim[] = [
   },
   {
     id: 'clm-003',
-    claimNumber: 'CLM-AMA-260728-001',
-    poNumber: 'PO-AMA-260816-007',
+    claimNumber: 'CLM-PRT-260728-001',
+    poNumber: 'PO-PRT-260816-007',
     supplier: 'PT Garuda Engineering Supply',
     item: 'Landing gear bushing set',
     reason: 'Wrong Specification',
@@ -1026,8 +1026,8 @@ export const vendorClaims: VendorClaim[] = [
   },
   {
     id: 'clm-004',
-    claimNumber: 'CLM-AMA-260710-006',
-    poNumber: 'PO-AMA-260819-010',
+    claimNumber: 'CLM-PRT-260710-006',
+    poNumber: 'PO-PRT-260819-010',
     supplier: 'PT Global Aero Supply',
     item: 'Brake assembly',
     reason: 'Damaged',
@@ -1139,7 +1139,7 @@ export const vendorPerformanceRows: VendorPerformanceRow[] = [
 export const approvalQueue: ApprovalQueueItem[] = [
   {
     id: 'apq-001',
-    reference: 'PO-AMA-260821-014',
+    reference: 'PO-PRT-260821-014',
     type: 'Purchase Order',
     requester: 'Bayu Saputra',
     amount: 425_000_000,
@@ -1150,7 +1150,7 @@ export const approvalQueue: ApprovalQueueItem[] = [
   },
   {
     id: 'apq-002',
-    reference: 'PO-AMA-260820-009',
+    reference: 'PO-PRT-260820-009',
     type: 'Purchase Order',
     requester: 'Deni Herlambang',
     amount: 210_000_000,
@@ -1161,7 +1161,7 @@ export const approvalQueue: ApprovalQueueItem[] = [
   },
   {
     id: 'apq-003',
-    reference: 'PR-AMA-260822-018',
+    reference: 'PR-PRT-260822-018',
     type: 'Purchase Requisition',
     requester: 'Bayu Saputra',
     amount: 185_000_000,
@@ -1172,7 +1172,7 @@ export const approvalQueue: ApprovalQueueItem[] = [
   },
   {
     id: 'apq-004',
-    reference: 'RFQ-AMA-260819-006',
+    reference: 'RFQ-PRT-260819-006',
     type: 'RFQ',
     requester: 'Rangga Wibowo',
     amount: 640_000_000,
@@ -1183,7 +1183,7 @@ export const approvalQueue: ApprovalQueueItem[] = [
   },
   {
     id: 'apq-005',
-    reference: 'PO-AMA-260818-009',
+    reference: 'PO-PRT-260818-009',
     type: 'Purchase Order',
     requester: 'Wahyu Nugroho',
     amount: 12_800_000_000,
@@ -1194,7 +1194,7 @@ export const approvalQueue: ApprovalQueueItem[] = [
   },
   {
     id: 'apq-006',
-    reference: 'PR-AMA-260818-014',
+    reference: 'PR-PRT-260818-014',
     type: 'Purchase Requisition',
     requester: 'Andi Kurniawan',
     amount: 320_000_000,
@@ -1214,7 +1214,7 @@ export const approvalAuthorityMatrix: ApprovalAuthorityTier[] = [
 export const threeWayMatchRows: ThreeWayMatchRow[] = [
   {
     id: 'twm-001',
-    poNumber: 'PO-AMA-260821-014',
+    poNumber: 'PO-PRT-260821-014',
     grNumber: '-',
     invoiceNumber: '-',
     supplier: 'PT Aero Parts Indonesia',
@@ -1225,8 +1225,8 @@ export const threeWayMatchRows: ThreeWayMatchRow[] = [
   },
   {
     id: 'twm-002',
-    poNumber: 'PO-AMA-260819-010',
-    grNumber: 'GR-AMA-260819-023',
+    poNumber: 'PO-PRT-260819-010',
+    grNumber: 'GR-PRT-260819-023',
     invoiceNumber: 'INV-9982',
     supplier: 'PT Global Aero Supply',
     poAmount: 710_000_000,
@@ -1236,8 +1236,8 @@ export const threeWayMatchRows: ThreeWayMatchRow[] = [
   },
   {
     id: 'twm-003',
-    poNumber: 'PO-AMA-260816-007',
-    grNumber: 'GR-AMA-260816-020',
+    poNumber: 'PO-PRT-260816-007',
+    grNumber: 'GR-PRT-260816-020',
     invoiceNumber: 'INV-4471',
     supplier: 'PT Garuda Engineering Supply',
     poAmount: 725_000_000,
@@ -1247,8 +1247,8 @@ export const threeWayMatchRows: ThreeWayMatchRow[] = [
   },
   {
     id: 'twm-004',
-    poNumber: 'PO-AMA-260812-004',
-    grNumber: 'GR-AMA-260818-022',
+    poNumber: 'PO-PRT-260812-004',
+    grNumber: 'GR-PRT-260818-022',
     invoiceNumber: 'INV-2280',
     supplier: 'PT Aviation Supply Nusantara',
     poAmount: 21_500_000,
@@ -1258,8 +1258,8 @@ export const threeWayMatchRows: ThreeWayMatchRow[] = [
   },
   {
     id: 'twm-005',
-    poNumber: 'PO-AMA-260805-002',
-    grNumber: 'GR-AMA-260814-019',
+    poNumber: 'PO-PRT-260805-002',
+    grNumber: 'GR-PRT-260814-019',
     invoiceNumber: 'INV-1187',
     supplier: 'PT Pacific Aviation Components',
     poAmount: 96_000_000,
@@ -1274,7 +1274,7 @@ export const auditTrail: AuditLogEntry[] = [
     timestamp: '22 Aug 2026 14:32',
     user: 'Andi Procurement',
     module: 'Purchase Order',
-    reference: 'PO-AMA-260821-014',
+    reference: 'PO-PRT-260821-014',
     action: 'Status Changed',
     previousValue: 'Pending Approval',
     newValue: 'Approved'
@@ -1283,7 +1283,7 @@ export const auditTrail: AuditLogEntry[] = [
     timestamp: '21 Aug 2026 09:14',
     user: 'Sinta Finance',
     module: 'Purchase Order',
-    reference: 'PO-AMA-260820-009',
+    reference: 'PO-PRT-260820-009',
     action: 'Approval Requested',
     previousValue: 'Draft',
     newValue: 'Pending Approval'
@@ -1292,7 +1292,7 @@ export const auditTrail: AuditLogEntry[] = [
     timestamp: '20 Aug 2026 16:45',
     user: 'Rangga Wibowo',
     module: 'Sourcing',
-    reference: 'RFQ-AMA-260819-006',
+    reference: 'RFQ-PRT-260819-006',
     action: 'Vendor Selected',
     previousValue: '-',
     newValue: 'PT Aero Parts Indonesia'
@@ -1301,7 +1301,7 @@ export const auditTrail: AuditLogEntry[] = [
     timestamp: '19 Aug 2026 11:02',
     user: 'Dewi Lestari',
     module: 'Goods Receipt',
-    reference: 'GR-AMA-260819-023',
+    reference: 'GR-PRT-260819-023',
     action: 'Inspection Completed',
     previousValue: 'Pending Inspection',
     newValue: 'Partially Accepted'
@@ -1310,7 +1310,7 @@ export const auditTrail: AuditLogEntry[] = [
     timestamp: '18 Aug 2026 08:37',
     user: 'Bayu Saputra',
     module: 'Purchase Requisition',
-    reference: 'PR-AMA-260822-018',
+    reference: 'PR-PRT-260822-018',
     action: 'Submitted for Review',
     previousValue: 'Draft',
     newValue: 'Submitted'

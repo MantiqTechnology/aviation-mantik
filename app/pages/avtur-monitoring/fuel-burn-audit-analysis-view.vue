@@ -7,59 +7,59 @@
 
 const breadcrumbs = [
   { title: 'Avtur Fuel Management', disabled: false, href: '#' },
-  { title: 'Fuel Burn Analysis', disabled: true, href: '#' },
-]
+  { title: 'Fuel Burn Analysis', disabled: true, href: '#' }
+];
 
 /* -------------------------------------------------------------------------- */
 /* Internal Navigation                                                         */
 /* -------------------------------------------------------------------------- */
 
-const activeTab = ref(0)
+const activeTab = ref(0);
 
 const tabs = [
   { title: 'Dashboard Analisis', icon: 'mdi-chart-box-outline' },
   { title: 'Flight & Fuel Matching', icon: 'mdi-airplane-sync' },
   { title: 'Variance Fuel Burn', icon: 'mdi-file-percent-outline' },
   { title: 'Discrepancy Alerts', icon: 'mdi-alert-circle-outline' },
-  { title: 'Rekap Rute & Armada', icon: 'mdi-routes' },
-]
+  { title: 'Rekap Rute & Armada', icon: 'mdi-routes' }
+];
 
 /* -------------------------------------------------------------------------- */
 /* Interactive Modals & Toast State                                            */
 /* -------------------------------------------------------------------------- */
 
-const snackbar = ref(false)
-const snackbarText = ref('')
-const snackbarColor = ref('success')
+const snackbar = ref(false);
+const snackbarText = ref('');
+const snackbarColor = ref('success');
 
 const showSnackbar = (msg: string, color = 'success') => {
-  snackbarText.value = msg
-  snackbarColor.value = color
-  snackbar.value = true
-}
+  snackbarText.value = msg;
+  snackbarColor.value = color;
+  snackbar.value = true;
+};
 
 // Sync Loading State
-const isSyncing = ref(false)
+const isSyncing = ref(false);
 const triggerSync = () => {
-  isSyncing.value = true
+  isSyncing.value = true;
   setTimeout(() => {
-    isSyncing.value = false
-    showSnackbar('Data Flight Operations berhasil disinkronkan!')
-  }, 1200)
-}
+    isSyncing.value = false;
+    showSnackbar('Data Flight Operations berhasil disinkronkan!');
+  }, 1200);
+};
 
 // Export Modal
-const dialogExport = ref(false)
-const exportFormat = ref('PDF')
-const exportOptions = ['PDF', 'Excel (.xlsx)', 'CSV']
+const dialogExport = ref(false);
+const exportFormat = ref('PDF');
+const exportOptions = ['PDF', 'Excel (.xlsx)', 'CSV'];
 const handleExport = () => {
-  dialogExport.value = false
-  showSnackbar(`Laporan berhasil di-export ke format ${exportFormat.value}!`)
-}
+  dialogExport.value = false;
+  showSnackbar(`Laporan berhasil di-export ke format ${exportFormat.value}!`);
+};
 
 // Add/Edit Flight Modal
-const dialogFlightForm = ref(false)
-const isEditMode = ref(false)
+const dialogFlightForm = ref(false);
+const isEditMode = ref(false);
 const defaultForm = {
   missionId: '',
   tailNo: 'PK-FAB',
@@ -68,21 +68,21 @@ const defaultForm = {
   refuelVol: 1200,
   plannedBurn: 1100,
   actualBurn: 1120,
-  pilot: 'Cpt. Hendra',
-}
-const flightForm = ref({ ...defaultForm })
+  pilot: 'Cpt. Hendra'
+};
+const flightForm = ref({ ...defaultForm });
 
 const openAddDialog = () => {
-  isEditMode.value = false
+  isEditMode.value = false;
   flightForm.value = {
     ...defaultForm,
-    missionId: `M-2026-0${Math.floor(83 + Math.random() * 50)}`,
-  }
-  dialogFlightForm.value = true
-}
+    missionId: `M-2026-0${Math.floor(83 + Math.random() * 50)}`
+  };
+  dialogFlightForm.value = true;
+};
 
-const openEditDialog = (item: typeof flightFuelLogs.value[number]) => {
-  isEditMode.value = true
+const openEditDialog = (item: (typeof flightFuelLogs.value)[number]) => {
+  isEditMode.value = true;
   flightForm.value = {
     missionId: item.missionId,
     tailNo: item.tailNo,
@@ -91,17 +91,17 @@ const openEditDialog = (item: typeof flightFuelLogs.value[number]) => {
     refuelVol: parseInt(item.refuelVol.replace(/[^0-9]/g, '')) || 0,
     plannedBurn: parseInt(item.plannedBurn.replace(/[^0-9]/g, '')) || 0,
     actualBurn: parseInt(item.actualBurn.replace(/[^0-9]/g, '')) || 0,
-    pilot: item.pilot,
-  }
-  dialogFlightForm.value = true
-}
+    pilot: item.pilot
+  };
+  dialogFlightForm.value = true;
+};
 
 const saveFlightData = () => {
-  const planned = Number(flightForm.value.plannedBurn) || 1
-  const actual = Number(flightForm.value.actualBurn) || 0
-  const diffPercent = (((actual - planned) / planned) * 100).toFixed(1)
-  const numPercent = Math.abs(parseFloat(diffPercent))
-  const isHigh = numPercent >= 5
+  const planned = Number(flightForm.value.plannedBurn) || 1;
+  const actual = Number(flightForm.value.actualBurn) || 0;
+  const diffPercent = (((actual - planned) / planned) * 100).toFixed(1);
+  const numPercent = Math.abs(parseFloat(diffPercent));
+  const isHigh = numPercent >= 5;
 
   const newItem = {
     missionId: flightForm.value.missionId,
@@ -116,63 +116,65 @@ const saveFlightData = () => {
     varianceStatus: isHigh ? 'High Variance' : 'Normal',
     syncStatus: isHigh ? 'Flagged' : 'Matched',
     syncColor: isHigh ? 'error' : 'success',
-    pilot: flightForm.value.pilot,
-  }
+    pilot: flightForm.value.pilot
+  };
 
   if (isEditMode.value) {
-    const idx = flightFuelLogs.value.findIndex(f => f.missionId === newItem.missionId)
+    const idx = flightFuelLogs.value.findIndex((f) => f.missionId === newItem.missionId);
     if (idx !== -1) {
-      flightFuelLogs.value[idx] = newItem
+      flightFuelLogs.value[idx] = newItem;
     }
-    showSnackbar(`Misi ${newItem.missionId} berhasil diperbarui!`)
+    showSnackbar(`Misi ${newItem.missionId} berhasil diperbarui!`);
   } else {
-    flightFuelLogs.value.unshift(newItem)
-    selectedMissionId.value = newItem.missionId
-    showSnackbar(`Misi baru ${newItem.missionId} berhasil ditambahkan!`)
+    flightFuelLogs.value.unshift(newItem);
+    selectedMissionId.value = newItem.missionId;
+    showSnackbar(`Misi baru ${newItem.missionId} berhasil ditambahkan!`);
   }
 
-  dialogFlightForm.value = false
-}
+  dialogFlightForm.value = false;
+};
 
 // Delete Confirmation
-const dialogDelete = ref(false)
-const targetMissionId = ref<string | null>(null)
+const dialogDelete = ref(false);
+const targetMissionId = ref<string | null>(null);
 
 const confirmDelete = (missionId: string) => {
-  targetMissionId.value = missionId
-  dialogDelete.value = true
-}
+  targetMissionId.value = missionId;
+  dialogDelete.value = true;
+};
 
 const deleteFlight = () => {
   if (targetMissionId.value) {
-    flightFuelLogs.value = flightFuelLogs.value.filter(f => f.missionId !== targetMissionId.value)
+    flightFuelLogs.value = flightFuelLogs.value.filter(
+      (f) => f.missionId !== targetMissionId.value
+    );
     if (selectedMissionId.value === targetMissionId.value && flightFuelLogs.value.length > 0) {
-      selectedMissionId.value = flightFuelLogs.value[0].missionId
+      selectedMissionId.value = flightFuelLogs.value[0].missionId;
     }
-    showSnackbar(`Misi ${targetMissionId.value} berhasil dihapus!`, 'warning')
+    showSnackbar(`Misi ${targetMissionId.value} berhasil dihapus!`, 'warning');
   }
-  dialogDelete.value = false
-}
+  dialogDelete.value = false;
+};
 
 // Report Dialog
-const dialogReport = ref(false)
+const dialogReport = ref(false);
 
 // Alert Resolution Modal
-const dialogAlert = ref(false)
-const selectedAlert = ref<any>(null)
+const dialogAlert = ref(false);
+const selectedAlert = ref<any>(null);
 
 const openAlertModal = (alert: any) => {
-  selectedAlert.value = alert
-  dialogAlert.value = true
-}
+  selectedAlert.value = alert;
+  dialogAlert.value = true;
+};
 
 const resolveAlert = () => {
   if (selectedAlert.value) {
-    selectedAlert.value.status = 'Resolved'
-    showSnackbar(`Alert ${selectedAlert.value.id} ditandai selesai!`)
+    selectedAlert.value.status = 'Resolved';
+    showSnackbar(`Alert ${selectedAlert.value.id} ditandai selesai!`);
   }
-  dialogAlert.value = false
-}
+  dialogAlert.value = false;
+};
 
 /* -------------------------------------------------------------------------- */
 /* Metrics                                                                     */
@@ -186,7 +188,7 @@ const metrics = [
     sub: '↗ 5% vs bulan lalu',
     icon: 'mdi-airplane-takeoff',
     color: 'primary',
-    subColor: 'success',
+    subColor: 'success'
   },
   {
     title: 'Match Vol & Tail No',
@@ -195,7 +197,7 @@ const metrics = [
     sub: 'Tersinkron otomatis',
     icon: 'mdi-check-decagram-outline',
     color: 'success',
-    subColor: 'success',
+    subColor: 'success'
   },
   {
     title: 'Avg Fuel Burn Variance',
@@ -204,7 +206,7 @@ const metrics = [
     sub: 'Dalam batas wajar < 5%',
     icon: 'mdi-scale-balance',
     color: 'info',
-    subColor: 'success',
+    subColor: 'success'
   },
   {
     title: 'Discrepancy / High Variance',
@@ -213,7 +215,7 @@ const metrics = [
     sub: 'Membutuhkan review',
     icon: 'mdi-alert-rhombus-outline',
     color: 'error',
-    subColor: 'error',
+    subColor: 'error'
   },
   {
     title: 'Total Fuel Burn YTD',
@@ -222,7 +224,7 @@ const metrics = [
     sub: '↗ 9% efficiency',
     icon: 'mdi-fire-circle',
     color: 'teal',
-    subColor: 'success',
+    subColor: 'success'
   },
   {
     title: 'Unmatched Refuel Txn',
@@ -231,9 +233,9 @@ const metrics = [
     sub: 'Pending Mission ID',
     icon: 'mdi-file-question-outline',
     color: 'warning',
-    subColor: 'warning',
-  },
-]
+    subColor: 'warning'
+  }
+];
 
 /* -------------------------------------------------------------------------- */
 /* Integration Workflow                                                       */
@@ -245,47 +247,47 @@ const integrationSteps = [
     title: 'Tarik Flight Plan',
     desc: 'Tail No, rute, Mission ID dan planned fuel dari Flight Operations.',
     icon: 'mdi-calendar-clock-outline',
-    color: 'primary',
+    color: 'primary'
   },
   {
     step: 2,
     title: 'Matching Refuel',
     desc: 'Cocokkan Tail No dan lokasi saat transaksi Avtur dicatat.',
     icon: 'mdi-gas-station-outline',
-    color: 'info',
+    color: 'info'
   },
   {
     step: 3,
     title: 'Flight Actual',
     desc: 'Catat fuel onboard saat departure dan remaining fuel saat landing.',
     icon: 'mdi-notebook-edit-outline',
-    color: 'teal',
+    color: 'teal'
   },
   {
     step: 4,
     title: 'Calculate Variance',
     desc: 'Bandingkan planned vs actual fuel burn per misi dan rute.',
     icon: 'mdi-calculator-variant-outline',
-    color: 'warning',
+    color: 'warning'
   },
   {
     step: 5,
     title: 'Flag Discrepancy',
     desc: 'Flag otomatis untuk variance >5% atau data matching tidak valid.',
     icon: 'mdi-sync-alert',
-    color: 'purple',
-  },
-]
+    color: 'purple'
+  }
+];
 
 /* -------------------------------------------------------------------------- */
 /* Filters                                                                     */
 /* -------------------------------------------------------------------------- */
 
-const dateRange = ref('01 Aug 2026 - 22 Aug 2026')
-const selectedRoute = ref('Semua Rute')
-const selectedStatus = ref('Semua Status Sync')
-const selectedVariance = ref('Semua Variance')
-const searchQuery = ref('')
+const dateRange = ref('01 Aug 2026 - 22 Aug 2026');
+const selectedRoute = ref('Semua Rute');
+const selectedStatus = ref('Semua Status Sync');
+const selectedVariance = ref('Semua Variance');
+const searchQuery = ref('');
 
 const routeOptions = [
   'Semua Rute',
@@ -293,21 +295,12 @@ const routeOptions = [
   'DJJ → WMX',
   'TIM → WMX',
   'DJJ → TIM',
-  'WMX → BVK',
-]
+  'WMX → BVK'
+];
 
-const statusOptions = [
-  'Semua Status Sync',
-  'Matched',
-  'Flagged',
-  'Unmatched Txn',
-]
+const statusOptions = ['Semua Status Sync', 'Matched', 'Flagged', 'Unmatched Txn'];
 
-const varianceOptions = [
-  'Semua Variance',
-  'Normal (< 5%)',
-  'High (> 5%)',
-]
+const varianceOptions = ['Semua Variance', 'Normal (< 5%)', 'High (> 5%)'];
 
 /* -------------------------------------------------------------------------- */
 /* Flight & Fuel Data                                                          */
@@ -327,7 +320,7 @@ const flightFuelLogs = ref([
     varianceStatus: 'Normal',
     syncStatus: 'Matched',
     syncColor: 'success',
-    pilot: 'Cpt. Hendra',
+    pilot: 'Cpt. Hendra'
   },
   {
     missionId: 'M-2026-082',
@@ -342,7 +335,7 @@ const flightFuelLogs = ref([
     varianceStatus: 'High Variance',
     syncStatus: 'Flagged',
     syncColor: 'error',
-    pilot: 'Cpt. Ridwan',
+    pilot: 'Cpt. Ridwan'
   },
   {
     missionId: 'M-2026-079',
@@ -357,7 +350,7 @@ const flightFuelLogs = ref([
     varianceStatus: 'Normal',
     syncStatus: 'Matched',
     syncColor: 'success',
-    pilot: 'Cpt. Yuli',
+    pilot: 'Cpt. Yuli'
   },
   {
     missionId: 'M-2026-078',
@@ -372,7 +365,7 @@ const flightFuelLogs = ref([
     varianceStatus: 'Normal',
     syncStatus: 'Matched',
     syncColor: 'success',
-    pilot: 'Cpt. Alex',
+    pilot: 'Cpt. Alex'
   },
   {
     missionId: 'M-2026-075',
@@ -387,55 +380,131 @@ const flightFuelLogs = ref([
     varianceStatus: 'Normal',
     syncStatus: 'Unmatched Txn',
     syncColor: 'warning',
-    pilot: 'Cpt. Hendra',
-  },
-])
+    pilot: 'Cpt. Hendra'
+  }
+]);
 
 /* -------------------------------------------------------------------------- */
 /* Tab 2, 3, & 4 Extended Data                                                 */
 /* -------------------------------------------------------------------------- */
 
 const varianceData = ref([
-  { route: 'WMX → DJJ', flights: 45, avgPlanned: '1,100 L', avgActual: '1,115 L', variance: '+1.3%', status: 'Normal', color: 'success' },
-  { route: 'DJJ → WMX', flights: 42, avgPlanned: '450 L', avgActual: '480 L', variance: '+6.6%', status: 'Review', color: 'warning' },
-  { route: 'TIM → WMX', flights: 38, avgPlanned: '600 L', avgActual: '595 L', variance: '-0.8%', status: 'Normal', color: 'success' },
-  { route: 'DJJ → TIM', flights: 32, avgPlanned: '800 L', avgActual: '805 L', variance: '+0.6%', status: 'Normal', color: 'success' },
-])
+  {
+    route: 'WMX → DJJ',
+    flights: 45,
+    avgPlanned: '1,100 L',
+    avgActual: '1,115 L',
+    variance: '+1.3%',
+    status: 'Normal',
+    color: 'success'
+  },
+  {
+    route: 'DJJ → WMX',
+    flights: 42,
+    avgPlanned: '450 L',
+    avgActual: '480 L',
+    variance: '+6.6%',
+    status: 'Review',
+    color: 'warning'
+  },
+  {
+    route: 'TIM → WMX',
+    flights: 38,
+    avgPlanned: '600 L',
+    avgActual: '595 L',
+    variance: '-0.8%',
+    status: 'Normal',
+    color: 'success'
+  },
+  {
+    route: 'DJJ → TIM',
+    flights: 32,
+    avgPlanned: '800 L',
+    avgActual: '805 L',
+    variance: '+0.6%',
+    status: 'Normal',
+    color: 'success'
+  }
+]);
 
 const discrepancyAlerts = ref([
-  { id: 'ALT-001', date: '21 Aug 2026', missionId: 'M-2026-082', tailNo: 'PK-FTP', issue: 'Actual Fuel Burn exceeds 5% variance (+13.3%)', severity: 'High', status: 'Open' },
-  { id: 'ALT-002', date: '20 Aug 2026', missionId: 'M-2026-075', tailNo: 'PK-FAB', issue: 'Unmatched Refuel Transaction (TXN-20260820-0091)', severity: 'Medium', status: 'Investigating' },
-  { id: 'ALT-003', date: '19 Aug 2026', missionId: 'M-2026-061', tailNo: 'PK-GKF', issue: 'Missing Final FOB on Landing Log', severity: 'Medium', status: 'Open' },
-])
+  {
+    id: 'ALT-001',
+    date: '21 Aug 2026',
+    missionId: 'M-2026-082',
+    tailNo: 'PK-FTP',
+    issue: 'Actual Fuel Burn exceeds 5% variance (+13.3%)',
+    severity: 'High',
+    status: 'Open'
+  },
+  {
+    id: 'ALT-002',
+    date: '20 Aug 2026',
+    missionId: 'M-2026-075',
+    tailNo: 'PK-FAB',
+    issue: 'Unmatched Refuel Transaction (TXN-20260820-0091)',
+    severity: 'Medium',
+    status: 'Investigating'
+  },
+  {
+    id: 'ALT-003',
+    date: '19 Aug 2026',
+    missionId: 'M-2026-061',
+    tailNo: 'PK-GKF',
+    issue: 'Missing Final FOB on Landing Log',
+    severity: 'Medium',
+    status: 'Open'
+  }
+]);
 
 const fleetRecap = ref([
-  { tailNo: 'PK-FAB', type: 'Cessna Caravan 208B', flights: 84, totalBurn: '72,400 L', efficiency: '94%', status: 'Optimal' },
-  { tailNo: 'PK-FTP', type: 'Cessna Caravan 208B', flights: 65, totalBurn: '58,200 L', efficiency: '88%', status: 'Sub-Optimal' },
-  { tailNo: 'PK-SNM', type: 'Pilatus PC-6', flights: 35, totalBurn: '18,500 L', efficiency: '96%', status: 'Optimal' },
-])
+  {
+    tailNo: 'PK-FAB',
+    type: 'Cessna Caravan 208B',
+    flights: 84,
+    totalBurn: '72,400 L',
+    efficiency: '94%',
+    status: 'Optimal'
+  },
+  {
+    tailNo: 'PK-FTP',
+    type: 'Cessna Caravan 208B',
+    flights: 65,
+    totalBurn: '58,200 L',
+    efficiency: '88%',
+    status: 'Sub-Optimal'
+  },
+  {
+    tailNo: 'PK-SNM',
+    type: 'Pilatus PC-6',
+    flights: 35,
+    totalBurn: '18,500 L',
+    efficiency: '96%',
+    status: 'Optimal'
+  }
+]);
 
 /* -------------------------------------------------------------------------- */
 /* Selected Flight                                                             */
 /* -------------------------------------------------------------------------- */
 
-const selectedMissionId = ref('M-2026-081')
+const selectedMissionId = ref('M-2026-081');
 
 const selectedFlightRow = computed(() => {
   return (
-    flightFuelLogs.value.find(
-      item => item.missionId === selectedMissionId.value,
-    ) ?? flightFuelLogs.value[0]
-  )
-})
+    flightFuelLogs.value.find((item) => item.missionId === selectedMissionId.value) ??
+    flightFuelLogs.value[0]
+  );
+});
 
 const selectedFlight = computed(() => {
-  const row = selectedFlightRow.value
-  if (!row) return null
+  const row = selectedFlightRow.value;
+  if (!row) return null;
 
   return {
     ...row,
     tailDisplay: `${row.tailNo} (Cessna Caravan 208B)`,
-    flightNo: 'AMA-810',
+    flightNo: 'PRT-810',
     routeDisplay: `${row.route}`,
     date: '21 Aug 2026',
     pilotDisplay: `${row.pilot} / FO Sitorus`,
@@ -444,55 +513,67 @@ const selectedFlight = computed(() => {
     totalFobOnTakeoff: '1,550 L',
     remainingFobOnLanding: '430 L',
     varianceLiters: '+20 L',
-    notes: 'Penerbangan berjalan lancar. Terdapat holding sekitar 5 menit saat mendekati lokasi tujuan.',
-  }
-})
+    notes:
+      'Penerbangan berjalan lancar. Terdapat holding sekitar 5 menit saat mendekati lokasi tujuan.'
+  };
+});
 
-const selectFlight = (item: typeof flightFuelLogs.value[number]) => {
-  selectedMissionId.value = item.missionId
-}
+const selectFlight = (item: (typeof flightFuelLogs.value)[number]) => {
+  selectedMissionId.value = item.missionId;
+};
 
 /* -------------------------------------------------------------------------- */
 /* Filtering                                                                   */
 /* -------------------------------------------------------------------------- */
 
 const filteredFlightLogs = computed(() => {
-  const query = searchQuery.value.trim().toLowerCase()
+  const query = searchQuery.value.trim().toLowerCase();
 
-  return flightFuelLogs.value.filter(item => {
-    const matchRoute = selectedRoute.value === 'Semua Rute' || item.route === selectedRoute.value
-    const matchStatus = selectedStatus.value === 'Semua Status Sync' || item.syncStatus === selectedStatus.value
-    const matchVariance = selectedVariance.value === 'Semua Variance' ||
+  return flightFuelLogs.value.filter((item) => {
+    const matchRoute = selectedRoute.value === 'Semua Rute' || item.route === selectedRoute.value;
+    const matchStatus =
+      selectedStatus.value === 'Semua Status Sync' || item.syncStatus === selectedStatus.value;
+    const matchVariance =
+      selectedVariance.value === 'Semua Variance' ||
       (selectedVariance.value === 'Normal (< 5%)' && item.variancePercent < 5) ||
-      (selectedVariance.value === 'High (> 5%)' && item.variancePercent >= 5)
+      (selectedVariance.value === 'High (> 5%)' && item.variancePercent >= 5);
 
     const searchableText = [
-      item.missionId, item.tailNo, item.route, item.refuelLoc, item.pilot, item.syncStatus,
-    ].join(' ').toLowerCase()
+      item.missionId,
+      item.tailNo,
+      item.route,
+      item.refuelLoc,
+      item.pilot,
+      item.syncStatus
+    ]
+      .join(' ')
+      .toLowerCase();
 
-    const matchSearch = !query || searchableText.includes(query)
+    const matchSearch = !query || searchableText.includes(query);
 
-    return matchRoute && matchStatus && matchVariance && matchSearch
-  })
-})
+    return matchRoute && matchStatus && matchVariance && matchSearch;
+  });
+});
 
 const resetFilters = () => {
-  dateRange.value = '01 Aug 2026 - 22 Aug 2026'
-  selectedRoute.value = 'Semua Rute'
-  selectedStatus.value = 'Semua Status Sync'
-  selectedVariance.value = 'Semua Variance'
-  searchQuery.value = ''
-  page.value = 1
-}
+  dateRange.value = '01 Aug 2026 - 22 Aug 2026';
+  selectedRoute.value = 'Semua Rute';
+  selectedStatus.value = 'Semua Status Sync';
+  selectedVariance.value = 'Semua Variance';
+  searchQuery.value = '';
+  page.value = 1;
+};
 
 /* -------------------------------------------------------------------------- */
 /* Pagination                                                                  */
 /* -------------------------------------------------------------------------- */
 
-const page = ref(1)
-const itemsPerPage = ref(10)
-const totalFlights = computed(() => flightFuelLogs.value.length)
-const paginationLength = computed(() => Math.max(1, Math.ceil(totalFlights.value / itemsPerPage.value)))
+const page = ref(1);
+const itemsPerPage = ref(10);
+const totalFlights = computed(() => flightFuelLogs.value.length);
+const paginationLength = computed(() =>
+  Math.max(1, Math.ceil(totalFlights.value / itemsPerPage.value))
+);
 </script>
 
 <template>
@@ -507,8 +588,8 @@ const paginationLength = computed(() => Math.max(1, Math.ceil(totalFlights.value
           Integrasi Flight Operations & Fuel Burn Analysis
         </h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          Validasi konsumsi Avtur terhadap flight plan, actual fuel burn,
-          dan efisiensi setiap misi penerbangan.
+          Validasi konsumsi Avtur terhadap flight plan, actual fuel burn, dan efisiensi setiap misi
+          penerbangan.
         </p>
       </div>
 
@@ -549,12 +630,16 @@ const paginationLength = computed(() => Math.max(1, Math.ceil(totalFlights.value
 
     <!-- Tab Contents Container -->
     <v-window v-model="activeTab" class="mb-6">
-      
       <!-- TAB 0: Dashboard Analisis -->
       <v-window-item :value="0">
         <!-- Metrics -->
         <div class="metrics-grid mb-6">
-          <v-card v-for="metric in metrics" :key="metric.title" variant="flat" class="border rounded-lg pa-4 bg-white metric-card">
+          <v-card
+            v-for="metric in metrics"
+            :key="metric.title"
+            variant="flat"
+            class="border rounded-lg pa-4 bg-white metric-card"
+          >
             <div class="d-flex align-center justify-space-between mb-3">
               <span class="text-caption font-weight-bold text-medium-emphasis">
                 {{ metric.title }}
@@ -586,7 +671,12 @@ const paginationLength = computed(() => Math.max(1, Math.ceil(totalFlights.value
                 Mekanisme matching dan validasi konsumsi Avtur per misi.
               </div>
             </div>
-            <v-chip size="small" color="success" variant="tonal" prepend-icon="mdi-check-circle-outline">
+            <v-chip
+              size="small"
+              color="success"
+              variant="tonal"
+              prepend-icon="mdi-check-circle-outline"
+            >
               Auto Validation Active
             </v-chip>
           </div>
@@ -605,7 +695,13 @@ const paginationLength = computed(() => Math.max(1, Math.ceil(totalFlights.value
                   {{ step.desc }}
                 </div>
               </div>
-              <v-icon v-if="step.step < integrationSteps.length" icon="mdi-chevron-right" size="22" color="grey-lighten-1" class="flow-arrow" />
+              <v-icon
+                v-if="step.step < integrationSteps.length"
+                icon="mdi-chevron-right"
+                size="22"
+                color="grey-lighten-1"
+                class="flow-arrow"
+              />
             </template>
           </div>
         </v-card>
@@ -649,22 +745,65 @@ const paginationLength = computed(() => Math.max(1, Math.ceil(totalFlights.value
               <div class="pa-5 pb-4">
                 <v-row density="compact">
                   <v-col cols="12" md="4">
-                    <v-text-field v-model="dateRange" label="Periode Penerbangan" prepend-inner-icon="mdi-calendar-range" variant="outlined" density="compact" hide-details />
+                    <v-text-field
+                      v-model="dateRange"
+                      label="Periode Penerbangan"
+                      prepend-inner-icon="mdi-calendar-range"
+                      variant="outlined"
+                      density="compact"
+                      hide-details
+                    />
                   </v-col>
                   <v-col cols="6" md="4">
-                    <v-select v-model="selectedRoute" :items="routeOptions" label="Rute" variant="outlined" density="compact" hide-details />
+                    <v-select
+                      v-model="selectedRoute"
+                      :items="routeOptions"
+                      label="Rute"
+                      variant="outlined"
+                      density="compact"
+                      hide-details
+                    />
                   </v-col>
                   <v-col cols="6" md="4">
-                    <v-select v-model="selectedStatus" :items="statusOptions" label="Status Sync" variant="outlined" density="compact" hide-details />
+                    <v-select
+                      v-model="selectedStatus"
+                      :items="statusOptions"
+                      label="Status Sync"
+                      variant="outlined"
+                      density="compact"
+                      hide-details
+                    />
                   </v-col>
                   <v-col cols="12" md="4">
-                    <v-select v-model="selectedVariance" :items="varianceOptions" label="Variance" variant="outlined" density="compact" hide-details />
+                    <v-select
+                      v-model="selectedVariance"
+                      :items="varianceOptions"
+                      label="Variance"
+                      variant="outlined"
+                      density="compact"
+                      hide-details
+                    />
                   </v-col>
                   <v-col cols="12" md="6">
-                    <v-text-field v-model="searchQuery" placeholder="Cari Mission ID, Tail Number, pilot..." prepend-inner-icon="mdi-magnify" variant="outlined" density="compact" hide-details clearable />
+                    <v-text-field
+                      v-model="searchQuery"
+                      placeholder="Cari Mission ID, Tail Number, pilot..."
+                      prepend-inner-icon="mdi-magnify"
+                      variant="outlined"
+                      density="compact"
+                      hide-details
+                      clearable
+                    />
                   </v-col>
                   <v-col cols="12" md="2" class="d-flex">
-                    <v-btn variant="text" color="primary" prepend-icon="mdi-filter-off-outline" block class="text-none" @click="resetFilters">
+                    <v-btn
+                      variant="text"
+                      color="primary"
+                      prepend-icon="mdi-filter-off-outline"
+                      block
+                      class="text-none"
+                      @click="resetFilters"
+                    >
                       Reset
                     </v-btn>
                   </v-col>
@@ -687,10 +826,18 @@ const paginationLength = computed(() => Math.max(1, Math.ceil(totalFlights.value
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="item in filteredFlightLogs" :key="item.missionId" class="flight-row" :class="{ 'selected-row': selectedFlight?.missionId === item.missionId }" @click="selectFlight(item)">
+                    <tr
+                      v-for="item in filteredFlightLogs"
+                      :key="item.missionId"
+                      class="flight-row"
+                      :class="{ 'selected-row': selectedFlight?.missionId === item.missionId }"
+                      @click="selectFlight(item)"
+                    >
                       <td>
                         <div class="text-body-2 font-weight-bold">{{ item.missionId }}</div>
-                        <div class="text-caption text-primary font-weight-medium">{{ item.tailNo }}</div>
+                        <div class="text-caption text-primary font-weight-medium">
+                          {{ item.tailNo }}
+                        </div>
                       </td>
                       <td>
                         <div class="text-body-2 font-weight-medium">{{ item.route }}</div>
@@ -703,26 +850,57 @@ const paginationLength = computed(() => Math.max(1, Math.ceil(totalFlights.value
                       <td class="text-body-2">{{ item.plannedBurn }}</td>
                       <td class="text-body-2 font-weight-medium">{{ item.actualBurn }}</td>
                       <td>
-                        <v-chip size="x-small" :color="item.varianceStatus === 'Normal' ? 'success' : 'error'" variant="tonal" class="font-weight-bold">
+                        <v-chip
+                          size="x-small"
+                          :color="item.varianceStatus === 'Normal' ? 'success' : 'error'"
+                          variant="tonal"
+                          class="font-weight-bold"
+                        >
                           {{ item.varianceVal }}
                         </v-chip>
                       </td>
                       <td>
-                        <v-chip size="x-small" :color="item.syncColor" variant="tonal" class="font-weight-bold">
+                        <v-chip
+                          size="x-small"
+                          :color="item.syncColor"
+                          variant="tonal"
+                          class="font-weight-bold"
+                        >
                           {{ item.syncStatus }}
                         </v-chip>
                       </td>
                       <td class="text-center" @click.stop>
-                        <v-btn icon="mdi-eye-outline" variant="text" size="small" color="grey-darken-1" @click="selectFlight(item)" />
-                        
+                        <v-btn
+                          icon="mdi-eye-outline"
+                          variant="text"
+                          size="small"
+                          color="grey-darken-1"
+                          @click="selectFlight(item)"
+                        />
+
                         <!-- Row Action Menu -->
                         <v-menu location="bottom end">
                           <template #activator="{ props }">
-                            <v-btn icon="mdi-dots-vertical" variant="text" size="small" color="grey-darken-1" v-bind="props" />
+                            <v-btn
+                              icon="mdi-dots-vertical"
+                              variant="text"
+                              size="small"
+                              color="grey-darken-1"
+                              v-bind="props"
+                            />
                           </template>
                           <v-list density="compact" class="rounded-lg">
-                            <v-list-item prepend-icon="mdi-pencil-outline" title="Edit Data" @click="openEditDialog(item)" />
-                            <v-list-item prepend-icon="mdi-delete-outline" title="Hapus Data" class="text-error" @click="confirmDelete(item.missionId)" />
+                            <v-list-item
+                              prepend-icon="mdi-pencil-outline"
+                              title="Edit Data"
+                              @click="openEditDialog(item)"
+                            />
+                            <v-list-item
+                              prepend-icon="mdi-delete-outline"
+                              title="Hapus Data"
+                              class="text-error"
+                              @click="confirmDelete(item.missionId)"
+                            />
                           </v-list>
                         </v-menu>
                       </td>
@@ -730,8 +908,12 @@ const paginationLength = computed(() => Math.max(1, Math.ceil(totalFlights.value
                     <tr v-if="filteredFlightLogs.length === 0">
                       <td colspan="8" class="text-center py-10">
                         <v-icon icon="mdi-airplane-search" size="42" color="grey-lighten-1" />
-                        <div class="text-body-2 font-weight-medium mt-2">Data penerbangan tidak ditemukan</div>
-                        <div class="text-caption text-medium-emphasis">Coba ubah filter atau kata pencarian.</div>
+                        <div class="text-body-2 font-weight-medium mt-2">
+                          Data penerbangan tidak ditemukan
+                        </div>
+                        <div class="text-caption text-medium-emphasis">
+                          Coba ubah filter atau kata pencarian.
+                        </div>
                       </td>
                     </tr>
                   </tbody>
@@ -741,11 +923,24 @@ const paginationLength = computed(() => Math.max(1, Math.ceil(totalFlights.value
               <!-- Pagination -->
               <div class="d-flex align-center justify-space-between flex-wrap ga-3 pa-4">
                 <span class="text-caption text-medium-emphasis">
-                  Menampilkan <strong>{{ filteredFlightLogs.length }}</strong> data dari <strong>{{ totalFlights }}</strong> misi
+                  Menampilkan <strong>{{ filteredFlightLogs.length }}</strong> data dari
+                  <strong>{{ totalFlights }}</strong> misi
                 </span>
                 <div class="d-flex align-center ga-3">
-                  <v-pagination v-model="page" :length="paginationLength" density="compact" total-visible="5" />
-                  <v-select v-model="itemsPerPage" :items="[10, 25, 50]" variant="outlined" density="compact" hide-details style="width: 105px" />
+                  <v-pagination
+                    v-model="page"
+                    :length="paginationLength"
+                    density="compact"
+                    total-visible="5"
+                  />
+                  <v-select
+                    v-model="itemsPerPage"
+                    :items="[10, 25, 50]"
+                    variant="outlined"
+                    density="compact"
+                    hide-details
+                    style="width: 105px"
+                  />
                 </div>
               </div>
             </v-card>
@@ -757,44 +952,88 @@ const paginationLength = computed(() => Math.max(1, Math.ceil(totalFlights.value
               <div v-if="selectedFlight" class="pa-5">
                 <div class="d-flex align-center justify-space-between mb-1">
                   <div>
-                    <div class="text-subtitle-1 font-weight-bold text-grey-darken-3">{{ selectedFlight.missionId }}</div>
-                    <div class="text-caption text-medium-emphasis">{{ selectedFlight.flightNo }}</div>
+                    <div class="text-subtitle-1 font-weight-bold text-grey-darken-3">
+                      {{ selectedFlight.missionId }}
+                    </div>
+                    <div class="text-caption text-medium-emphasis">
+                      {{ selectedFlight.flightNo }}
+                    </div>
                   </div>
-                  <v-chip size="x-small" :color="selectedFlight.syncColor" variant="tonal" class="font-weight-bold">
+                  <v-chip
+                    size="x-small"
+                    :color="selectedFlight.syncColor"
+                    variant="tonal"
+                    class="font-weight-bold"
+                  >
                     {{ selectedFlight.syncStatus }}
                   </v-chip>
                 </div>
-                <div class="text-caption text-medium-emphasis mt-2">{{ selectedFlight.tailDisplay }}</div>
+                <div class="text-caption text-medium-emphasis mt-2">
+                  {{ selectedFlight.tailDisplay }}
+                </div>
                 <v-divider class="my-4" />
 
                 <!-- Detail List -->
-                <div class="detail-section-title"><v-icon icon="mdi-airplane" color="primary" size="18" /> Flight Operations</div>
+                <div class="detail-section-title">
+                  <v-icon icon="mdi-airplane" color="primary" size="18" /> Flight Operations
+                </div>
                 <div class="detail-list">
-                  <div><span>Tanggal</span><strong>{{ selectedFlight.date }}</strong></div>
-                  <div><span>Rute</span><strong class="text-primary">{{ selectedFlight.routeDisplay }}</strong></div>
-                  <div><span>Pilot / Crew</span><strong>{{ selectedFlight.pilotDisplay }}</strong></div>
+                  <div>
+                    <span>Tanggal</span><strong>{{ selectedFlight.date }}</strong>
+                  </div>
+                  <div>
+                    <span>Rute</span><strong class="text-primary">{{ selectedFlight.routeDisplay }}</strong>
+                  </div>
+                  <div>
+                    <span>Pilot / Crew</span><strong>{{ selectedFlight.pilotDisplay }}</strong>
+                  </div>
                 </div>
 
-                <div class="detail-section-title mt-5"><v-icon icon="mdi-gas-station" color="teal" size="18" /> Transaksi Avtur On-Site</div>
+                <div class="detail-section-title mt-5">
+                  <v-icon icon="mdi-gas-station" color="teal" size="18" /> Transaksi Avtur On-Site
+                </div>
                 <div class="detail-list">
-                  <div><span>Fuel Txn ID</span><strong>{{ selectedFlight.refuelTxnId }}</strong></div>
-                  <div><span>Lokasi</span><strong>{{ selectedFlight.refuelLoc }}</strong></div>
-                  <div><span>Volume Refuel</span><strong class="text-teal">{{ selectedFlight.refuelVol }}</strong></div>
-                  <div><span>FOB Sebelum Refuel</span><strong>{{ selectedFlight.initialFob }}</strong></div>
-                  <div><span>FOB Takeoff</span><strong>{{ selectedFlight.totalFobOnTakeoff }}</strong></div>
+                  <div>
+                    <span>Fuel Txn ID</span><strong>{{ selectedFlight.refuelTxnId }}</strong>
+                  </div>
+                  <div>
+                    <span>Lokasi</span><strong>{{ selectedFlight.refuelLoc }}</strong>
+                  </div>
+                  <div>
+                    <span>Volume Refuel</span><strong class="text-teal">{{ selectedFlight.refuelVol }}</strong>
+                  </div>
+                  <div>
+                    <span>FOB Sebelum Refuel</span><strong>{{ selectedFlight.initialFob }}</strong>
+                  </div>
+                  <div>
+                    <span>FOB Takeoff</span><strong>{{ selectedFlight.totalFobOnTakeoff }}</strong>
+                  </div>
                 </div>
 
-                <div class="detail-section-title mt-5"><v-icon icon="mdi-calculator-variant-outline" color="warning" size="18" /> Fuel Burn Analysis</div>
+                <div class="detail-section-title mt-5">
+                  <v-icon icon="mdi-calculator-variant-outline" color="warning" size="18" /> Fuel
+                  Burn Analysis
+                </div>
                 <div class="burn-comparison mb-4">
-                  <div><span>Planned Burn</span><strong>{{ selectedFlight.plannedBurn }}</strong></div>
-                  <div><span>Actual Burn</span><strong>{{ selectedFlight.actualBurn }}</strong></div>
+                  <div>
+                    <span>Planned Burn</span><strong>{{ selectedFlight.plannedBurn }}</strong>
+                  </div>
+                  <div>
+                    <span>Actual Burn</span><strong>{{ selectedFlight.actualBurn }}</strong>
+                  </div>
                   <div class="variance-result">
                     <span>Variance</span>
-                    <strong :class="selectedFlight.variancePercent < 5 ? 'text-success' : 'text-error'">
+                    <strong
+                      :class="selectedFlight.variancePercent < 5 ? 'text-success' : 'text-error'"
+                    >
                       {{ selectedFlight.varianceLiters }} ({{ selectedFlight.varianceVal }})
                     </strong>
                   </div>
-                  <div><span>FOB Landing</span><strong class="text-primary">{{ selectedFlight.remainingFobOnLanding }}</strong></div>
+                  <div>
+                    <span>FOB Landing</span><strong class="text-primary">{{
+                      selectedFlight.remainingFobOnLanding
+                    }}</strong>
+                  </div>
                 </div>
 
                 <div class="text-caption">
@@ -803,8 +1042,26 @@ const paginationLength = computed(() => Math.max(1, Math.ceil(totalFlights.value
                 </div>
 
                 <div class="d-flex ga-2 mt-5">
-                  <v-btn variant="outlined" color="primary" block prepend-icon="mdi-file-chart-outline" class="text-none" @click="dialogReport = true">Laporan Misi</v-btn>
-                  <v-btn color="primary" block prepend-icon="mdi-sync" class="text-none" :loading="isSyncing" @click="triggerSync">Re-Sync</v-btn>
+                  <v-btn
+                    variant="outlined"
+                    color="primary"
+                    block
+                    prepend-icon="mdi-file-chart-outline"
+                    class="text-none"
+                    @click="dialogReport = true"
+                  >
+                    Laporan Misi
+                  </v-btn>
+                  <v-btn
+                    color="primary"
+                    block
+                    prepend-icon="mdi-sync"
+                    class="text-none"
+                    :loading="isSyncing"
+                    @click="triggerSync"
+                  >
+                    Re-Sync
+                  </v-btn>
                 </div>
               </div>
             </v-card>
@@ -839,7 +1096,12 @@ const paginationLength = computed(() => Math.max(1, Math.ceil(totalFlights.value
                   <span :class="`text-${item.color} font-weight-bold`">{{ item.variance }}</span>
                 </td>
                 <td>
-                  <v-chip size="x-small" :color="item.color" variant="tonal" class="font-weight-bold">
+                  <v-chip
+                    size="x-small"
+                    :color="item.color"
+                    variant="tonal"
+                    class="font-weight-bold"
+                  >
                     {{ item.status }}
                   </v-chip>
                 </td>
@@ -853,25 +1115,64 @@ const paginationLength = computed(() => Math.max(1, Math.ceil(totalFlights.value
       <v-window-item :value="3">
         <v-card variant="flat" class="border rounded-lg bg-white pa-5">
           <div class="d-flex align-center justify-space-between mb-4">
-            <div class="text-subtitle-1 font-weight-bold text-grey-darken-3">Discrepancy Alerts (Butuh Review)</div>
-            <v-chip color="error" variant="flat" size="small">{{ discrepancyAlerts.filter((a : any) => a.status !== 'Resolved').length }} Kasus Aktif</v-chip>
+            <div class="text-subtitle-1 font-weight-bold text-grey-darken-3">
+              Discrepancy Alerts (Butuh Review)
+            </div>
+            <v-chip color="error" variant="flat" size="small">
+              {{ discrepancyAlerts.filter((a: any) => a.status !== 'Resolved').length }} Kasus
+              Aktif
+            </v-chip>
           </div>
-          
+
           <v-list lines="two" class="bg-transparent pa-0">
-            <v-list-item v-for="alert in discrepancyAlerts" :key="alert.id" class="border rounded-lg mb-3 pa-3">
+            <v-list-item
+              v-for="alert in discrepancyAlerts"
+              :key="alert.id"
+              class="border rounded-lg mb-3 pa-3"
+            >
               <template #prepend>
-                <v-avatar :color="alert.severity === 'High' ? 'error' : 'warning'" variant="tonal" class="mr-3">
-                  <v-icon :icon="alert.severity === 'High' ? 'mdi-alert' : 'mdi-alert-circle-outline'"></v-icon>
+                <v-avatar
+                  :color="alert.severity === 'High' ? 'error' : 'warning'"
+                  variant="tonal"
+                  class="mr-3"
+                >
+                  <v-icon
+                    :icon="alert.severity === 'High' ? 'mdi-alert' : 'mdi-alert-circle-outline'"
+                  />
                 </v-avatar>
               </template>
-              <v-list-item-title class="font-weight-bold text-body-2">{{ alert.issue }}</v-list-item-title>
+              <v-list-item-title class="font-weight-bold text-body-2">
+                {{
+                  alert.issue
+                }}
+              </v-list-item-title>
               <v-list-item-subtitle class="text-caption mt-1">
-                {{ alert.date }} • Mission: <strong>{{ alert.missionId }}</strong> • Tail No: {{ alert.tailNo }}
+                {{ alert.date }} • Mission: <strong>{{ alert.missionId }}</strong> • Tail No:
+                {{ alert.tailNo }}
               </v-list-item-subtitle>
               <template #append>
                 <div class="d-flex align-center ga-3">
-                  <v-chip size="x-small" :color="alert.status === 'Resolved' ? 'success' : (alert.status === 'Open' ? 'error' : 'warning')" variant="outlined">{{ alert.status }}</v-chip>
-                  <v-btn size="small" color="primary" variant="outlined" class="text-none" :disabled="alert.status === 'Resolved'" @click="openAlertModal(alert)">
+                  <v-chip
+                    size="x-small"
+                    :color="
+                      alert.status === 'Resolved'
+                        ? 'success'
+                        : alert.status === 'Open'
+                          ? 'error'
+                          : 'warning'
+                    "
+                    variant="outlined"
+                  >
+                    {{ alert.status }}
+                  </v-chip>
+                  <v-btn
+                    size="small"
+                    color="primary"
+                    variant="outlined"
+                    class="text-none"
+                    :disabled="alert.status === 'Resolved'"
+                    @click="openAlertModal(alert)"
+                  >
                     {{ alert.status === 'Resolved' ? 'Selesai' : 'Tindak Lanjut' }}
                   </v-btn>
                 </div>
@@ -884,18 +1185,25 @@ const paginationLength = computed(() => Math.max(1, Math.ceil(totalFlights.value
       <!-- TAB 4: Rekap Rute & Armada -->
       <v-window-item :value="4">
         <v-row>
-          <v-col cols="12" md="4" v-for="fleet in fleetRecap" :key="fleet.tailNo">
+          <v-col v-for="fleet in fleetRecap" :key="fleet.tailNo" cols="12" md="4">
             <v-card variant="flat" class="border rounded-lg bg-white pa-4">
               <div class="d-flex justify-space-between align-center mb-3">
                 <div>
-                  <div class="text-subtitle-1 font-weight-bold text-primary">{{ fleet.tailNo }}</div>
+                  <div class="text-subtitle-1 font-weight-bold text-primary">
+                    {{ fleet.tailNo }}
+                  </div>
                   <div class="text-caption text-medium-emphasis">{{ fleet.type }}</div>
                 </div>
-                <v-chip size="x-small" :color="fleet.efficiency >= '90%' ? 'success' : 'warning'" variant="tonal" class="font-weight-bold">
+                <v-chip
+                  size="x-small"
+                  :color="fleet.efficiency >= '90%' ? 'success' : 'warning'"
+                  variant="tonal"
+                  class="font-weight-bold"
+                >
                   {{ fleet.status }}
                 </v-chip>
               </div>
-              <v-divider class="mb-3"></v-divider>
+              <v-divider class="mb-3" />
               <div class="d-flex justify-space-between text-body-2 mb-2">
                 <span class="text-medium-emphasis">Total Flights MTD</span>
                 <strong class="text-grey-darken-3">{{ fleet.flights }}</strong>
@@ -917,14 +1225,19 @@ const paginationLength = computed(() => Math.max(1, Math.ceil(totalFlights.value
     </v-window>
 
     <!-- Validation Rule Alert -->
-    <v-alert type="info" variant="tonal" density="comfortable" icon="mdi-sync-circle" class="rounded-lg border">
+    <v-alert
+      type="info"
+      variant="tonal"
+      density="comfortable"
+      icon="mdi-sync-circle"
+      class="rounded-lg border"
+    >
       <template #title>
         <span class="text-subtitle-2 font-weight-bold">Aturan Validasi Lintas Modul</span>
       </template>
       <span class="text-caption">
-        Data Flight Operations dicocokkan dengan Aircraft Tail Number,
-        Mission ID, lokasi refueling, dan volume pengisian Avtur.
-        Variance Actual Fuel Burn di atas 5% akan ditandai sebagai
+        Data Flight Operations dicocokkan dengan Aircraft Tail Number, Mission ID, lokasi refueling,
+        dan volume pengisian Avtur. Variance Actual Fuel Burn di atas 5% akan ditandai sebagai
         discrepancy untuk dilakukan review lebih lanjut.
       </span>
     </v-alert>
@@ -932,10 +1245,18 @@ const paginationLength = computed(() => Math.max(1, Math.ceil(totalFlights.value
     <!-- MODAL 1: Export Dialog -->
     <v-dialog v-model="dialogExport" max-width="420">
       <v-card class="rounded-lg">
-        <v-card-title class="text-subtitle-1 font-weight-bold pa-4">Export Analysis Data</v-card-title>
+        <v-card-title class="text-subtitle-1 font-weight-bold pa-4">
+          Export Analysis Data
+        </v-card-title>
         <v-divider />
         <v-card-text class="pa-4">
-          <v-select v-model="exportFormat" :items="exportOptions" label="Pilih Format File" variant="outlined" density="compact" />
+          <v-select
+            v-model="exportFormat"
+            :items="exportOptions"
+            label="Pilih Format File"
+            variant="outlined"
+            density="compact"
+          />
         </v-card-text>
         <v-card-actions class="pa-4 pt-0">
           <v-spacer />
@@ -955,28 +1276,72 @@ const paginationLength = computed(() => Math.max(1, Math.ceil(totalFlights.value
         <v-card-text class="pa-4">
           <v-row density="compact">
             <v-col cols="6">
-              <v-text-field v-model="flightForm.missionId" label="Mission ID" variant="outlined" density="compact" :disabled="isEditMode" />
+              <v-text-field
+                v-model="flightForm.missionId"
+                label="Mission ID"
+                variant="outlined"
+                density="compact"
+                :disabled="isEditMode"
+              />
             </v-col>
             <v-col cols="6">
-              <v-text-field v-model="flightForm.tailNo" label="Tail Number" variant="outlined" density="compact" />
+              <v-text-field
+                v-model="flightForm.tailNo"
+                label="Tail Number"
+                variant="outlined"
+                density="compact"
+              />
             </v-col>
             <v-col cols="6">
-              <v-text-field v-model="flightForm.route" label="Rute (e.g. WMX → DJJ)" variant="outlined" density="compact" />
+              <v-text-field
+                v-model="flightForm.route"
+                label="Rute (e.g. WMX → DJJ)"
+                variant="outlined"
+                density="compact"
+              />
             </v-col>
             <v-col cols="6">
-              <v-text-field v-model="flightForm.pilot" label="Nama Pilot" variant="outlined" density="compact" />
+              <v-text-field
+                v-model="flightForm.pilot"
+                label="Nama Pilot"
+                variant="outlined"
+                density="compact"
+              />
             </v-col>
             <v-col cols="12">
-              <v-text-field v-model="flightForm.refuelLoc" label="Lokasi Refuel" variant="outlined" density="compact" />
+              <v-text-field
+                v-model="flightForm.refuelLoc"
+                label="Lokasi Refuel"
+                variant="outlined"
+                density="compact"
+              />
             </v-col>
             <v-col cols="4">
-              <v-text-field v-model="flightForm.refuelVol" label="Refuel (L)" type="number" variant="outlined" density="compact" />
+              <v-text-field
+                v-model="flightForm.refuelVol"
+                label="Refuel (L)"
+                type="number"
+                variant="outlined"
+                density="compact"
+              />
             </v-col>
             <v-col cols="4">
-              <v-text-field v-model="flightForm.plannedBurn" label="Planned Burn (L)" type="number" variant="outlined" density="compact" />
+              <v-text-field
+                v-model="flightForm.plannedBurn"
+                label="Planned Burn (L)"
+                type="number"
+                variant="outlined"
+                density="compact"
+              />
             </v-col>
             <v-col cols="4">
-              <v-text-field v-model="flightForm.actualBurn" label="Actual Burn (L)" type="number" variant="outlined" density="compact" />
+              <v-text-field
+                v-model="flightForm.actualBurn"
+                label="Actual Burn (L)"
+                type="number"
+                variant="outlined"
+                density="compact"
+              />
             </v-col>
           </v-row>
         </v-card-text>
@@ -1005,7 +1370,7 @@ const paginationLength = computed(() => Math.max(1, Math.ceil(totalFlights.value
 
     <!-- MODAL 4: Flight Report Dialog -->
     <v-dialog v-model="dialogReport" max-width="600">
-      <v-card class="rounded-lg pa-2" v-if="selectedFlight">
+      <v-card v-if="selectedFlight" class="rounded-lg pa-2">
         <v-card-title class="d-flex justify-space-between align-center">
           <span class="text-subtitle-1 font-weight-bold">Laporan Misi {{ selectedFlight.missionId }}</span>
           <v-chip color="primary" size="small">{{ selectedFlight.flightNo }}</v-chip>
@@ -1015,28 +1380,45 @@ const paginationLength = computed(() => Math.max(1, Math.ceil(totalFlights.value
           <div class="mb-3"><strong>Armada:</strong> {{ selectedFlight.tailDisplay }}</div>
           <div class="mb-3"><strong>Rute Flight:</strong> {{ selectedFlight.routeDisplay }}</div>
           <div class="mb-3"><strong>Pilot / Crew:</strong> {{ selectedFlight.pilotDisplay }}</div>
-          <div class="mb-3"><strong>Konsumsi Avtur:</strong> Planned {{ selectedFlight.plannedBurn }} vs Actual {{ selectedFlight.actualBurn }}</div>
-          <div class="mb-3"><strong>Status Match:</strong> {{ selectedFlight.syncStatus }} (Variance {{ selectedFlight.varianceVal }})</div>
+          <div class="mb-3">
+            <strong>Konsumsi Avtur:</strong> Planned {{ selectedFlight.plannedBurn }} vs Actual
+            {{ selectedFlight.actualBurn }}
+          </div>
+          <div class="mb-3">
+            <strong>Status Match:</strong> {{ selectedFlight.syncStatus }} (Variance
+            {{ selectedFlight.varianceVal }})
+          </div>
           <div class="note-box mt-3">{{ selectedFlight.notes }}</div>
         </v-card-text>
         <v-card-actions class="pa-4 pt-0">
           <v-spacer />
-          <v-btn color="primary" class="text-none" @click="dialogReport = false">Tutup Laporan</v-btn>
+          <v-btn color="primary" class="text-none" @click="dialogReport = false">
+            Tutup Laporan
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
     <!-- MODAL 5: Alert Resolution Dialog -->
     <v-dialog v-model="dialogAlert" max-width="480">
-      <v-card class="rounded-lg" v-if="selectedAlert">
-        <v-card-title class="text-subtitle-1 font-weight-bold pa-4">Tindak Lanjut Alert {{ selectedAlert.id }}</v-card-title>
+      <v-card v-if="selectedAlert" class="rounded-lg">
+        <v-card-title class="text-subtitle-1 font-weight-bold pa-4">
+          Tindak Lanjut Alert {{ selectedAlert.id }}
+        </v-card-title>
         <v-divider />
         <v-card-text class="pa-4">
           <div class="text-body-2 mb-2"><strong>Isu:</strong> {{ selectedAlert.issue }}</div>
           <div class="text-caption text-medium-emphasis mb-4">
-            Misi: {{ selectedAlert.missionId }} | Tail No: {{ selectedAlert.tailNo }} | Tanggal: {{ selectedAlert.date }}
+            Misi: {{ selectedAlert.missionId }} | Tail No: {{ selectedAlert.tailNo }} | Tanggal:
+            {{ selectedAlert.date }}
           </div>
-          <v-textarea label="Catatan Penanganan / Investigasi" rows="3" variant="outlined" density="compact" placeholder="Tuliskan tindakan koreksi yang telah dilakukan..." />
+          <v-textarea
+            label="Catatan Penanganan / Investigasi"
+            rows="3"
+            variant="outlined"
+            density="compact"
+            placeholder="Tuliskan tindakan koreksi yang telah dilakukan..."
+          />
         </v-card-text>
         <v-card-actions class="pa-4 pt-0">
           <v-spacer />
@@ -1057,16 +1439,23 @@ const paginationLength = computed(() => Math.max(1, Math.ceil(totalFlights.value
 </template>
 
 <style scoped>
-.min-vh-100 { min-height: 100vh; }
+.min-vh-100 {
+  min-height: 100vh;
+}
 .metrics-grid {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 16px;
 }
-.metric-card { min-height: 150px; }
+.metric-card {
+  min-height: 150px;
+}
 .flow-grid {
   display: grid;
-  grid-template-columns: minmax(140px, 1fr) auto minmax(140px, 1fr) auto minmax(140px, 1fr) auto minmax(140px, 1fr) auto minmax(140px, 1fr);
+  grid-template-columns: minmax(140px, 1fr) auto minmax(140px, 1fr) auto minmax(
+      140px,
+      1fr
+    ) auto minmax(140px, 1fr) auto minmax(140px, 1fr);
   align-items: center;
   gap: 10px;
 }
@@ -1094,16 +1483,28 @@ const paginationLength = computed(() => Math.max(1, Math.ceil(totalFlights.value
   font-size: 10px;
   font-weight: 700;
 }
-.flow-desc { line-height: 1.35; }
-.flow-arrow { flex-shrink: 0; }
-.table-wrapper { overflow-x: auto; }
-.analysis-table { min-width: 1000px; }
+.flow-desc {
+  line-height: 1.35;
+}
+.flow-arrow {
+  flex-shrink: 0;
+}
+.table-wrapper {
+  overflow-x: auto;
+}
+.analysis-table {
+  min-width: 1000px;
+}
 .flight-row {
   cursor: pointer;
   transition: background 0.15s ease;
 }
-.flight-row:hover { background: rgba(var(--v-theme-primary), 0.035); }
-.selected-row { background: rgba(var(--v-theme-primary), 0.075); }
+.flight-row:hover {
+  background: rgba(var(--v-theme-primary), 0.035);
+}
+.selected-row {
+  background: rgba(var(--v-theme-primary), 0.075);
+}
 .detail-section-title {
   display: flex;
   align-items: center;
@@ -1129,7 +1530,10 @@ const paginationLength = computed(() => Math.max(1, Math.ceil(totalFlights.value
   gap: 14px;
   font-size: 12px;
 }
-.detail-list span, .burn-comparison span { color: rgba(var(--v-theme-on-surface), 0.58); }
+.detail-list span,
+.burn-comparison span {
+  color: rgba(var(--v-theme-on-surface), 0.58);
+}
 .detail-list strong {
   max-width: 65%;
   text-align: right;
@@ -1155,7 +1559,9 @@ const paginationLength = computed(() => Math.max(1, Math.ceil(totalFlights.value
   font-size: 14px;
   color: rgba(var(--v-theme-on-surface), 0.82);
 }
-.variance-result { background: rgba(var(--v-theme-primary), 0.035) !important; }
+.variance-result {
+  background: rgba(var(--v-theme-primary), 0.035) !important;
+}
 .note-box {
   padding: 10px 12px;
   border: 1px solid rgba(var(--v-theme-on-surface), 0.08);
@@ -1166,14 +1572,26 @@ const paginationLength = computed(() => Math.max(1, Math.ceil(totalFlights.value
   line-height: 1.45;
 }
 
-@media (max-width: 1400px) { .metrics-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 1400px) {
+  .metrics-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
 @media (max-width: 1100px) {
-  .flow-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .flow-arrow { display: none; }
+  .flow-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .flow-arrow {
+    display: none;
+  }
 }
 @media (max-width: 700px) {
-  .metrics-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .flow-grid { grid-template-columns: 1fr; }
+  .metrics-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .flow-grid {
+    grid-template-columns: 1fr;
+  }
   .flow-item {
     text-align: left;
     display: grid;
@@ -1181,9 +1599,22 @@ const paginationLength = computed(() => Math.max(1, Math.ceil(totalFlights.value
     column-gap: 12px;
     align-items: center;
   }
-  .flow-item > .flow-desc { grid-column: 2; margin-top: 0; }
-  .flow-number { top: 8px; left: 34px; right: auto; }
-  .burn-comparison { grid-template-columns: 1fr; }
+  .flow-item > .flow-desc {
+    grid-column: 2;
+    margin-top: 0;
+  }
+  .flow-number {
+    top: 8px;
+    left: 34px;
+    right: auto;
+  }
+  .burn-comparison {
+    grid-template-columns: 1fr;
+  }
 }
-@media (max-width: 500px) { .metrics-grid { grid-template-columns: 1fr; } }
+@media (max-width: 500px) {
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+}
 </style>

@@ -5,7 +5,7 @@ import type {
   AviationManagementDashboardDto,
   DashboardDeltaMetric
 } from '#shared/contracts/aviation-dashboard';
-import { AMA_THEME_HEX } from '../../constants/themeColors';
+import { MANTIK_THEME_HEX } from '../../constants/themeColors';
 
 const props = defineProps<{
   data: AviationManagementDashboardDto;
@@ -36,9 +36,9 @@ const completionSeries = computed<ApexAxisChartSeries>(() => [
 ]);
 const completionOptions = computed<ApexOptions>(() => ({
   chart: { toolbar: { show: false }, fontFamily: 'Inter, sans-serif', stacked: false },
-  colors: ['#91A7B6', AMA_THEME_HEX.success, AMA_THEME_HEX.danger, '#2E8BCB'],
+  colors: ['#91A7B6', MANTIK_THEME_HEX.success, MANTIK_THEME_HEX.danger, '#2E8BCB'],
   dataLabels: { enabled: false },
-  grid: { borderColor: AMA_THEME_HEX.borderDefault },
+  grid: { borderColor: MANTIK_THEME_HEX.borderDefault },
   legend: { position: 'top', horizontalAlign: 'center', fontSize: '12px', markers: { size: 6 } },
   markers: { size: [0, 0, 3, 3] },
   plotOptions: { bar: { borderRadius: 2, columnWidth: '55%' } },
@@ -82,9 +82,9 @@ const financeSeries = computed<ApexAxisChartSeries>(() => [
 ]);
 const financeOptions = computed<ApexOptions>(() => ({
   chart: { toolbar: { show: false }, fontFamily: 'Inter, sans-serif', stacked: false },
-  colors: [AMA_THEME_HEX.success, '#2F77B5', AMA_THEME_HEX.accent],
+  colors: [MANTIK_THEME_HEX.success, '#2F77B5', MANTIK_THEME_HEX.accent],
   dataLabels: { enabled: false },
-  grid: { borderColor: AMA_THEME_HEX.borderDefault },
+  grid: { borderColor: MANTIK_THEME_HEX.borderDefault },
   legend: { position: 'top', horizontalAlign: 'center', fontSize: '12px', markers: { size: 6 } },
   markers: { size: [0, 0, 3] },
   plotOptions: { bar: { borderRadius: 2, columnWidth: '50%' } },

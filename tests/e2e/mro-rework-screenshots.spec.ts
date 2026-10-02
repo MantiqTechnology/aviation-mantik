@@ -4,7 +4,7 @@ import path from 'node:path';
 async function setRole(context: BrowserContext, baseURL: string | undefined, role: string) {
   const cookieUrl = new URL('/', baseURL ?? 'http://localhost:3100').toString();
   await context.clearCookies();
-  await context.addCookies([{ name: 'ama_demo_role', value: role, url: cookieUrl }]);
+  await context.addCookies([{ name: 'mantik_demo_role', value: role, url: cookieUrl }]);
 }
 
 test('captures failed inspection and rework loop screens', async ({ baseURL, context, page }) => {
@@ -39,7 +39,9 @@ test('captures failed inspection and rework loop screens', async ({ baseURL, con
   await page
     .getByLabel('Corrective action description')
     .fill('Corrected wiring reference termination and repeated engine indication stability check.');
-  await page.getByLabel('Approved-data reference').fill('PTAMA-PAC750XL-IND-77-30-MROV1 REV A');
+  await page
+    .getByLabel('Approved-data reference')
+    .fill('Operator Demo-PAC750XL-IND-77-30-MROV1 REV A');
   await page
     .getByLabel('Mechanic sign-off statement')
     .fill('Corrective work completed and prepared for independent re-inspection.');

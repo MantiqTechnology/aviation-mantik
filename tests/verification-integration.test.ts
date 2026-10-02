@@ -12,8 +12,8 @@ describe('Operational Verification and Readiness Assurance', () => {
   let tempRoot: string;
   let originalUploadEnv: Record<string, string | undefined>;
   const uploadEnvKeys = [
-    'AMA_UPLOAD_DIR',
-    'AMA_UPLOAD_MANIFEST',
+    'MANTIK_UPLOAD_DIR',
+    'MANTIK_UPLOAD_MANIFEST',
     'S3_UPLOAD_BUCKET',
     'S3_UPLOAD_ENDPOINT',
     'S3_UPLOAD_REGION',
@@ -25,9 +25,9 @@ describe('Operational Verification and Readiness Assurance', () => {
 
   beforeEach(async () => {
     originalUploadEnv = Object.fromEntries(uploadEnvKeys.map((key) => [key, process.env[key]]));
-    tempRoot = await mkdtemp(join(tmpdir(), 'ama-verification-uploads-'));
-    process.env.AMA_UPLOAD_DIR = join(tempRoot, 'uploads');
-    process.env.AMA_UPLOAD_MANIFEST = join(tempRoot, 'local-uploads.json');
+    tempRoot = await mkdtemp(join(tmpdir(), 'mantik-verification-uploads-'));
+    process.env.MANTIK_UPLOAD_DIR = join(tempRoot, 'uploads');
+    process.env.MANTIK_UPLOAD_MANIFEST = join(tempRoot, 'local-uploads.json');
     delete process.env.S3_UPLOAD_BUCKET;
     delete process.env.S3_UPLOAD_ENDPOINT;
     delete process.env.S3_UPLOAD_REGION;
@@ -406,7 +406,7 @@ describe('Operational Verification and Readiness Assurance', () => {
     expect(attached.ownerId).toBe(task.id);
   });
 
-  it('should record AVSEC reports as PT AMA station external evidence', async () => {
+  it('should record AVSEC reports as Operator Demo station external evidence', async () => {
     const task = await service.createStationTask(
       {
         flightId: 'flight-1',
@@ -430,7 +430,7 @@ describe('Operational Verification and Readiness Assurance', () => {
         sourceParty: 'AVSEC',
         sourcePartyName: 'DJJ AVSEC post',
         receivedAt: '2026-07-23T07:30:00.000Z',
-        notes: 'Report received and uploaded by PT AMA Station DJJ.'
+        notes: 'Report received and uploaded by Operator Demo Station DJJ.'
       },
       stationAdminCtx
     );

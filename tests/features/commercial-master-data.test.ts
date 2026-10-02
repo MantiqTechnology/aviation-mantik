@@ -373,7 +373,7 @@ describe('commercial master data services', () => {
       contactName: 'Backup Desk',
       roleTitle: 'Counter Backup',
       department: 'Commercial',
-      email: 'backup.djj@ama.example',
+      email: 'backup.djj@mantik.example',
       phone: '+62-812-0000-2999',
       contactType: 'BOOKING',
       isPrimary: true,
@@ -455,11 +455,11 @@ describe('commercial master data services', () => {
       ])
     );
 
-    const contracts = contractsSubsidies.contracts({ search: 'CP-AMA', status: undefined });
+    const contracts = contractsSubsidies.contracts({ search: 'CP-MANTIK', status: undefined });
     expect(contracts).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          contractNumber: 'CP-AMA-2026-001',
+          contractNumber: 'CP-PRT-2026-001',
           subsidyProgramCode: 'CARGO_NABIRE_2026'
         })
       ])

@@ -2,13 +2,13 @@
 import { useDisplay } from 'vuetify';
 import { useTheme } from 'vuetify';
 import type { DashboardDto } from '#shared/contracts/operations-monitoring';
-import { AMA_THEME_HEX } from '../../constants/themeColors';
+import { MANTIK_THEME_HEX } from '../../constants/themeColors';
 
 const route = useRoute();
 const session = useDemoSession();
 const theme = useTheme();
 const { mdAndUp } = useDisplay();
-const mobileDrawer = useState('ama-sidebar-mobile-open', () => false);
+const mobileDrawer = useState('mantik-sidebar-mobile-open', () => false);
 const { locale, setLocale, t } = useI18n();
 
 const { data: dashboardOverview } = await useAsyncData('topbar-dashboard-overview', () =>
@@ -31,9 +31,9 @@ const severityIcon: Record<string, string> = {
   info: 'mdi-information-outline'
 };
 const severityColor: Record<string, string> = {
-  critical: AMA_THEME_HEX.danger,
-  warning: AMA_THEME_HEX.warning,
-  info: AMA_THEME_HEX.info
+  critical: MANTIK_THEME_HEX.danger,
+  warning: MANTIK_THEME_HEX.warning,
+  info: MANTIK_THEME_HEX.info
 };
 
 onMounted(() => session.load());
@@ -66,7 +66,7 @@ const pageTitle = computed(() => {
   return t('topbar.page.dashboard');
 });
 
-const isDark = computed(() => theme.global.name.value === 'amaDark');
+const isDark = computed(() => theme.global.name.value === 'mantikDark');
 const localeItems = computed(() => [
   { title: t('common.english'), value: 'en' },
   { title: t('common.indonesian'), value: 'id' }
@@ -74,7 +74,7 @@ const localeItems = computed(() => [
 const localeLabel = computed(() => locale.value.toUpperCase());
 
 function toggleTheme() {
-  theme.global.name.value = isDark.value ? 'amaLight' : 'amaDark';
+  theme.global.name.value = isDark.value ? 'mantikLight' : 'mantikDark';
 }
 
 function openMobileNavigation() {

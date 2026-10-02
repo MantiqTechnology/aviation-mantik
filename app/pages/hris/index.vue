@@ -30,7 +30,7 @@ function getDeptProgressColor(index: number) {
         <h1 class="text-h4 font-weight-bold text-primary">HRIS & Operational SDM Dashboard</h1>
         <p class="text-subtitle-1 text-secondary">
           Analytics & monitoring karyawan, distribusi departemen, sertifikasi lisensi pilot,
-          presensi, dan rekrutmen PT. AMA
+          presensi, dan rekrutmen Operator Demo
         </p>
       </div>
 

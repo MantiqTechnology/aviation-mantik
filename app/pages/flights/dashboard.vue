@@ -7,7 +7,7 @@ import type {
   ApexOptions
 } from 'apexcharts';
 import type { FlightControlDashboardDto } from '#shared/contracts/operational-dashboards';
-import { AMA_THEME_HEX } from '../../constants/themeColors';
+import { MANTIK_THEME_HEX } from '../../constants/themeColors';
 
 const { period, anchorDate, stationId, query, periodOptions } = useOperationalDashboardFilters();
 const { can } = useAuthorization();
@@ -24,7 +24,7 @@ function safeHref(href: string) {
     (href.startsWith('/flights/manifest') && !can('flight.manifest.view').allowed) ||
     (href.startsWith('/flights/fuel') && !can('flight.fuel.update').allowed);
   if (needsFallback) {
-    const original = new URL(href, 'https://ama.local');
+    const original = new URL(href, 'https://mantik.local');
     const params = original.searchParams;
     if (href.startsWith('/flights/manifest') && params.has('status')) {
       params.set('manifestStatus', String(params.get('status')));
@@ -138,7 +138,7 @@ const lifecycleOptions = computed<ApexOptions>(() => ({
       }
     }
   },
-  colors: [AMA_THEME_HEX.primary],
+  colors: [MANTIK_THEME_HEX.primary],
   dataLabels: { enabled: true },
   plotOptions: { bar: { borderRadius: 4, horizontal: true, distributed: true } },
   xaxis: { categories: data.value?.lifecycle.data.map((point) => point.label) ?? [] }
@@ -151,10 +151,10 @@ const readinessOptions = computed<ApexOptions>(() =>
   donutOptions(
     () => data.value?.readiness.data ?? [],
     [
-      AMA_THEME_HEX.success,
-      AMA_THEME_HEX.warning,
-      AMA_THEME_HEX.danger,
-      AMA_THEME_HEX.textSecondary
+      MANTIK_THEME_HEX.success,
+      MANTIK_THEME_HEX.warning,
+      MANTIK_THEME_HEX.danger,
+      MANTIK_THEME_HEX.textSecondary
     ],
     'Flight'
   )
@@ -184,9 +184,9 @@ const activityOptions = computed<ApexOptions>(() => ({
       }
     }
   },
-  colors: [AMA_THEME_HEX.info, AMA_THEME_HEX.secondary, AMA_THEME_HEX.success],
+  colors: [MANTIK_THEME_HEX.info, MANTIK_THEME_HEX.secondary, MANTIK_THEME_HEX.success],
   dataLabels: { enabled: false },
-  grid: { borderColor: AMA_THEME_HEX.borderDefault, strokeDashArray: 4 },
+  grid: { borderColor: MANTIK_THEME_HEX.borderDefault, strokeDashArray: 4 },
   legend: { position: 'top', horizontalAlign: 'left' },
   markers: { size: 4, strokeWidth: 0 },
   stroke: { curve: 'straight', width: [2, 3, 3] },
@@ -203,7 +203,7 @@ const otpSeries = computed<ApexNonAxisChartSeries>(() =>
 const otpOptions = computed<ApexOptions>(() =>
   donutOptions(
     () => data.value?.onTimePerformance.data.points ?? [],
-    [AMA_THEME_HEX.success, AMA_THEME_HEX.warning],
+    [MANTIK_THEME_HEX.success, MANTIK_THEME_HEX.warning],
     'Eligible'
   )
 );
@@ -228,7 +228,7 @@ function workflowOptions(kind: 'manifest' | 'fuel') {
         }
       }
     },
-    colors: [kind === 'manifest' ? AMA_THEME_HEX.secondary : AMA_THEME_HEX.info],
+    colors: [kind === 'manifest' ? MANTIK_THEME_HEX.secondary : MANTIK_THEME_HEX.info],
     dataLabels: { enabled: true },
     plotOptions: { bar: { borderRadius: 4, columnWidth: '52%', distributed: true } },
     xaxis: { categories: points.map((point) => point.label), labels: { rotate: -25 } },
@@ -277,7 +277,7 @@ const queueOptions = computed<ApexOptions>(() => ({
       }
     }
   },
-  colors: [AMA_THEME_HEX.warning, AMA_THEME_HEX.danger],
+  colors: [MANTIK_THEME_HEX.warning, MANTIK_THEME_HEX.danger],
   dataLabels: { enabled: false },
   legend: { position: 'top', horizontalAlign: 'left' },
   plotOptions: { bar: { borderRadius: 4, columnWidth: '52%' } },

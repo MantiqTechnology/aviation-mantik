@@ -1,6 +1,6 @@
 type StartupResetEnv = {
-  AMA_RESET_ON_STARTUP?: unknown;
-  AMA_SKIP_STARTUP_RESET?: unknown;
+  MANTIK_RESET_ON_STARTUP?: unknown;
+  MANTIK_SKIP_STARTUP_RESET?: unknown;
 };
 
 export function shouldResetDemoDatabaseOnStartup(
@@ -9,8 +9,8 @@ export function shouldResetDemoDatabaseOnStartup(
 ) {
   return (
     String(config.demoMode) === 'true' &&
-    env.AMA_RESET_ON_STARTUP === 'true' &&
-    env.AMA_SKIP_STARTUP_RESET !== 'true'
+    env.MANTIK_RESET_ON_STARTUP === 'true' &&
+    env.MANTIK_SKIP_STARTUP_RESET !== 'true'
   );
 }
 
@@ -18,5 +18,5 @@ export function shouldSeedDemoDatabaseOnStartup(
   config: { demoMode?: unknown },
   env: StartupResetEnv = process.env as StartupResetEnv
 ) {
-  return String(config.demoMode) === 'true' && env.AMA_SKIP_STARTUP_RESET !== 'true';
+  return String(config.demoMode) === 'true' && env.MANTIK_SKIP_STARTUP_RESET !== 'true';
 }

@@ -14,7 +14,7 @@ export const localUploadSchema = z.object({
   contentType: z.string().min(1),
   isImage: z.boolean(),
   uploadedAt: isoDateTimeSchema,
-  uploadedBy: z.string().min(1).default('AMA System Administrator'),
+  uploadedBy: z.string().min(1).default('Operator Demo System Administrator'),
   status: uploadStatusSchema.default('ATTACHED'),
   stationScopes: z.array(z.string().min(1)).default(['ALL']),
   purpose: z.string().min(1).default('DOCUMENT'),

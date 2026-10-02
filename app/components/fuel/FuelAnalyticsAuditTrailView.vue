@@ -1,28 +1,73 @@
 <script setup lang="ts">
 // Audit Trail Filters
-const searchQuery = ref('')
-const selectedModule = ref('Semua Modul')
-const selectedActor = ref('Semua Aktor')
+const searchQuery = ref('');
+const selectedModule = ref('Semua Modul');
+const selectedActor = ref('Semua Aktor');
 
-const moduleOptions = ['Semua Modul', 'Refueling Transaction', 'Master Data', 'Quality Control', 'Hardware Config']
-const actorOptions = ['Semua Aktor', 'System Admin', 'Field Technician', 'System Sync Engine']
+const moduleOptions = [
+  'Semua Modul',
+  'Refueling Transaction',
+  'Master Data',
+  'Quality Control',
+  'Hardware Config'
+];
+const actorOptions = ['Semua Aktor', 'System Admin', 'Field Technician', 'System Sync Engine'];
 
 // Mock Audit Log Data
 const auditLogs = ref([
-  { id: 'LOG-8801', timestamp: '22 Aug 2026 10:20:11', actor: 'Ahmad (Technician)', module: 'Refueling Transaction', action: 'CREATE_TRANSACTION', target: 'TX-20260822-004', details: 'Pengisian 180L Avtur ke PK-AMA pada Skid 02', ip: '192.168.1.45' },
-  { id: 'LOG-8802', timestamp: '22 Aug 2026 09:45:00', actor: 'System Sync Engine', module: 'Store-and-Forward', action: 'SYNC_OFFLINE_BATCH', target: 'Batch #1042', details: 'Sinkronisasi 24 record transaksi dari Rugged Tablet WMX', ip: '10.0.4.12' },
-  { id: 'LOG-8803', timestamp: '22 Aug 2026 08:30:15', actor: 'Budi (Supervisor)', module: 'Master Data', action: 'UPDATE_DRUM_STATUS', target: 'DRUM-0007', details: 'Mengubah status drum menjadi Maintenance (Perlu Audit)', ip: '192.168.1.10' },
-  { id: 'LOG-8804', timestamp: '21 Aug 2026 16:15:22', actor: 'System Admin', module: 'Hardware Config', action: 'CALIBRATE_FLOWMETER', target: 'FM-DIG-002', details: 'Update faktor kalibrasi K-factor flowmeter skid 01', ip: '192.168.1.2' },
-])
+  {
+    id: 'LOG-8801',
+    timestamp: '22 Aug 2026 10:20:11',
+    actor: 'Ahmad (Technician)',
+    module: 'Refueling Transaction',
+    action: 'CREATE_TRANSACTION',
+    target: 'TX-20260822-004',
+    details: 'Pengisian 180L Avtur ke PK-DMA pada Skid 02',
+    ip: '192.168.1.45'
+  },
+  {
+    id: 'LOG-8802',
+    timestamp: '22 Aug 2026 09:45:00',
+    actor: 'System Sync Engine',
+    module: 'Store-and-Forward',
+    action: 'SYNC_OFFLINE_BATCH',
+    target: 'Batch #1042',
+    details: 'Sinkronisasi 24 record transaksi dari Rugged Tablet WMX',
+    ip: '10.0.4.12'
+  },
+  {
+    id: 'LOG-8803',
+    timestamp: '22 Aug 2026 08:30:15',
+    actor: 'Budi (Supervisor)',
+    module: 'Master Data',
+    action: 'UPDATE_DRUM_STATUS',
+    target: 'DRUM-0007',
+    details: 'Mengubah status drum menjadi Maintenance (Perlu Audit)',
+    ip: '192.168.1.10'
+  },
+  {
+    id: 'LOG-8804',
+    timestamp: '21 Aug 2026 16:15:22',
+    actor: 'System Admin',
+    module: 'Hardware Config',
+    action: 'CALIBRATE_FLOWMETER',
+    target: 'FM-DIG-002',
+    details: 'Update faktor kalibrasi K-factor flowmeter skid 01',
+    ip: '192.168.1.2'
+  }
+]);
 </script>
 
 <template>
   <div class="pa-2">
     <!-- Header Title -->
     <div class="mb-6">
-      <h2 class="text-h6 font-weight-bold text-grey-darken-3">Fuel Operational Audit Trail & Logs</h2>
+      <h2 class="text-h6 font-weight-bold text-grey-darken-3">
+        Fuel Operational Audit Trail & Logs
+      </h2>
       <p class="text-caption text-grey-darken-1 mb-0">
-        Jejak audit sistem tidak terubah (immutable) untuk kepatuhan regulasi penerbangan dan pelacakan transaksi bahan bakar.
+        Jejak audit sistem tidak terubah (immutable) untuk kepatuhan regulasi penerbangan dan
+        pelacakan transaksi bahan bakar.
       </p>
     </div>
 
@@ -61,7 +106,13 @@ const auditLogs = ref([
           />
         </v-col>
         <v-col cols="12" md="2" class="d-flex align-center">
-          <v-btn variant="outlined" color="grey-darken-2" prepend-icon="mdi-download" block class="text-none">
+          <v-btn
+            variant="outlined"
+            color="grey-darken-2"
+            prepend-icon="mdi-download"
+            block
+            class="text-none"
+          >
             Export Logs
           </v-btn>
         </v-col>
@@ -86,7 +137,9 @@ const auditLogs = ref([
             <td class="font-weight-bold text-caption font-mono text-grey-darken-3">{{ log.id }}</td>
             <td class="text-caption">{{ log.timestamp }}</td>
             <td class="text-body-2 font-weight-medium">{{ log.actor }}</td>
-            <td class="text-caption"><v-chip size="x-small" variant="tonal" color="primary">{{ log.module }}</v-chip></td>
+            <td class="text-caption">
+              <v-chip size="x-small" variant="tonal" color="primary">{{ log.module }}</v-chip>
+            </td>
             <td class="text-caption font-mono font-weight-bold text-indigo">{{ log.action }}</td>
             <td class="text-caption font-mono">{{ log.target }}</td>
             <td class="text-body-2">{{ log.details }}</td>

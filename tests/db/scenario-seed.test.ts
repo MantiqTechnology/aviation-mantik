@@ -16,16 +16,16 @@ const uploadManifest = './data/test-scenario-uploads.json';
 const uploadDir = './data/uploads/test-scenario';
 
 beforeAll(async () => {
-  process.env.AMA_DOCUMENT_MANIFEST = documentManifest;
-  process.env.AMA_UPLOAD_MANIFEST = uploadManifest;
-  process.env.AMA_UPLOAD_DIR = uploadDir;
+  process.env.MANTIK_DOCUMENT_MANIFEST = documentManifest;
+  process.env.MANTIK_UPLOAD_MANIFEST = uploadManifest;
+  process.env.MANTIK_UPLOAD_DIR = uploadDir;
   await resetDemoDatabase(dbPath, { anchorDate, resetDocuments: true });
 });
 
 afterAll(async () => {
-  delete process.env.AMA_DOCUMENT_MANIFEST;
-  delete process.env.AMA_UPLOAD_MANIFEST;
-  delete process.env.AMA_UPLOAD_DIR;
+  delete process.env.MANTIK_DOCUMENT_MANIFEST;
+  delete process.env.MANTIK_UPLOAD_MANIFEST;
+  delete process.env.MANTIK_UPLOAD_DIR;
   for (const path of [resolveDbPath(dbPath), documentManifest, uploadManifest, uploadDir]) {
     await rm(path, { recursive: true, force: true });
     await rm(`${path}-wal`, { force: true });
@@ -93,7 +93,7 @@ describe('realistic scenario seed', () => {
   it('seeds all scenario families and their cross-domain records', async () => {
     const sqlite = createDbClient(dbPath).sqlite;
     expect(sqlite.prepare('SELECT COUNT(*) AS count FROM flight_operations').get()).toEqual({
-      count: 18
+      count: 21
     });
     expect(sqlite.prepare('SELECT COUNT(*) AS count FROM flight_requests').get()).toEqual({
       count: 5
@@ -108,7 +108,7 @@ describe('realistic scenario seed', () => {
            FROM maintenance_part_issues WHERE id = 'inv-issue-maintenance-filter-001'`
         )
         .get()
-    ).toEqual({ flightId: 'fop-landed-maintenance', aircraftId: 'ac-pk-ama' });
+    ).toEqual({ flightId: 'fop-landed-maintenance', aircraftId: 'ac-pk-dma' });
     expect(
       sqlite
         .prepare(
@@ -126,7 +126,7 @@ describe('realistic scenario seed', () => {
         )
         .get()
     ).toMatchObject({
-      flightNumber: expect.stringMatching(/^AMA-.*-013$/u),
+      flightNumber: expect.stringMatching(/^PRT-.*-013$/u),
       stationCode: 'WMX',
       supplierName: 'Wamena Ground Handling Mock',
       estimateAmount: 8_000_000,
@@ -142,7 +142,7 @@ describe('realistic scenario seed', () => {
       documents: Array<{ title: string; documentNumber?: string }>;
     };
     expect(documents.documents.length).toBeGreaterThanOrEqual(20);
-    expect(JSON.stringify(documents).toLowerCase()).not.toContain('demo');
+    expect(JSON.stringify(documents)).toContain('Operator Demo');
   });
 
   it('keeps the aviation demo scenarios actionable and internally consistent', () => {
@@ -294,7 +294,7 @@ describe('realistic scenario seed', () => {
         .prepare(
           `SELECT COUNT(*) AS count
            FROM aircraft
-           WHERE id IN ('ac-pk-amf', 'ac-pk-amg', 'ac-pk-amh')
+           WHERE id IN ('ac-pk-dmf', 'ac-pk-dmg', 'ac-pk-dmh')
              AND is_active = 1
              AND operational_status = 'ACTIVE'
              AND serviceability_status = 'SERVICEABLE'
@@ -307,11 +307,11 @@ describe('realistic scenario seed', () => {
         .prepare(
           `SELECT
              (SELECT COUNT(*) FROM flight_requests
-               WHERE aircraft_id IN ('ac-pk-amf', 'ac-pk-amg', 'ac-pk-amh'))
+               WHERE aircraft_id IN ('ac-pk-dmf', 'ac-pk-dmg', 'ac-pk-dmh'))
              + (SELECT COUNT(*) FROM flight_operations
-               WHERE aircraft_id IN ('ac-pk-amf', 'ac-pk-amg', 'ac-pk-amh'))
+               WHERE aircraft_id IN ('ac-pk-dmf', 'ac-pk-dmg', 'ac-pk-dmh'))
              + (SELECT COUNT(*) FROM flight_maintenance_handoffs
-               WHERE aircraft_id IN ('ac-pk-amf', 'ac-pk-amg', 'ac-pk-amh')) AS count`
+               WHERE aircraft_id IN ('ac-pk-dmf', 'ac-pk-dmg', 'ac-pk-dmh')) AS count`
         )
         .get()
     ).toEqual({ count: 0 });

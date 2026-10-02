@@ -9,7 +9,7 @@ export default defineNitroPlugin(() => {
     throw new Error('DEMO_SESSION_SECRET must contain at least 32 bytes before demo startup.');
   }
 
-  const configuredPath = process.env.AMA_DB_PATH ?? String(config.dbPath ?? '');
+  const configuredPath = process.env.MANTIK_DB_PATH ?? String(config.dbPath ?? '');
   const resolvedPath = isAbsolute(configuredPath)
     ? configuredPath
     : resolve(process.cwd(), configuredPath);
@@ -21,7 +21,11 @@ export default defineNitroPlugin(() => {
       'Controlled demo mode refuses ephemeral SQLite. Set ALLOW_EPHEMERAL_DEMO_DB=true only for disposable serverless demos.'
     );
   }
-  if (process.env.NODE_ENV === 'production' && !process.env.AMA_DB_PATH && !allowEphemeralDemoDb) {
-    throw new Error('AMA_DB_PATH must be set explicitly for the production-mode demo server.');
+  if (
+    process.env.NODE_ENV === 'production' &&
+    !process.env.MANTIK_DB_PATH &&
+    !allowEphemeralDemoDb
+  ) {
+    throw new Error('MANTIK_DB_PATH must be set explicitly for the production-mode demo server.');
   }
 });

@@ -312,7 +312,7 @@ describe('OperationsMonitoringService', () => {
          WHERE id = 'fop-blocked-crew-expired'`
       )
       .get() as { date: string };
-    const actor = { userId: 'USR-DEMO-ADMIN', role: 'Demo Admin', stationCodes: ['ALL'] };
+    const actor = { userId: 'USR-OPERATOR-ADMIN', role: 'Demo Admin', stationCodes: ['ALL'] };
 
     const dashboard = services.aviationDashboard.operations(
       {
@@ -554,7 +554,7 @@ describe('OperationsMonitoringService', () => {
 
     const dashboard = services.aviationDashboard.operations(
       { operationDate: flight.date, operationType: 'ALL' },
-      { userId: 'USR-DEMO-ADMIN', role: 'Demo Admin', stationCodes: ['ALL'] }
+      { userId: 'USR-OPERATOR-ADMIN', role: 'Demo Admin', stationCodes: ['ALL'] }
     );
     const issue = dashboard.attention.items?.find((item) => item.id === flight.id);
 
@@ -593,7 +593,7 @@ describe('OperationsMonitoringService', () => {
 
     const dashboard = services.aviationDashboard.operations(
       { operationDate: '2026-01-01', operationType: 'ALL' },
-      { userId: 'USR-DEMO-ADMIN', role: 'Demo Admin', stationCodes: ['ALL'] }
+      { userId: 'USR-OPERATOR-ADMIN', role: 'Demo Admin', stationCodes: ['ALL'] }
     );
     const issue = dashboard.attention.items?.find((item) => item.id === flight.id);
 

@@ -110,9 +110,9 @@ describe('InvoicesService', () => {
 
     expect(invoice.status).toBe('draft');
     expect(invoice.lineItems.map((line) => line.sourceId)).toEqual(
-      expect.arrayContaining(['AMA-TKT-20260718-001', 'AMA-TKT-20260718-003'])
+      expect.arrayContaining(['PRT-TKT-20260718-001', 'PRT-TKT-20260718-003'])
     );
-    expect(invoice.lineItems.map((line) => line.sourceId)).not.toContain('AMA-TKT-20260718-002');
+    expect(invoice.lineItems.map((line) => line.sourceId)).not.toContain('PRT-TKT-20260718-002');
     expect(invoice.lineItems.every((line) => line.sourceType === 'PASSENGER_TICKET')).toBe(true);
     expect(invoice.finance).toMatchObject({
       ticketRevenue: 3_600_000,
@@ -146,7 +146,7 @@ describe('InvoicesService', () => {
     expect(invoice.lineItems).toHaveLength(1);
     expect(invoice.lineItems[0]).toMatchObject({
       sourceType: 'CARGO_BOOKING',
-      sourceId: 'AMA-AWB-20260719-001',
+      sourceId: 'PRT-AWB-20260719-001',
       quantity: 45,
       unitPrice: 32_000,
       subtotal: 1_440_000,
@@ -166,7 +166,7 @@ describe('InvoicesService', () => {
 
     sqlite
       .prepare('UPDATE cargo_bookings SET total_tariff = 1, total_amount = 1 WHERE id = ?')
-      .run('AMA-AWB-20260719-001');
+      .run('PRT-AWB-20260719-001');
     expect(services.invoices.get(invoice.id).finance.invoiceTotal).toBe(1_598_400);
 
     sqlite.close();
@@ -177,7 +177,7 @@ describe('InvoicesService', () => {
     markFlightClosed(sqlite, 'fop-ticketing-cargo');
     sqlite
       .prepare('UPDATE cargo_bookings SET tax_amount = 123, total_amount = 1440123 WHERE id = ?')
-      .run('AMA-AWB-20260719-001');
+      .run('PRT-AWB-20260719-001');
 
     expect(() =>
       services.invoices.finalizeClosedFlight('fop-ticketing-cargo', adminActor)
@@ -205,7 +205,7 @@ describe('InvoicesService', () => {
       .run(
         'refund-before-invoice',
         'fop-ticketing-passenger',
-        'AMA-TKT-20260718-001',
+        'PRT-TKT-20260718-001',
         'Customer cancellation',
         1_800_000,
         adminActor,
@@ -220,7 +220,7 @@ describe('InvoicesService', () => {
 
     const invoice = services.invoices.finalizeClosedFlight('fop-ticketing-passenger', adminActor);
 
-    expect(invoice.lineItems.map((line) => line.sourceId)).toEqual(['AMA-TKT-20260718-003']);
+    expect(invoice.lineItems.map((line) => line.sourceId)).toEqual(['PRT-TKT-20260718-003']);
     expect(invoice.finance.ticketRevenue).toBe(1_800_000);
 
     sqlite.close();
@@ -231,7 +231,7 @@ describe('InvoicesService', () => {
     markFlightClosed(sqlite, 'fop-ticketing-passenger');
     sqlite
       .prepare(
-        "UPDATE passenger_tickets SET currency_code = 'USD' WHERE id = 'AMA-TKT-20260718-001'"
+        "UPDATE passenger_tickets SET currency_code = 'USD' WHERE id = 'PRT-TKT-20260718-001'"
       )
       .run();
 

@@ -16,15 +16,15 @@ describe('Aviation Inventory Standards & Extensions', () => {
   afterEach(() => {
     if (documentDirectory) rmSync(documentDirectory, { recursive: true, force: true });
     documentDirectory = null;
-    delete process.env.AMA_DOCUMENT_MANIFEST;
+    delete process.env.MANTIK_DOCUMENT_MANIFEST;
   });
 
   it('enforces Digital Quarantine Lock & Quarantine Release workflow', async () => {
-    documentDirectory = mkdtempSync(join(tmpdir(), 'ama-aviation-inventory-docs-'));
-    process.env.AMA_DOCUMENT_MANIFEST = join(documentDirectory, 'documents.json');
+    documentDirectory = mkdtempSync(join(tmpdir(), 'mantik-aviation-inventory-docs-'));
+    process.env.MANTIK_DOCUMENT_MANIFEST = join(documentDirectory, 'documents.json');
     const timestamp = '2026-08-17T00:00:00.000Z';
     writeFileSync(
-      process.env.AMA_DOCUMENT_MANIFEST,
+      process.env.MANTIK_DOCUMENT_MANIFEST,
       JSON.stringify({
         documents: [
           {
@@ -406,7 +406,7 @@ describe('Aviation Inventory Standards & Extensions', () => {
 
     const kit = service.createFlyAwayKit({
       kitNumber: 'FAK-TEST-01',
-      aircraftId: 'ac-pk-ama',
+      aircraftId: 'ac-pk-dma',
       items: [
         {
           partId: 'inv-part-filter-pc6',

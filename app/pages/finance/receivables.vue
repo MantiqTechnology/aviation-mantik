@@ -5,7 +5,7 @@ import type { CustomerReceiptDto } from '#shared/features/finance/transactions';
 type CashAccount = { id: string; accountName: string; currencyCode: string };
 type AllocationResult = { status: string; exceptionCode?: string; exceptionMessage?: string };
 
-useHead({ title: 'Accounts Receivable - PT AMA' });
+useHead({ title: 'Accounts Receivable - Operator Demo' });
 const { can } = useAuthorization();
 const canRecord = computed(() => can('finance.payment.record').allowed);
 const search = ref('');
@@ -393,9 +393,7 @@ async function allocateReceipt() {
             </VCol>
           </VRow>
         </VCardText><VCardActions>
-          <VSpacer /><VBtn variant="text" @click="receiptDialog = false">Cancel</VBtn><VBtn :disabled="!receiptReady" @click="receiptConfirmOpen = true">
-            Continue
-          </VBtn>
+          <VSpacer /><VBtn variant="text" @click="receiptDialog = false">Cancel</VBtn><VBtn :disabled="!receiptReady" @click="receiptConfirmOpen = true"> Continue </VBtn>
         </VCardActions>
       </VCard>
     </VDialog>

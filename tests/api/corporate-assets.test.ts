@@ -7,8 +7,8 @@ import { resetDemoDatabase } from '../../server/db/reset-demo';
 
 process.env.DEMO_MODE = 'true';
 const testDbPath = './data/test-corporate-assets-api.sqlite';
-process.env.AMA_DB_PATH = testDbPath;
-const role = (name: string) => ({ cookie: `ama_demo_role=${encodeURIComponent(name)}` });
+process.env.MANTIK_DB_PATH = testDbPath;
+const role = (name: string) => ({ cookie: `mantik_demo_role=${encodeURIComponent(name)}` });
 
 beforeAll(async () => resetDemoDatabase(testDbPath));
 afterAll(() => rmSync(testDbPath, { force: true }));

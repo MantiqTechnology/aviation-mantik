@@ -237,7 +237,7 @@ function refreshAll() {
         <h1 class="text-h4 font-weight-bold text-primary">Rekrutmen & ATS Applicant Pipeline</h1>
         <p class="text-subtitle-1 text-secondary">
           Kelola lowongan pekerjaan, penugasan interviewer, pipeline seleksi pelamar, dan onboarding
-          PT. AMA
+          Operator Demo
         </p>
       </div>
 

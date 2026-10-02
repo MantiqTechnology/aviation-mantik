@@ -3,7 +3,7 @@ import { expect, test, type BrowserContext } from '@playwright/test';
 async function setRole(context: BrowserContext, baseURL: string | undefined, role: string) {
   const cookieUrl = new URL('/', baseURL ?? 'http://localhost:3100').toString();
   await context.clearCookies();
-  await context.addCookies([{ name: 'ama_demo_role', value: role, url: cookieUrl }]);
+  await context.addCookies([{ name: 'mantik_demo_role', value: role, url: cookieUrl }]);
 }
 
 test('maintenance due control renders planning workspace, computed summary, table, and drawer', async ({
@@ -75,7 +75,7 @@ test('due control filters by summary card, planning horizon, search, and selecte
   await expect(table.getByText('Open Work Package')).toBeVisible();
 
   await page.getByRole('button', { name: 'Clear filters' }).click();
-  await page.getByRole('textbox', { name: /Search requirement, aircraft/u }).fill('PK-AMC');
+  await page.getByRole('textbox', { name: /Search requirement, aircraft/u }).fill('PK-DMC');
   await expect(table.getByText('MROV2-PAC-DUE-002')).toBeVisible();
   await expect(table.getByText('MROV2-C208-CTRL-001')).toHaveCount(0);
   await expect(table.getByText('Stale')).toBeVisible();

@@ -1,13 +1,13 @@
 import { expect, test } from '@playwright/test';
 
 const screens = [
-  ['/dashboard', 'PT AMA Aviation Dashboard'],
+  ['/dashboard', 'Mantik Aviation Dashboard'],
   ['/ops?period=TODAY&anchorDate=2026-07-17', 'Ops Overview'],
   ['/flights/dashboard?period=TODAY&anchorDate=2026-07-17', 'Flight Control Overview'],
   ['/admin/access-demo', 'Access Demo'],
   ['/maintenance/flight-handoffs', 'Flight Handoffs'],
   ['/invoices', 'Invoices'],
-  ['/invoices/inv-closed-djj-wmx', 'AMA-INV-20260707-001']
+  ['/invoices/inv-closed-djj-wmx', 'PRT-INV-20260707-001']
 ] as const;
 
 for (const [path, heading] of screens) {
@@ -17,7 +17,7 @@ for (const [path, heading] of screens) {
   }) => {
     if (path === '/dashboard') {
       await context.addCookies([
-        { name: 'ama_demo_role', value: 'Director', domain: 'localhost', path: '/' }
+        { name: 'mantik_demo_role', value: 'Director', domain: 'localhost', path: '/' }
       ]);
     }
     const runtimeErrors: string[] = [];
@@ -41,7 +41,7 @@ for (const [path, heading] of screens) {
     if (path === '/maintenance/flight-handoffs') {
       await expect(page.getByText('Closure Ready', { exact: true })).toBeVisible();
       await expect(page.getByText('Needs Attention', { exact: true })).toBeVisible();
-      const pendingRow = page.getByRole('row').filter({ hasText: 'AMA-20260717-005' });
+      const pendingRow = page.getByRole('row').filter({ hasText: 'PRT-20260717-005' });
       await expect(pendingRow).toBeVisible();
       await pendingRow.click();
       await expect(page.getByText('Evidence checklist')).toBeVisible();
@@ -80,7 +80,7 @@ test('maintenance workbench filters and exposes approval only to maintenance rol
 }) => {
   await context.addCookies([
     {
-      name: 'ama_demo_role',
+      name: 'mantik_demo_role',
       value: 'Maintenance Manager',
       url: 'http://localhost:3100'
     }
@@ -89,11 +89,11 @@ test('maintenance workbench filters and exposes approval only to maintenance rol
     waitUntil: 'networkidle'
   });
   await expect(page).toHaveURL(/\/maintenance\/flight-handoffs\?flightId=fop-in-progress$/u);
-  await expect(page.getByRole('heading', { name: 'AMA-20260717-005' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'PRT-20260717-005' })).toBeVisible();
   await page.getByRole('button', { name: 'Close maintenance details' }).click();
   const search = page.getByRole('textbox', { name: 'Search flight or aircraft' });
-  await search.fill('PK-AMB');
-  const pendingRow = page.getByRole('row').filter({ hasText: 'AMA-20260717-005' });
+  await search.fill('PK-DMB');
+  const pendingRow = page.getByRole('row').filter({ hasText: 'PRT-20260717-005' });
   await expect(pendingRow).toBeVisible();
   await pendingRow.click();
   await expect(page.getByText('Evidence checklist')).toBeVisible();
@@ -108,7 +108,7 @@ test('maintenance workbench filters and exposes approval only to maintenance rol
 test('station technical handoff stays separate from MRO approval', async ({ context, page }) => {
   await context.addCookies([
     {
-      name: 'ama_demo_role',
+      name: 'mantik_demo_role',
       value: 'Station Admin',
       url: 'http://localhost:3100'
     }
@@ -131,12 +131,12 @@ test('station technical handoff stays separate from MRO approval', async ({ cont
 test('canonical operational screens remain usable on mobile', async ({ context, page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await context.addCookies([
-    { name: 'ama_demo_role', value: 'Director', domain: 'localhost', path: '/' }
+    { name: 'mantik_demo_role', value: 'Director', domain: 'localhost', path: '/' }
   ]);
 
   await page.goto('/dashboard', { waitUntil: 'networkidle' });
   await expect(
-    page.getByRole('heading', { level: 1, name: 'PT AMA Aviation Dashboard' })
+    page.getByRole('heading', { level: 1, name: 'Mantik Aviation Dashboard' })
   ).toBeVisible();
   await expect(page.getByText('Live Flight Operations', { exact: true })).toBeVisible();
   await expect(page.getByText('Fleet & Maintenance Control', { exact: true })).toBeVisible();
@@ -190,7 +190,7 @@ test('management dashboard keeps draft filters unapplied until Apply is selected
   });
   await context.addCookies([
     {
-      name: 'ama_demo_role',
+      name: 'mantik_demo_role',
       value: 'Director',
       domain: 'localhost',
       path: '/'
@@ -228,7 +228,7 @@ test('management dashboard keeps draft filters unapplied until Apply is selected
 test('management dashboard remains permission-gated', async ({ context, page }) => {
   await context.addCookies([
     {
-      name: 'ama_demo_role',
+      name: 'mantik_demo_role',
       value: 'OCC',
       domain: 'localhost',
       path: '/'
@@ -245,7 +245,7 @@ test('management dashboard remains permission-gated', async ({ context, page }) 
 test('management dashboard remains usable on mobile', async ({ context, page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await context.addCookies([
-    { name: 'ama_demo_role', value: 'Director', domain: 'localhost', path: '/' }
+    { name: 'mantik_demo_role', value: 'Director', domain: 'localhost', path: '/' }
   ]);
   await page.goto('/dashboard?tab=management&dateFrom=2026-08-29&dateTo=2026-09-04', {
     waitUntil: 'networkidle'
@@ -263,7 +263,7 @@ test('management dashboard remains usable on mobile', async ({ context, page }) 
 test('aviation dashboard uses a readable visual scale on desktop', async ({ context, page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await context.addCookies([
-    { name: 'ama_demo_role', value: 'Director', domain: 'localhost', path: '/' }
+    { name: 'mantik_demo_role', value: 'Director', domain: 'localhost', path: '/' }
   ]);
   await page.goto('/dashboard', { waitUntil: 'networkidle' });
 
@@ -343,7 +343,7 @@ test('aviation dashboard preserves explicit operational and data-state semantics
 }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await context.addCookies([
-    { name: 'ama_demo_role', value: 'Director', domain: 'localhost', path: '/' }
+    { name: 'mantik_demo_role', value: 'Director', domain: 'localhost', path: '/' }
   ]);
   await page.goto('/dashboard', { waitUntil: 'networkidle' });
 
@@ -367,7 +367,7 @@ test('aviation dashboard limits primary card groups to two columns on wide scree
 }) => {
   await page.setViewportSize({ width: 1700, height: 900 });
   await context.addCookies([
-    { name: 'ama_demo_role', value: 'Director', domain: 'localhost', path: '/' }
+    { name: 'mantik_demo_role', value: 'Director', domain: 'localhost', path: '/' }
   ]);
   await page.goto('/dashboard', { waitUntil: 'networkidle' });
 

@@ -1,4 +1,4 @@
-export const AMA_THEME_HEX = {
+export const MANTIK_THEME_HEX = {
   primary: '#082B49',
   secondary: '#0E8C8A',
   accent: '#F47A1F',

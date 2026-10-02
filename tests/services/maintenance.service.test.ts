@@ -50,7 +50,7 @@ function seedAuthorizationLite(
         status, valid_from, valid_until, permitted_actions_json, aircraft_type_scope_json,
         aircraft_registration_scope_json, notes, issued_by, version, created_at, updated_at
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Test authorization lite record.',
-        'PT AMA Test Seed', 1, ?, ?)`
+        'Operator Demo Test Seed', 1, ?, ?)`
     )
     .run(
       options.id,
@@ -176,7 +176,7 @@ function seedCertifyingPersonnel(
   }
   seedAuthorizationLite(sqlite, {
     id: `mca-${personnelId}-inspection`,
-    authorizationNumber: `PTAMA-MRO-AUTH-INSP-${personnelId}`,
+    authorizationNumber: `Operator Demo-MRO-AUTH-INSP-${personnelId}`,
     personnelId,
     actorUserId,
     licenseNumber,
@@ -186,8 +186,8 @@ function seedCertifyingPersonnel(
     id: `mca-${personnelId}-release`,
     authorizationNumber:
       actorUserId === certifier.userId
-        ? 'PTAMA-MRO-AUTH-REL-001'
-        : `PTAMA-MRO-AUTH-REL-${personnelId}`,
+        ? 'Operator Demo-MRO-AUTH-REL-001'
+        : `Operator Demo-MRO-AUTH-REL-${personnelId}`,
     personnelId,
     actorUserId,
     licenseNumber,
@@ -254,7 +254,7 @@ function seedMaintenanceManagerAuthorization(
   if (options.withAuthorization ?? true) {
     seedAuthorizationLite(sqlite, {
       id: 'mca-crew-maintenance-manager-mechanic',
-      authorizationNumber: 'PTAMA-MRO-AUTH-MECH-001',
+      authorizationNumber: 'Operator Demo-MRO-AUTH-MECH-001',
       personnelId: 'crew-maintenance-manager',
       actorUserId: maintenance.userId,
       licenseNumber: 'AME-MECH-MRO-001',
@@ -308,7 +308,7 @@ function createReadyWorkPackage(
   } else {
     seedMaintenanceManagerAuthorization(env.sqlite);
   }
-  const aircraftId = options.aircraftId ?? 'ac-pk-ama';
+  const aircraftId = options.aircraftId ?? 'ac-pk-dma';
   const releaseIndex = options.releaseIndex ?? '001';
   let defectId: string | undefined;
   if (options.withDefect ?? true) {
@@ -351,7 +351,7 @@ function createReadyWorkPackage(
       title: `Mandatory MRO job card ${releaseIndex}`,
       taskType: defectId ? 'DEFECT_RECTIFICATION' : 'SCHEDULED_TASK',
       maintenanceDataRef: options.maintenanceDataRef ?? `AMM DEMO ${releaseIndex}`,
-      maintenanceDataRevision: options.maintenanceDataRevision ?? 'REV-DEMO-2026-08',
+      maintenanceDataRevision: options.maintenanceDataRevision ?? 'REV-OPERATOR-2026-08',
       mandatoryFlag: true,
       requiresIndependentInspection: options.requiresInspection ?? false,
       expectedWorkPackageVersion: workPackage.version
@@ -451,7 +451,7 @@ function createStartedJobCard(env: SeededTestServices, releaseIndex: string) {
   const { services } = env;
   const workPackage = services.maintenance.createWorkPackage(
     {
-      aircraftId: 'ac-pk-ama',
+      aircraftId: 'ac-pk-dma',
       title: `Authorization lite work package ${releaseIndex}`,
       priority: 'NORMAL',
       executionMode: 'INTERNAL'
@@ -498,7 +498,7 @@ describe('MaintenanceService MRO foundation', () => {
     const env = await createSeededTestServices();
     const aogPackage = env.services.maintenance.createWorkPackage(
       {
-        aircraftId: 'ac-pk-ama',
+        aircraftId: 'ac-pk-dma',
         title: 'AOG command center priority package',
         priority: 'AOG',
         executionMode: 'INTERNAL',
@@ -508,7 +508,7 @@ describe('MaintenanceService MRO foundation', () => {
     );
     const blockedPackage = env.services.maintenance.createWorkPackage(
       {
-        aircraftId: 'ac-pk-amf',
+        aircraftId: 'ac-pk-dmf',
         title: 'Blocked command center priority package',
         priority: 'HIGH',
         executionMode: 'INTERNAL',
@@ -577,7 +577,7 @@ describe('MaintenanceService MRO foundation', () => {
     env.sqlite.close();
   });
 
-  it('requires matching PT AMA authorization in addition to a valid mechanic licence', async () => {
+  it('requires matching Operator Demo authorization in addition to a valid mechanic licence', async () => {
     const cases = [
       {
         label: 'missing authorization',
@@ -643,7 +643,7 @@ describe('MaintenanceService MRO foundation', () => {
     }
   });
 
-  it('stores a PT AMA authorization snapshot when mechanic sign-off is accepted', async () => {
+  it('stores a Operator Demo authorization snapshot when mechanic sign-off is accepted', async () => {
     const env = await createSeededTestServices();
     seedMaintenanceManagerAuthorization(env.sqlite);
     const card = createStartedJobCard(env, 'snapshot');
@@ -652,7 +652,7 @@ describe('MaintenanceService MRO foundation', () => {
       {
         expectedVersion: card.version,
         certifyingLicenseNumber: 'AME-MECH-MRO-001',
-        statement: 'Mechanic work completed with PT AMA authorization verification.',
+        statement: 'Mechanic work completed with Operator Demo authorization verification.',
         evidenceReferences: ['AUTH-LITE-SNAPSHOT']
       },
       maintenance
@@ -661,7 +661,7 @@ describe('MaintenanceService MRO foundation', () => {
       certifyingLicenseNumber: 'AME-MECH-MRO-001',
       companyAuthorizationSnapshot: expect.objectContaining({
         companyAuthorizationValidated: true,
-        companyAuthorizationNumber: 'PTAMA-MRO-AUTH-MECH-001',
+        companyAuthorizationNumber: 'Operator Demo-MRO-AUTH-MECH-001',
         permittedAction: 'MECHANIC_SIGN_OFF'
       })
     });
@@ -671,17 +671,17 @@ describe('MaintenanceService MRO foundation', () => {
   it('runs the controlled vertical slice from defect assessment to certifying release', async () => {
     const { services, sqlite } = await createSeededTestServices();
     seedControlledMaintenanceActors(sqlite);
-    const aircraftBefore = services.aircraftAirworthiness.detail('ac-pk-ama').aircraft;
+    const aircraftBefore = services.aircraftAirworthiness.detail('ac-pk-dma').aircraft;
 
     const grounded = services.aircraftAirworthiness.reportDefect(
-      'ac-pk-ama',
+      'ac-pk-dma',
       {
         title: 'Hydraulic seepage',
         description:
           'Pilot reported hydraulic seepage from the left main gear bay after flight closure.',
         detectedAt: context.at(0, '09:15'),
-        sourceReference: 'TECHLOG-AMA-MRO-001',
-        evidenceReferences: ['TECHLOG-AMA-MRO-001'],
+        sourceReference: 'TECHLOG-PRT-MRO-001',
+        evidenceReferences: ['TECHLOG-PRT-MRO-001'],
         expectedVersion: aircraftBefore.version
       },
       occ
@@ -699,13 +699,13 @@ describe('MaintenanceService MRO foundation', () => {
     );
     expect(assessment).toMatchObject({
       defectId,
-      aircraftId: 'ac-pk-ama',
+      aircraftId: 'ac-pk-dma',
       assessmentDecision: 'GROUND'
     });
 
     const createdPackage = services.maintenance.createWorkPackage(
       {
-        aircraftId: 'ac-pk-ama',
+        aircraftId: 'ac-pk-dma',
         primaryDefectId: defectId,
         title: 'Rectify left main gear bay hydraulic seepage',
         priority: 'HIGH',
@@ -715,7 +715,7 @@ describe('MaintenanceService MRO foundation', () => {
       maintenance
     );
     expect(createdPackage).toMatchObject({
-      aircraftId: 'ac-pk-ama',
+      aircraftId: 'ac-pk-dma',
       primaryDefectId: defectId,
       status: 'OPEN',
       version: 1
@@ -727,7 +727,7 @@ describe('MaintenanceService MRO foundation', () => {
         title: 'Inspect and rectify hydraulic seepage at left main gear bay',
         taskType: 'DEFECT_RECTIFICATION',
         maintenanceDataRef: 'AMM 29-10-00 demo extract',
-        maintenanceDataRevision: 'REV-DEMO-2026-08',
+        maintenanceDataRevision: 'REV-OPERATOR-2026-08',
         mandatoryFlag: true,
         requiresIndependentInspection: true,
         expectedWorkPackageVersion: createdPackage.version
@@ -814,7 +814,7 @@ describe('MaintenanceService MRO foundation', () => {
       createdPackage.id,
       {
         expectedVersion: readyForRelease.version,
-        releaseNumber: 'RTS-MRO-AMA-001',
+        releaseNumber: 'RTS-MRO-PRT-001',
         resultingStatus: 'SERVICEABLE',
         releaseStatement:
           'Aircraft is released to service after completion of the controlled demo MRO work package.',
@@ -831,7 +831,7 @@ describe('MaintenanceService MRO foundation', () => {
       financialStatus: 'READY_FOR_HANDOFF',
       releaseId: expect.any(String)
     });
-    const airworthinessAfterRelease = services.aircraftAirworthiness.detail('ac-pk-ama');
+    const airworthinessAfterRelease = services.aircraftAirworthiness.detail('ac-pk-dma');
     expect(airworthinessAfterRelease.aircraft).toMatchObject({
       serviceabilityStatus: 'SERVICEABLE',
       technicalEligibility: 'ELIGIBLE'
@@ -839,12 +839,12 @@ describe('MaintenanceService MRO foundation', () => {
     expect(airworthinessAfterRelease.releases).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          releaseNumber: 'RTS-MRO-AMA-001',
+          releaseNumber: 'RTS-MRO-PRT-001',
           signerAuthorizationSnapshot: expect.objectContaining({
             personnelId: expect.any(String),
             licenseNumber: 'AME-CERT-MRO-001',
             companyAuthorizationValidated: true,
-            companyAuthorizationNumber: 'PTAMA-MRO-AUTH-REL-001'
+            companyAuthorizationNumber: 'Operator Demo-MRO-AUTH-REL-001'
           })
         })
       ])
@@ -880,15 +880,15 @@ describe('MaintenanceService MRO foundation', () => {
   it('blocks release request until mandatory independent inspection is complete', async () => {
     const { services, sqlite } = await createSeededTestServices();
     seedControlledMaintenanceActors(sqlite);
-    const aircraftBefore = services.aircraftAirworthiness.detail('ac-pk-amf').aircraft;
+    const aircraftBefore = services.aircraftAirworthiness.detail('ac-pk-dmf').aircraft;
     const grounded = services.aircraftAirworthiness.reportDefect(
-      'ac-pk-amf',
+      'ac-pk-dmf',
       {
         title: 'Autopilot disconnect report',
         description: 'Pilot report requires rectification job card and independent inspection.',
         detectedAt: context.at(0, '10:00'),
-        sourceReference: 'TECHLOG-AMF-MRO-002',
-        evidenceReferences: ['TECHLOG-AMF-MRO-002'],
+        sourceReference: 'TECHLOG-DMF-MRO-002',
+        evidenceReferences: ['TECHLOG-DMF-MRO-002'],
         expectedVersion: aircraftBefore.version
       },
       occ
@@ -904,7 +904,7 @@ describe('MaintenanceService MRO foundation', () => {
     );
     const workPackage = services.maintenance.createWorkPackage(
       {
-        aircraftId: 'ac-pk-amf',
+        aircraftId: 'ac-pk-dmf',
         primaryDefectId: grounded.defects[0]!.id,
         title: 'Autopilot disconnect defect rectification',
         priority: 'NORMAL',
@@ -918,7 +918,7 @@ describe('MaintenanceService MRO foundation', () => {
         title: 'Rectify autopilot disconnect report',
         taskType: 'DEFECT_RECTIFICATION',
         maintenanceDataRef: 'AMM 22-10-00 demo extract',
-        maintenanceDataRevision: 'REV-DEMO-2026-08',
+        maintenanceDataRevision: 'REV-OPERATOR-2026-08',
         mandatoryFlag: true,
         requiresIndependentInspection: true,
         expectedWorkPackageVersion: workPackage.version
@@ -936,9 +936,9 @@ describe('MaintenanceService MRO foundation', () => {
   it('records failed inspection, opens one rework action, and blocks release until re-inspection passes', async () => {
     const { services, sqlite } = await createSeededTestServices();
     seedControlledMaintenanceActors(sqlite);
-    const aircraftBefore = services.aircraftAirworthiness.detail('ac-pk-amf').aircraft;
+    const aircraftBefore = services.aircraftAirworthiness.detail('ac-pk-dmf').aircraft;
     const grounded = services.aircraftAirworthiness.reportDefect(
-      'ac-pk-amf',
+      'ac-pk-dmf',
       {
         title: 'Flight control rigging check',
         description: 'Flight control rigging check requires independent inspection.',
@@ -960,7 +960,7 @@ describe('MaintenanceService MRO foundation', () => {
     );
     let workPackage = services.maintenance.createWorkPackage(
       {
-        aircraftId: 'ac-pk-amf',
+        aircraftId: 'ac-pk-dmf',
         primaryDefectId: grounded.defects[0]!.id,
         title: 'Flight control rigging rectification',
         priority: 'HIGH',
@@ -974,7 +974,7 @@ describe('MaintenanceService MRO foundation', () => {
         title: 'Rectify and inspect flight control rigging',
         taskType: 'DEFECT_RECTIFICATION',
         maintenanceDataRef: 'AMM 27-10-00 demo extract',
-        maintenanceDataRevision: 'REV-DEMO-2026-08',
+        maintenanceDataRevision: 'REV-OPERATOR-2026-08',
         mandatoryFlag: true,
         requiresIndependentInspection: true,
         expectedWorkPackageVersion: workPackage.version
@@ -1055,7 +1055,7 @@ describe('MaintenanceService MRO foundation', () => {
         certifyingLicenseNumber: 'AME-MECH-MRO-001',
         correctiveActionDescription:
           'Corrected rigging adjustment and repeated flight-control travel check.',
-        approvedDataRef: 'PTAMA-C208B-FCTL-27-10-DEMO REV A',
+        approvedDataRef: 'Operator Demo-C208B-FCTL-27-10-DEMO REV A',
         statement: 'Corrective rigging work completed and prepared for independent re-inspection.',
         evidenceReferences: ['REWORK-CORRECTIVE-EVIDENCE']
       },
@@ -1065,7 +1065,7 @@ describe('MaintenanceService MRO foundation', () => {
     expect(card.status).toBe('INSPECTION_REQUIRED');
     expect(card.reworkActions[0]).toMatchObject({
       status: 'AWAITING_REINSPECTION',
-      approvedDataRef: 'PTAMA-C208B-FCTL-27-10-DEMO REV A',
+      approvedDataRef: 'Operator Demo-C208B-FCTL-27-10-DEMO REV A',
       mechanicSignoffUserId: maintenance.userId
     });
 
@@ -1145,24 +1145,24 @@ describe('MaintenanceService MRO foundation', () => {
     seedCertifyingPersonnel(sqlite);
     sqlite
       .prepare("UPDATE aircraft_maintenance_requirements SET status = 'VOID' WHERE aircraft_id = ?")
-      .run('ac-pk-ama');
-    const aircraft = services.aircraftAirworthiness.detail('ac-pk-ama').aircraft;
+      .run('ac-pk-dma');
+    const aircraft = services.aircraftAirworthiness.detail('ac-pk-dma').aircraft;
     services.aircraftAirworthiness.addMaintenanceRequirement(
-      'ac-pk-ama',
+      'ac-pk-dma',
       {
         requirementCode: 'MRO_LINKED_DUE',
         title: 'Demo linked due requirement',
         dueAt: context.date(0),
         dueAirframeHours: null,
         dueAirframeCycles: null,
-        sourceReference: 'DEMO-MRO-LINKED-DUE',
+        sourceReference: 'OPERATOR-MRO-LINKED-DUE',
         expectedVersion: aircraft.version
       },
       maintenance
     );
-    const requirementId = latestRequirementId(sqlite, 'ac-pk-ama', 'MRO_LINKED_DUE');
+    const requirementId = latestRequirementId(sqlite, 'ac-pk-dma', 'MRO_LINKED_DUE');
     const { workPackage } = createReadyWorkPackage(env, {
-      aircraftId: 'ac-pk-ama',
+      aircraftId: 'ac-pk-dma',
       releaseIndex: 'REQ-LINKED',
       withDefect: false,
       requirementId
@@ -1190,28 +1190,28 @@ describe('MaintenanceService MRO foundation', () => {
     seedCertifyingPersonnel(sqlite);
     sqlite
       .prepare("UPDATE aircraft_maintenance_requirements SET status = 'VOID' WHERE aircraft_id = ?")
-      .run('ac-pk-ama');
-    const aircraft = services.aircraftAirworthiness.detail('ac-pk-ama').aircraft;
+      .run('ac-pk-dma');
+    const aircraft = services.aircraftAirworthiness.detail('ac-pk-dma').aircraft;
     services.aircraftAirworthiness.addMaintenanceRequirement(
-      'ac-pk-ama',
+      'ac-pk-dma',
       {
         requirementCode: 'MRO_LINKED_VOID_BEFORE_RELEASE',
         title: 'Demo linked requirement voided before release',
         dueAt: context.date(0),
         dueAirframeHours: null,
         dueAirframeCycles: null,
-        sourceReference: 'DEMO-MRO-LINKED-VOID-BEFORE-RELEASE',
+        sourceReference: 'OPERATOR-MRO-LINKED-VOID-BEFORE-RELEASE',
         expectedVersion: aircraft.version
       },
       maintenance
     );
     const requirementId = latestRequirementId(
       sqlite,
-      'ac-pk-ama',
+      'ac-pk-dma',
       'MRO_LINKED_VOID_BEFORE_RELEASE'
     );
     const { workPackage } = createReadyWorkPackage(env, {
-      aircraftId: 'ac-pk-ama',
+      aircraftId: 'ac-pk-dma',
       releaseIndex: 'REQ-VOID',
       withDefect: false,
       requirementId
@@ -1250,31 +1250,31 @@ describe('MaintenanceService MRO foundation', () => {
     const { services, sqlite } = env;
     sqlite
       .prepare("UPDATE aircraft_maintenance_requirements SET status = 'VOID' WHERE aircraft_id = ?")
-      .run('ac-pk-ama');
-    const aircraft = services.aircraftAirworthiness.detail('ac-pk-ama').aircraft;
+      .run('ac-pk-dma');
+    const aircraft = services.aircraftAirworthiness.detail('ac-pk-dma').aircraft;
     services.aircraftAirworthiness.addMaintenanceRequirement(
-      'ac-pk-ama',
+      'ac-pk-dma',
       {
         requirementCode: 'MRO_SINGLE_SCOPE_REQUIREMENT',
         title: 'Demo requirement cannot be linked twice',
         dueAt: context.date(0),
         dueAirframeHours: null,
         dueAirframeCycles: null,
-        sourceReference: 'DEMO-MRO-SINGLE-SCOPE',
+        sourceReference: 'OPERATOR-MRO-SINGLE-SCOPE',
         expectedVersion: aircraft.version
       },
       maintenance
     );
-    const requirementId = latestRequirementId(sqlite, 'ac-pk-ama', 'MRO_SINGLE_SCOPE_REQUIREMENT');
+    const requirementId = latestRequirementId(sqlite, 'ac-pk-dma', 'MRO_SINGLE_SCOPE_REQUIREMENT');
     createReadyWorkPackage(env, {
-      aircraftId: 'ac-pk-ama',
+      aircraftId: 'ac-pk-dma',
       releaseIndex: 'REQ-LINK-ONE',
       withDefect: false,
       requirementId
     });
     let second = services.maintenance.createWorkPackage(
       {
-        aircraftId: 'ac-pk-ama',
+        aircraftId: 'ac-pk-dma',
         title: 'Second package attempting duplicate requirement scope',
         priority: 'NORMAL',
         executionMode: 'INTERNAL'
@@ -1287,7 +1287,7 @@ describe('MaintenanceService MRO foundation', () => {
         title: 'Second package scheduled task',
         taskType: 'SCHEDULED_TASK',
         maintenanceDataRef: 'AMM DEMO DUPLICATE SCOPE',
-        maintenanceDataRevision: 'REV-DEMO-2026-08',
+        maintenanceDataRevision: 'REV-OPERATOR-2026-08',
         mandatoryFlag: true,
         requiresIndependentInspection: false,
         expectedWorkPackageVersion: second.version
@@ -1313,43 +1313,43 @@ describe('MaintenanceService MRO foundation', () => {
     seedCertifyingPersonnel(sqlite);
     sqlite
       .prepare("UPDATE aircraft_maintenance_requirements SET status = 'VOID' WHERE aircraft_id = ?")
-      .run('ac-pk-amf');
-    let aircraft = services.aircraftAirworthiness.detail('ac-pk-amf').aircraft;
+      .run('ac-pk-dmf');
+    let aircraft = services.aircraftAirworthiness.detail('ac-pk-dmf').aircraft;
     services.aircraftAirworthiness.addMaintenanceRequirement(
-      'ac-pk-amf',
+      'ac-pk-dmf',
       {
         requirementCode: 'MRO_LINKED_SCOPE',
         title: 'Demo linked scoped requirement',
         dueAt: context.date(0),
         dueAirframeHours: null,
         dueAirframeCycles: null,
-        sourceReference: 'DEMO-MRO-LINKED-SCOPE',
+        sourceReference: 'OPERATOR-MRO-LINKED-SCOPE',
         expectedVersion: aircraft.version
       },
       maintenance
     );
-    aircraft = services.aircraftAirworthiness.detail('ac-pk-amf').aircraft;
+    aircraft = services.aircraftAirworthiness.detail('ac-pk-dmf').aircraft;
     services.aircraftAirworthiness.addMaintenanceRequirement(
-      'ac-pk-amf',
+      'ac-pk-dmf',
       {
         requirementCode: 'MRO_UNRELATED_OVERDUE',
         title: 'Demo unrelated overdue mandatory requirement',
         dueAt: context.date(-1),
         dueAirframeHours: null,
         dueAirframeCycles: null,
-        sourceReference: 'DEMO-MRO-UNRELATED-OVERDUE',
+        sourceReference: 'OPERATOR-MRO-UNRELATED-OVERDUE',
         expectedVersion: aircraft.version
       },
       maintenance
     );
-    const linkedRequirementId = latestRequirementId(sqlite, 'ac-pk-amf', 'MRO_LINKED_SCOPE');
+    const linkedRequirementId = latestRequirementId(sqlite, 'ac-pk-dmf', 'MRO_LINKED_SCOPE');
     const unrelatedRequirementId = latestRequirementId(
       sqlite,
-      'ac-pk-amf',
+      'ac-pk-dmf',
       'MRO_UNRELATED_OVERDUE'
     );
     const { workPackage } = createReadyWorkPackage(env, {
-      aircraftId: 'ac-pk-amf',
+      aircraftId: 'ac-pk-dmf',
       releaseIndex: 'REQ-BLOCKED',
       withDefect: false,
       requirementId: linkedRequirementId
@@ -1385,7 +1385,7 @@ describe('MaintenanceService MRO foundation', () => {
     );
     expect(packageAfter.status).toBe('READY_FOR_RELEASE');
     expect(releaseCount.count).toBe(0);
-    expect(services.aircraftAirworthiness.detail('ac-pk-amf').aircraft.technicalEligibility).toBe(
+    expect(services.aircraftAirworthiness.detail('ac-pk-dmf').aircraft.technicalEligibility).toBe(
       'BLOCKED'
     );
 
@@ -1398,24 +1398,24 @@ describe('MaintenanceService MRO foundation', () => {
     seedCertifyingPersonnel(sqlite);
     sqlite
       .prepare("UPDATE aircraft_maintenance_requirements SET status = 'VOID' WHERE aircraft_id = ?")
-      .run('ac-pk-ama');
-    const aircraft = services.aircraftAirworthiness.detail('ac-pk-ama').aircraft;
+      .run('ac-pk-dma');
+    const aircraft = services.aircraftAirworthiness.detail('ac-pk-dma').aircraft;
     services.aircraftAirworthiness.addMaintenanceRequirement(
-      'ac-pk-ama',
+      'ac-pk-dma',
       {
         requirementCode: 'MRO_EMPTY_SCOPE_DUE',
         title: 'Demo due requirement outside empty package scope',
         dueAt: context.date(0),
         dueAirframeHours: null,
         dueAirframeCycles: null,
-        sourceReference: 'DEMO-MRO-EMPTY-SCOPE',
+        sourceReference: 'OPERATOR-MRO-EMPTY-SCOPE',
         expectedVersion: aircraft.version
       },
       maintenance
     );
-    const requirementId = latestRequirementId(sqlite, 'ac-pk-ama', 'MRO_EMPTY_SCOPE_DUE');
+    const requirementId = latestRequirementId(sqlite, 'ac-pk-dma', 'MRO_EMPTY_SCOPE_DUE');
     const { workPackage } = createReadyWorkPackage(env, {
-      aircraftId: 'ac-pk-ama',
+      aircraftId: 'ac-pk-dma',
       releaseIndex: 'EMPTY-SCOPE',
       withDefect: false
     });
@@ -1442,7 +1442,7 @@ describe('MaintenanceService MRO foundation', () => {
     const { services, sqlite } = env;
     seedCertifyingPersonnel(sqlite);
     const { workPackage, defectId } = createReadyWorkPackage(env, {
-      aircraftId: 'ac-pk-ama',
+      aircraftId: 'ac-pk-dma',
       releaseIndex: 'ROLLBACK',
       withDefect: true
     });
@@ -1472,7 +1472,7 @@ describe('MaintenanceService MRO foundation', () => {
     const defectAfter = sqlite
       .prepare('SELECT status FROM aircraft_defects WHERE id = ?')
       .get(defectId) as { status: string };
-    const aircraftAfter = services.aircraftAirworthiness.detail('ac-pk-ama').aircraft;
+    const aircraftAfter = services.aircraftAirworthiness.detail('ac-pk-dma').aircraft;
     expect(releaseCount.count).toBe(0);
     expect(packageAfter.status).toBe('READY_FOR_RELEASE');
     expect(packageAfter.releaseId).toBeNull();
@@ -1541,7 +1541,7 @@ describe('MaintenanceService MRO foundation', () => {
       const { services, sqlite } = env;
       item.seed(sqlite);
       const { workPackage } = createReadyWorkPackage(env, {
-        aircraftId: 'ac-pk-ama',
+        aircraftId: 'ac-pk-dma',
         releaseIndex: item.label.replaceAll(/\s+/gu, '-').toUpperCase(),
         withDefect: true,
         seedActors: false
@@ -1565,7 +1565,7 @@ describe('MaintenanceService MRO foundation', () => {
     const { services, sqlite } = env;
     seedCertifyingPersonnel(sqlite, { qualificationReferenceId: 'NON_MATCHING_TYPE' });
     const { workPackage } = createReadyWorkPackage(env, {
-      aircraftId: 'ac-pk-ama',
+      aircraftId: 'ac-pk-dma',
       releaseIndex: 'SCOPE-MISMATCH',
       withDefect: true
     });
@@ -1606,7 +1606,7 @@ describe('MaintenanceService MRO foundation', () => {
         qualificationExpiresAt: item.qualificationExpiresAt
       });
       const { workPackage } = createReadyWorkPackage(env, {
-        aircraftId: 'ac-pk-ama',
+        aircraftId: 'ac-pk-dma',
         releaseIndex: item.label.replaceAll(/\s+/gu, '-').toUpperCase(),
         withDefect: true
       });
@@ -1632,7 +1632,7 @@ describe('MaintenanceService MRO foundation', () => {
     const { services, sqlite } = env;
     seedCertifyingPersonnel(sqlite);
     const { workPackage } = createReadyWorkPackage(env, {
-      aircraftId: 'ac-pk-ama',
+      aircraftId: 'ac-pk-dma',
       releaseIndex: 'IDEMPOTENT',
       withDefect: true
     });
@@ -1669,7 +1669,7 @@ describe('MaintenanceService MRO foundation', () => {
     const { services, sqlite } = env;
     seedCertifyingPersonnel(sqlite);
     const { workPackage } = createReadyWorkPackage(env, {
-      aircraftId: 'ac-pk-ama',
+      aircraftId: 'ac-pk-dma',
       releaseIndex: 'IDEMPOTENT-IN-PROGRESS',
       withDefect: true
     });
@@ -1709,7 +1709,7 @@ describe('MaintenanceService MRO foundation', () => {
     const { services, sqlite } = env;
     seedCertifyingPersonnel(sqlite);
     const stale = createReadyWorkPackage(env, {
-      aircraftId: 'ac-pk-ama',
+      aircraftId: 'ac-pk-dma',
       releaseIndex: 'STALE',
       withDefect: true
     });
@@ -1724,7 +1724,7 @@ describe('MaintenanceService MRO foundation', () => {
     ).toThrowError(expect.objectContaining({ code: 'STALE_VERSION' }));
 
     const concurrent = createReadyWorkPackage(env, {
-      aircraftId: 'ac-pk-amf',
+      aircraftId: 'ac-pk-dmf',
       releaseIndex: 'CONCURRENT',
       withDefect: true
     });
@@ -1758,7 +1758,7 @@ describe('MaintenanceService MRO foundation', () => {
           title: 'Attempt mutation after release',
           taskType: 'NON_ROUTINE',
           maintenanceDataRef: 'AMM DEMO LOCKED',
-          maintenanceDataRevision: 'REV-DEMO-2026-08',
+          maintenanceDataRevision: 'REV-OPERATOR-2026-08',
           mandatoryFlag: true,
           requiresIndependentInspection: false,
           expectedWorkPackageVersion: first.version
@@ -1769,7 +1769,7 @@ describe('MaintenanceService MRO foundation', () => {
 
     const invalidTransition = services.maintenance.createWorkPackage(
       {
-        aircraftId: 'ac-pk-amg',
+        aircraftId: 'ac-pk-dmg',
         title: 'Invalid direct release package',
         priority: 'NORMAL',
         executionMode: 'INTERNAL'
@@ -1788,7 +1788,7 @@ describe('MaintenanceService MRO foundation', () => {
 
     let missingData = services.maintenance.createWorkPackage(
       {
-        aircraftId: 'ac-pk-amg',
+        aircraftId: 'ac-pk-dmg',
         title: 'Missing approved data package',
         priority: 'NORMAL',
         executionMode: 'INTERNAL'
@@ -1827,7 +1827,7 @@ describe('MaintenanceService MRO foundation', () => {
     const { services, sqlite } = env;
     seedCertifyingPersonnel(sqlite);
     const financeBlocked = createReadyWorkPackage(env, {
-      aircraftId: 'ac-pk-ama',
+      aircraftId: 'ac-pk-dma',
       releaseIndex: 'FINANCE-BLOCKED',
       withDefect: true
     });
@@ -1842,7 +1842,7 @@ describe('MaintenanceService MRO foundation', () => {
     ).toThrowError(expect.objectContaining({ code: 'MAINTENANCE_RELEASE_PERMISSION_REQUIRED' }));
 
     const isolated = createReadyWorkPackage(env, {
-      aircraftId: 'ac-pk-amf',
+      aircraftId: 'ac-pk-dmf',
       releaseIndex: 'FINANCE-SEPARATE',
       withDefect: true
     });

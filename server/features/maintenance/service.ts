@@ -150,7 +150,7 @@ type InspectionIdempotencyRow = {
 
 const mroReleaseCommandType = 'MRO_TECHNICAL_RELEASE';
 const mroInspectionCommandType = 'MRO_INDEPENDENT_INSPECTION';
-const companyAuthorizationVerified = 'Licence and PT AMA authorization verified.';
+const companyAuthorizationVerified = 'Licence and Operator Demo authorization verified.';
 const demoAuditPackDisclaimer =
   'Dokumen ini dihasilkan dari lingkungan demo dengan data fiktif. Dokumen ini bukan Certificate of Release to Service, bukan electronic maintenance record yang disetujui regulator, dan tidak boleh digunakan untuk pekerjaan maintenance nyata.';
 
@@ -5265,7 +5265,7 @@ export class MaintenanceService {
     if (!authorizations.length) {
       throw authorizationError(
         'COMPANY_AUTHORIZATION_REQUIRED',
-        'This person has a valid licence but no PT AMA company authorization for this licence.'
+        'This person has a valid licence but no Operator Demo company authorization for this licence.'
       );
     }
     const actionMatches = authorizations.filter((authorization) =>
@@ -5274,8 +5274,8 @@ export class MaintenanceService {
     if (!actionMatches.length) {
       throw authorizationError(
         'COMPANY_AUTHORIZATION_ACTION_NOT_PERMITTED',
-        'PT AMA authorization does not permit this maintenance action.',
-        'Use a person with explicit PT AMA authorization for this action.'
+        'Operator Demo authorization does not permit this maintenance action.',
+        'Use a person with explicit Operator Demo authorization for this action.'
       );
     }
     const activeMatches = actionMatches.filter(
@@ -5284,8 +5284,8 @@ export class MaintenanceService {
     if (!activeMatches.length) {
       throw authorizationError(
         'COMPANY_AUTHORIZATION_INACTIVE',
-        'Matching PT AMA company authorization is inactive.',
-        'Use an active PT AMA company authorization before retrying.'
+        'Matching Operator Demo company authorization is inactive.',
+        'Use an active Operator Demo company authorization before retrying.'
       );
     }
     const timeMatches = activeMatches.filter(
@@ -5296,7 +5296,7 @@ export class MaintenanceService {
     if (!timeMatches.length) {
       throw authorizationError(
         'COMPANY_AUTHORIZATION_EXPIRED',
-        'Matching PT AMA company authorization is not valid at the action timestamp.',
+        'Matching Operator Demo company authorization is not valid at the action timestamp.',
         'Use an authorization whose validity covers the action timestamp.'
       );
     }
@@ -5307,8 +5307,8 @@ export class MaintenanceService {
     if (!matchedAuthorization) {
       throw authorizationError(
         'COMPANY_AUTHORIZATION_AIRCRAFT_SCOPE_MISMATCH',
-        'PT AMA authorization does not match this aircraft type or registration.',
-        'Use a person authorized by PT AMA for the selected aircraft scope.'
+        'Operator Demo authorization does not match this aircraft type or registration.',
+        'Use a person authorized by Operator Demo for the selected aircraft scope.'
       );
     }
     return {
@@ -5346,9 +5346,9 @@ export class MaintenanceService {
     aircraftId: string,
     code: string,
     reason: string,
-    requiredAction = 'Select a person, licence, and PT AMA authorization that match this maintenance action and aircraft.'
+    requiredAction = 'Select a person, licence, and Operator Demo authorization that match this maintenance action and aircraft.'
   ) {
-    return maintenanceError(code, 'PT AMA authorization required', 422, {
+    return maintenanceError(code, 'Operator Demo authorization required', 422, {
       impact: 'The controlled maintenance action was not recorded.',
       requiredAction,
       referenceId: aircraftId,
@@ -6686,7 +6686,7 @@ export class MaintenanceService {
     for (const card of cards) {
       const hasLink = Boolean(card.approved_data_revision_id);
       const legacyRef = String(card.maintenance_data_ref ?? '').trim();
-      const controlledByName = legacyRef.startsWith('AMA-MROV2-');
+      const controlledByName = legacyRef.startsWith('PRT-MROV2-');
       if (blocking) {
         if ((controlledByName || hasLink) && !hasLink) {
           items.push(

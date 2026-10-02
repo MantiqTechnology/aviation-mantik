@@ -1,5 +1,5 @@
 -- Prevent a partial or unrelated database from being accepted as the verified
--- Neon v2 baseline. ama_schema_migrations is created by the migration runner.
+-- Neon v2 baseline. mantik_schema_migrations is created by the migration runner.
 DO $$
 DECLARE
   table_count integer;

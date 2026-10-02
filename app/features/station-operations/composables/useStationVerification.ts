@@ -16,8 +16,8 @@ export function useStationVerification(
   const evidenceFile = ref<File | File[] | null>(null);
   const evidenceNotes = ref('');
   const evidenceCategory = ref<'OPERATIONAL' | 'EXTERNAL_REPORT'>('OPERATIONAL');
-  const evidenceSourceParty = ref<'PT_AMA_STATION' | 'AVSEC' | 'AUTHORITY' | 'OTHER'>(
-    'PT_AMA_STATION'
+  const evidenceSourceParty = ref<'OPERATOR_STATION' | 'AVSEC' | 'AUTHORITY' | 'OTHER'>(
+    'OPERATOR_STATION'
   );
   const evidenceSourcePartyName = ref('');
   const evidenceReceivedAt = ref('');
@@ -27,11 +27,11 @@ export function useStationVerification(
   const rejectionReason = ref('');
 
   watch(evidenceCategory, (category) => {
-    if (category === 'EXTERNAL_REPORT' && evidenceSourceParty.value === 'PT_AMA_STATION') {
+    if (category === 'EXTERNAL_REPORT' && evidenceSourceParty.value === 'OPERATOR_STATION') {
       evidenceSourceParty.value = 'AVSEC';
     }
     if (category === 'OPERATIONAL') {
-      evidenceSourceParty.value = 'PT_AMA_STATION';
+      evidenceSourceParty.value = 'OPERATOR_STATION';
       evidenceSourcePartyName.value = '';
       evidenceReceivedAt.value = '';
     }
@@ -119,7 +119,7 @@ export function useStationVerification(
     evidenceFile.value = null;
     evidenceNotes.value = '';
     evidenceCategory.value = 'OPERATIONAL';
-    evidenceSourceParty.value = 'PT_AMA_STATION';
+    evidenceSourceParty.value = 'OPERATOR_STATION';
     evidenceSourcePartyName.value = '';
     evidenceReceivedAt.value = '';
     evidenceDialog.value = true;

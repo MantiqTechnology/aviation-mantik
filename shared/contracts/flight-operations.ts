@@ -146,7 +146,7 @@ export const assurancePhaseSchema = z.enum(['PLANNING', 'DEPARTURE']);
 export const dgDecisionSchema = z.enum(['ACCEPTED', 'REJECTED']);
 export const stationEvidenceCategorySchema = z.enum(['OPERATIONAL', 'EXTERNAL_REPORT']);
 export const stationEvidenceSourcePartySchema = z.enum([
-  'PT_AMA_STATION',
+  'OPERATOR_STATION',
   'AVSEC',
   'AUTHORITY',
   'OTHER'

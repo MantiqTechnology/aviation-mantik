@@ -19,18 +19,18 @@ import { listUploads } from '../../server/utils/upload-storage';
 let tempRoot: string;
 
 beforeEach(async () => {
-  tempRoot = await mkdtemp(join(tmpdir(), 'ama-local-documents-'));
-  process.env.AMA_UPLOAD_DIR = join(tempRoot, 'uploads');
-  process.env.AMA_UPLOAD_MANIFEST = join(tempRoot, 'local-uploads.json');
-  process.env.AMA_DOCUMENT_MANIFEST = join(tempRoot, 'local-documents.json');
+  tempRoot = await mkdtemp(join(tmpdir(), 'mantik-local-documents-'));
+  process.env.MANTIK_UPLOAD_DIR = join(tempRoot, 'uploads');
+  process.env.MANTIK_UPLOAD_MANIFEST = join(tempRoot, 'local-uploads.json');
+  process.env.MANTIK_DOCUMENT_MANIFEST = join(tempRoot, 'local-documents.json');
 });
 
 afterEach(async () => {
   await rm(tempRoot, { recursive: true, force: true });
 
-  delete process.env.AMA_UPLOAD_DIR;
-  delete process.env.AMA_UPLOAD_MANIFEST;
-  delete process.env.AMA_DOCUMENT_MANIFEST;
+  delete process.env.MANTIK_UPLOAD_DIR;
+  delete process.env.MANTIK_UPLOAD_MANIFEST;
+  delete process.env.MANTIK_DOCUMENT_MANIFEST;
   delete process.env.VERCEL;
   delete process.env.S3_UPLOAD_BUCKET;
   delete process.env.S3_UPLOAD_ENDPOINT;
@@ -49,7 +49,7 @@ function installS3FetchMock() {
     'fetch',
     vi.fn(async (input: string | URL, init?: RequestInit) => {
       const url = new URL(String(input));
-      const key = decodeURIComponent(url.pathname.replace(/^\/ama-test-bucket\//u, ''));
+      const key = decodeURIComponent(url.pathname.replace(/^\/mantik-test-bucket\//u, ''));
       const method = init?.method ?? 'GET';
 
       if (method === 'GET') {
@@ -87,7 +87,7 @@ describe('local document storage', () => {
 
     const document = await createDocument({
       ownerType: 'aircraft',
-      ownerId: 'ac-pk-ama',
+      ownerId: 'ac-pk-dma',
       uploadId: upload.id,
       documentType: 'AIRCRAFT_CERTIFICATE_OF_AIRWORTHINESS',
       title: 'Certificate of Airworthiness',
@@ -101,7 +101,7 @@ describe('local document storage', () => {
 
     const ownerDocuments = await listDocuments({
       ownerType: 'aircraft',
-      ownerId: 'ac-pk-ama',
+      ownerId: 'ac-pk-dma',
       search: ''
     });
     expect(ownerDocuments.map((item) => item.id)).toEqual([document.id]);
@@ -185,13 +185,13 @@ describe('local document storage', () => {
   });
 
   it('stores documents in writable temp storage on Vercel', async () => {
-    const runtimeRoot = `ama-vercel-documents-${Date.now()}`;
+    const runtimeRoot = `mantik-vercel-documents-${Date.now()}`;
     const runtimePath = join(tmpdir(), runtimeRoot);
 
     process.env.VERCEL = '1';
-    process.env.AMA_UPLOAD_DIR = `${runtimeRoot}/uploads`;
-    process.env.AMA_UPLOAD_MANIFEST = `${runtimeRoot}/local-uploads.json`;
-    process.env.AMA_DOCUMENT_MANIFEST = `${runtimeRoot}/local-documents.json`;
+    process.env.MANTIK_UPLOAD_DIR = `${runtimeRoot}/uploads`;
+    process.env.MANTIK_UPLOAD_MANIFEST = `${runtimeRoot}/local-uploads.json`;
+    process.env.MANTIK_DOCUMENT_MANIFEST = `${runtimeRoot}/local-documents.json`;
 
     try {
       const upload = await saveLocalUpload({
@@ -224,7 +224,7 @@ describe('local document storage', () => {
 
   it('seeds demo document uploads through the active S3 driver', async () => {
     const objects = installS3FetchMock();
-    process.env.S3_UPLOAD_BUCKET = 'ama-test-bucket';
+    process.env.S3_UPLOAD_BUCKET = 'mantik-test-bucket';
     process.env.S3_UPLOAD_ENDPOINT = 'https://r2.example.test';
     process.env.S3_UPLOAD_REGION = 'auto';
     process.env.S3_UPLOAD_MANIFEST_KEY = '_manifests/test-uploads.json';
@@ -243,7 +243,7 @@ describe('local document storage', () => {
 
   it('normalizes stale S3 manifest URLs to the active private upload proxy', async () => {
     const objects = installS3FetchMock();
-    process.env.S3_UPLOAD_BUCKET = 'ama-test-bucket';
+    process.env.S3_UPLOAD_BUCKET = 'mantik-test-bucket';
     process.env.S3_UPLOAD_ENDPOINT = 'https://r2.example.test';
     process.env.S3_UPLOAD_REGION = 'auto';
     process.env.S3_UPLOAD_MANIFEST_KEY = '_manifests/test-uploads.json';

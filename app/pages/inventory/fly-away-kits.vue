@@ -22,7 +22,7 @@ const actionMessage = ref('');
 
 const form = reactive({
   kitNumber: '',
-  aircraftId: 'ac-pk-ama',
+  aircraftId: 'ac-pk-dma',
   partId: 'inv-part-filter-pc6',
   requiredQuantity: 2,
   currentQuantity: 2
@@ -161,7 +161,7 @@ async function submitCreateKit() {
           <VTextField
             v-model="form.kitNumber"
             label="Kode kit"
-            placeholder="Contoh: FAK-PK-AMA-02…"
+            placeholder="Contoh: FAK-PK-DMA-02…"
             density="compact"
             variant="outlined"
             class="mb-3"

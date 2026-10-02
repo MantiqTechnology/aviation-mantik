@@ -148,9 +148,9 @@ const { data, pending, error, refresh } = await useAsyncData('maintenance-due-co
 
 const requirements = ref<MaintenanceDueRequirement[]>([
   {
-    id: 'due-pk-amb-100fh',
-    aircraftId: 'ac-pk-amb',
-    aircraftRegistration: 'PK-AMB',
+    id: 'due-pk-dmb-100fh',
+    aircraftId: 'ac-pk-dmb',
+    aircraftRegistration: 'PK-DMB',
     aircraftModel: 'C208B',
     aircraftThumbnail: null,
     requirementId: 'M5-100FH',
@@ -186,9 +186,9 @@ const requirements = ref<MaintenanceDueRequirement[]>([
     recentActivity: ['Draft package opened', 'Due calculation refreshed', 'Planner assigned']
   },
   {
-    id: 'due-pk-amc-source-blocked',
-    aircraftId: 'ac-pk-amc',
-    aircraftRegistration: 'PK-AMC',
+    id: 'due-pk-dmc-source-blocked',
+    aircraftId: 'ac-pk-dmc',
+    aircraftRegistration: 'PK-DMC',
     aircraftModel: 'C208B',
     aircraftThumbnail: null,
     requirementId: 'MROV2-PAC-DUE-002',

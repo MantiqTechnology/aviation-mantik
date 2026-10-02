@@ -376,7 +376,7 @@ export async function seedSmsData(db: AppDatabase, ctx: DemoSeedContext) {
       )
       .run(
         'erp-001',
-        'SAR-AMA-2026-001A',
+        'SAR-PRT-2026-001A',
         null,
         // Aircraft scenario data is seeded after baseline SMS data.
         null,
@@ -608,8 +608,8 @@ export async function seedSmsData(db: AppDatabase, ctx: DemoSeedContext) {
       },
       {
         id: 'cert-4',
-        num: 'COA-PK-AMA',
-        name: 'C of A (PK-AMA, AMB, AMC)',
+        num: 'COA-PK-DMA',
+        name: 'C of A (PK-DMA, DMB, DMC)',
         desc: 'Certificate of Airworthiness for Fleet',
         exp: '2026-09-15',
         status: 'EXPIRING_SOON'
@@ -697,7 +697,7 @@ export async function seedSmsData(db: AppDatabase, ctx: DemoSeedContext) {
         id: 'msg-3',
         ref: 'KNKT-RFI-126',
         auth: 'KNKT',
-        subj: 'Request for Information: AMA126 Borme',
+        subj: 'Request for Information: PRT126 Borme',
         msg: 'Please provide crew manifests and weather briefing documents for the runway excursion incident at Borme.',
         date: '2026-08-22T09:30:00Z',
         status: 'ACTION_REQUIRED'

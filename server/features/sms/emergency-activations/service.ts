@@ -37,7 +37,7 @@ export class EmergencyActivationService {
       const shortId = id.split('-')[1].substring(0, 4).toUpperCase();
 
       // Ubah format nomor aktivasi menjadi format SAR
-      const activationNumber = `SAR-AMA-${year}-${shortId}`;
+      const activationNumber = `SAR-PRT-${year}-${shortId}`;
 
       // Simpan ke database melalui repository
       const activation = await this.repository.create(

@@ -38,9 +38,9 @@ test('Phase 2 finance workspaces render real accounting data on desktop', async 
     await expectNoDocumentOverflow(page);
   }
   await page.goto('/finance/hpp?period=2026-08', { waitUntil: 'networkidle' });
-  await expect(page.getByText('AMA-20260811-001')).toBeVisible();
+  await expect(page.getByText('PRT-20260811-001')).toBeVisible();
   await expect(page.getByText('Rp 28.000.000').first()).toBeVisible();
-  await page.screenshot({ path: '/tmp/ama-finance-phase2-desktop.png', fullPage: true });
+  await page.screenshot({ path: '/tmp/mantik-finance-phase2-desktop.png', fullPage: true });
   expect(errors).toEqual([]);
 });
 
@@ -52,7 +52,7 @@ test('Phase 2 finance reporting remains usable on mobile', async ({ page }) => {
     await expect(page.getByRole('heading', { name: heading, level: 1 })).toBeVisible();
     await expectNoDocumentOverflow(page);
   }
-  await page.screenshot({ path: '/tmp/ama-finance-phase2-mobile.png', fullPage: true });
+  await page.screenshot({ path: '/tmp/mantik-finance-phase2-mobile.png', fullPage: true });
   expect(errors).toEqual([]);
 });
 

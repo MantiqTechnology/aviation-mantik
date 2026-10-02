@@ -2,7 +2,7 @@ import { expect, test, type Page } from '@playwright/test';
 
 async function signIn(page: Page) {
   const response = await page.request.post('/api/auth/login', {
-    data: { username: 'occ.demo', password: 'AMA-OCC-2026!' }
+    data: { username: 'occ.demo', password: 'PRT-OCC-2026!' }
   });
   expect(response.ok()).toBe(true);
 }

@@ -14,6 +14,7 @@ import { seedMroFoundationData } from './mro-foundation';
 import { seedMroV21Foundation } from './mro-v21-foundation';
 import { seedInternalAogDemo } from './mro-internal-aog-demo';
 import { seedVerificationScenarios } from './verification-scenarios';
+import { seedRegionalNetwork } from './regional-network';
 
 export type SeedScenarioDatabaseOptions = {
   context?: DemoSeedContext;
@@ -37,6 +38,7 @@ export async function seedScenarioDatabase(
     seedMroFoundationData(client.sqlite, context);
     seedMroV21Foundation(client.sqlite, context);
     seedInternalAogDemo(client.sqlite, context);
+    seedRegionalNetwork(client.sqlite, context);
     assertScenarioSeedIntegrity(client.sqlite, context);
   });
   seedScenarios.immediate();

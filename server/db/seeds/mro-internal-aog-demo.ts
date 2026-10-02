@@ -20,7 +20,7 @@ export function seedInternalAogDemo(sqlite: Database.Database, context: DemoSeed
   const seed = sqlite.transaction(() => {
     insertIgnore(sqlite, 'aircraft_defects', {
       id: 'mroaog-defect',
-      aircraftId: 'ac-pk-amd',
+      aircraftId: 'ac-pk-dmd',
       defectNumber: 'DEF-AOG-INT-001',
       title: 'AOG main wheel tire replacement',
       description:
@@ -36,7 +36,7 @@ export function seedInternalAogDemo(sqlite: Database.Database, context: DemoSeed
     insertIgnore(sqlite, 'maintenance_defect_assessments', {
       id: 'mroaog-defect-assessment',
       defectId: 'mroaog-defect',
-      aircraftId: 'ac-pk-amd',
+      aircraftId: 'ac-pk-dmd',
       assessmentDecision: 'GROUND',
       assessmentNote: 'Aircraft remains grounded until the controlled work is released.',
       assessedByUserId: 'USR-MAINTENANCE-MANAGER',
@@ -47,7 +47,7 @@ export function seedInternalAogDemo(sqlite: Database.Database, context: DemoSeed
     insertIgnore(sqlite, 'maintenance_work_packages', {
       id: 'mroaog-work-package',
       packageNumber: 'MWP-AOG-INT-001',
-      aircraftId: 'ac-pk-amd',
+      aircraftId: 'ac-pk-dmd',
       sourceFlightId: null,
       primaryDefectId: 'mroaog-defect',
       sourceDueRequirementId: null,
@@ -151,7 +151,7 @@ export function seedInternalAogDemo(sqlite: Database.Database, context: DemoSeed
       toolId: 'mtool-mrov2-calibrated',
       workPackageId: 'mroaog-work-package',
       jobCardId: 'mroaog-job-card',
-      aircraftId: 'ac-pk-amd',
+      aircraftId: 'ac-pk-dmd',
       stationId: 'st-djj',
       status: 'ALLOCATED',
       allocatedBy: 'USR-MAINTENANCE-MANAGER',

@@ -1,4 +1,4 @@
--- The ama-postgres-import-test-v2 branch was imported and verified before
+-- The verified PostgreSQL v2 baseline was imported before
 -- migration tracking was introduced. This migration intentionally records that
 -- existing baseline rather than replaying SQLite DDL against PostgreSQL.
 DO $$

@@ -52,7 +52,7 @@ describe('Internal AOG scenario projection', () => {
       currentStep: 1,
       totalSteps: 8,
       nextRole: 'Inventory Controller',
-      aircraft: { id: 'ac-pk-amd', registrationNumber: 'PK-AMD', aog: true },
+      aircraft: { id: 'ac-pk-dmd', registrationNumber: 'PK-DMD', aog: true },
       workPackage: { id: 'mroaog-work-package', packageNumber: 'MWP-AOG-INT-001' },
       materialRequirement: {
         id: 'mroaog-material-requirement',
