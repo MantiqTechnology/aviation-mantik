@@ -12,6 +12,18 @@ export function normalizeLocale(value: string | null | undefined): AppLocale {
 
 export const messages = {
   en: {
+    mro3d: {
+      title: 'MRO 3D',
+      demo: 'Demo · Local simulated data, separate from Aviation records.',
+      loading: 'Loading MRO 3D…',
+      help: 'Viewer missing or unresponsive? Retry or open it in a new tab.',
+      slow: 'The viewer is taking longer than expected. Retry or open it in a new tab.',
+      unconfigured: 'The MRO 3D URL has not been configured.',
+      invalid: 'The MRO 3D URL is invalid. Use an HTTPS /embed URL without credentials or query parameters.',
+      retry: 'Retry',
+      open: 'Open MRO 3D in a new tab',
+      frameTitle: 'MRO 3D demo viewer'
+    },
     common: {
       appName: PRODUCT_BRANDING.productName,
       demo: 'Demo',
@@ -572,6 +584,18 @@ export const messages = {
     }
   },
   id: {
+    mro3d: {
+      title: 'MRO 3D',
+      demo: 'Demo · Data simulasi lokal, terpisah dari catatan Aviation.',
+      loading: 'Memuat MRO 3D…',
+      help: 'Viewer tidak muncul atau tidak merespons? Coba lagi atau buka di tab baru.',
+      slow: 'Viewer membutuhkan waktu lebih lama. Coba lagi atau buka di tab baru.',
+      unconfigured: 'URL MRO 3D belum dikonfigurasi.',
+      invalid: 'URL MRO 3D tidak valid. Gunakan URL HTTPS /embed tanpa kredensial atau parameter query.',
+      retry: 'Coba lagi',
+      open: 'Buka MRO 3D di tab baru',
+      frameTitle: 'Viewer demo MRO 3D'
+    },
     common: {
       appName: PRODUCT_BRANDING.productName,
       demo: 'Demo',

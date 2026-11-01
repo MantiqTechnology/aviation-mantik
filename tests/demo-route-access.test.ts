@@ -6,6 +6,19 @@ import {
 } from '../app/utils/demoRouteAccess';
 
 describe('demo route access', () => {
+  it('protects MRO 3D direct navigation with the existing maintenance permission', () => {
+    for (const role of [
+      'Demo Admin',
+      'Maintenance Manager',
+      'Maintenance Technician',
+      'Certifying Staff'
+    ] as const) {
+      expect(safeDemoRoleRedirectPath(role, '/mro-3d')).toBeNull();
+    }
+    for (const role of ['OCC', 'Inventory Controller', 'Station Admin'] as const) {
+      expect(safeDemoRoleRedirectPath(role, '/mro-3d')).toBe('/dashboard');
+    }
+  });
   it('allows public and dashboard routes for scoped roles', () => {
     expect(canDemoRoleAccessPath('Inventory Controller', '/dashboard')).toBe(true);
     expect(canDemoRoleAccessPath('Inventory Controller', '/login')).toBe(true);

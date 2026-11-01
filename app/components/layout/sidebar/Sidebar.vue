@@ -982,6 +982,12 @@ const navItems = computed<NavItem[]>(() =>
       visible: can('maintenance.package.read').allowed,
       children: [
         {
+          label: t('mro3d.title'),
+          to: '/mro-3d',
+          icon: 'mdi-cube-outline',
+          visible: can('maintenance.package.read').allowed
+        },
+        {
           label: 'Ringkasan Maintenance',
           to: '/maintenance',
           icon: 'mdi-view-dashboard-outline',

@@ -129,6 +129,7 @@ export default defineNuxtConfig({
       )
     },
     public: {
+      mro3dEmbedUrl: '',
       demoMode: process.env.DEMO_MODE ?? 'true',
       demoAccountHelper: process.env.DEMO_ACCOUNT_HELPER ?? 'false',
       aircraftImageBaseUrl:

@@ -7,6 +7,7 @@ type RouteAccessRule = {
 };
 
 const routeAccessRules: RouteAccessRule[] = [
+  { prefix: '/mro-3d', all: ['maintenance.package.read'] },
   { prefix: '/asset-management/finance', all: ['asset.finance.read'] },
   { prefix: '/asset-management', all: ['asset.read'] },
   { prefix: '/capability-preview', all: ['capability.preview.read'] },

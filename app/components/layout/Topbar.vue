@@ -39,6 +39,7 @@ const severityColor: Record<string, string> = {
 onMounted(() => session.load());
 
 const pageTitle = computed(() => {
+  if (route.path === '/mro-3d') return t('mro3d.title');
   if (route.path === '/ops') return t('topbar.page.opsOverview');
   if (route.path === '/capability-preview') return 'Operational Capability Preview';
   if (route.path === '/flights/dashboard') return t('topbar.page.flightControlOverview');
